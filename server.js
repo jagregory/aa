@@ -14,6 +14,10 @@ var Game = function() {
     } else {
       if (playing) {
         // do game stuff
+        io.sockets.emit('tick', {
+          player1: players[0],
+          player2: players[1]
+        })
       } else {
         io.sockets.emit('start-game', {
           player1: players[0],
@@ -23,7 +27,7 @@ var Game = function() {
       }
     }
 
-    setTimeout(tick, playing)
+    setTimeout(tick, playing ? 33 : 1000)
   }
 
   return {
@@ -41,6 +45,18 @@ var Game = function() {
 
       if (index >= 0) {
         players.splice(index, 1)
+      }
+    },
+    playerMove: function(player, delta) {
+      console.log('moving')
+      player.position = player.position + delta
+
+      if (player.position > 1.0) {
+        player.position = 1.0
+      }
+
+      if (player.position < 0.0) {
+        player.position = 0.0
       }
     }
   }
@@ -68,6 +84,10 @@ io.sockets.on('connection', function(socket) {
     }
     game.playerJoined(player)
     notifyPlayerCount()
+  })
+
+  socket.on('move', function(data) {
+    game.playerMove(player, data.delta)
   })
 
   socket.on('disconnect', function () {

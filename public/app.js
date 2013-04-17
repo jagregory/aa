@@ -12,11 +12,20 @@
       callbacks.positions(data.player1.position, data.player2.position)
     })
 
+    socket.on('tick', function(data) {
+      callbacks.message('Playing')
+      callbacks.scores(data.player1.score, data.player2.score)
+      callbacks.positions(data.player1.position, data.player2.position)
+    })
+
     socket.on('message', callbacks.message)
 
     return {
       join: function(username) {
         socket.emit('join', { username: username })
+      },
+      move: function(delta) {
+        socket.emit('move', { delta: delta })
       }
     }
   }
@@ -54,6 +63,17 @@
       } else {
         game.join(username)
       }
+    })
+
+    $('body').on('keydown', function(e) {
+      if (e.keyIdentifier === 'Up') {
+        game.move(-0.05)
+        return false
+      } else if (e.keyIdentifier === 'Down') {
+        game.move(0.05)
+        return false
+      }
+      return true
     })
   })
 })()
