@@ -1,0 +1,8 @@
+{
+  "name": "tw-aa-game",
+  "description": "ThoughtWorks Agile Australia game",
+  "dependencies": {
+    "socket.io": ">= 0.9",
+    "express": ">= 3.0"
+  }
+}
