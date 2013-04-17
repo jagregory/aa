@@ -8,6 +8,7 @@
 
     socket.on('start-game', function(data) {
       callbacks.message('Starting game')
+      callbacks.names(data.player1.username, data.player2.username)
       callbacks.scores(data.player1.score, data.player2.score)
       callbacks.positions(data.player1.position, data.player2.position)
     })
@@ -45,6 +46,10 @@
       scores: function(p1score, p2score) {
         board.find('.scores .p1 span').text(p1score)
         board.find('.scores .p2 span').text(p2score)
+      },
+      names: function(p1name, p2name) {
+        board.find('.scores .p1 .name').text(p1name)
+        board.find('.scores .p2 .name').text(p2name)
       },
       positions: function(p1pos, p2pos) {
         var p1paddle = board.find('.paddle.p1')
