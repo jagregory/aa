@@ -5,35 +5,73 @@ var express = require('express'),
 
 server.listen(8080)
 
-var players = []
+var Game = function() {
+  var players = []
+  var playing = false
+  var tick = function() {
+    if (players.length < 2) {
+      io.sockets.emit('message', 'Waiting for more players')
+    } else {
+      if (playing) {
+        // do game stuff
+      } else {
+        io.sockets.emit('start-game', {
+          player1: players[0],
+          player2: players[1]
+        })
+        playing = true
+      }
+    }
+
+    setTimeout(tick, playing)
+  }
+
+  return {
+    start: function() {
+      tick()
+    },
+    playerCount: function() {
+      return players.length
+    },
+    playerJoined: function(player) {
+      players.push(player)
+    },
+    playerLeft: function(player) {
+      var index = players.indexOf(player)
+
+      if (index >= 0) {
+        players.splice(index, 1)
+      }
+    }
+  }
+}
 
 var notifyPlayerCount = function() {
   io.sockets.emit('user-count', {
-    count: players.length
+    count: game.playerCount()
   })
 }
 
 io.sockets.on('connection', function(socket) {
   console.log('User connected')
-  var user = null
+  notifyPlayerCount()
+
+  var player = null
 
   socket.on('join', function(data) {
-    user = {
+    player = {
       id: new Date().getTime(),
-      username: data.username
+      username: data.username,
+      socketId: socket.id,
+      score: 0,
+      position: 0.5
     }
-    players.push(user)
-
+    game.playerJoined(player)
     notifyPlayerCount()
   })
 
   socket.on('disconnect', function () {
-    var index = players.indexOf(user)
-
-    if (index >= 0) {
-      players.splice(index, 1)
-    }
-
+    game.playerLeft(player)
     notifyPlayerCount()
   });
 })
@@ -46,8 +84,5 @@ app.get(/\/(.*)/, function(req, res) {
   res.sendfile('public/' + req.params[0])
 })
 
-// var tick = function() {
-//   console.log('tick')
-// }
-
-// setInterval(tick, 33)
+var game = new Game()
+game.start()

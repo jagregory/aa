@@ -1,0 +1,40 @@
+#board {
+  width: 500px;
+  height: 300px;
+  background: #000;
+  position: relative;
+  overflow: hidden;
+}
+
+#board .player {
+  color: #fff;
+  font-family: Monaco;
+  position: absolute;
+  padding: 0;
+  margin: 0;
+  top: 5px;
+}
+
+#board .player:first-child {
+  left: 5px;
+}
+
+#board .player:last-child {
+  right: 5px;
+}
+
+#board .paddle {
+  height: 40px;
+  width: 10px;
+  background: #fff;
+  position: absolute;
+  top: -100px;
+}
+
+#board .paddle.p1 {
+  left: 20px;
+}
+
+#board .paddle.p2 {
+  right: 20px;
+}
