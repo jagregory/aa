@@ -1,6 +1,121 @@
+// shim layer with setTimeout fallback
+window.requestAnimFrame = (function(){
+  return  window.requestAnimationFrame       ||
+          window.webkitRequestAnimationFrame ||
+          window.mozRequestAnimationFrame    ||
+          function( callback ){
+            window.setTimeout(callback, 1000 / 60);
+          };
+})()
+
 ;(function() {
+  var interval = 1000.0 / 60
+  var Player = function(el, left) {
+    var boardHeight = $('#board').height()
+    var boardWidth = $('#board').width()
+    var speed = 50.0
+    var position = {
+        x: left ? 0.025 : 1.925,
+        y: 0.5
+      },
+      target = {
+        x: 0,
+        y: 0
+      },
+
+      animationStepX = 0,
+      animationStepY = 0,
+    
+      update = function(delta) {
+        if ((animationStepX > 0 && position.x < target.x) || (animationStepX < 0 && position.x > target.x)) {
+          position.x += animationStepX * delta * speed
+        }
+
+        if ((animationStepY > 0 && position.y < target.y) || (animationStepY < 0 && position.y > target.y)) {
+          position.y += animationStepY * delta * speed
+        }
+      },
+    
+      render = function() {
+        el.css({
+          top: position.y * boardHeight,
+          left: position.x * (boardWidth / 2)
+        })
+      }
+
+    return {
+      moveTo: function(newPos) {
+        target = newPos
+        animationStepX = (newPos.x - position.x)
+        animationStepY = (newPos.y - position.y)
+      },
+      tick: function(delta) {
+        update(delta)
+        render()
+      }
+    }
+  }
+  var Ball = function(el) {
+    var boardHeight = $('#board').height()
+    var boardWidth = $('#board').width()
+    var speed = 50.0
+    var position = {
+        x: 1.0,
+        y: 0.5
+      },
+      target = {
+        x: 0,
+        y: 0
+      },
+
+      animationStepX = 0,
+      animationStepY = 0,
+    
+      update = function(delta) {
+        if ((animationStepX > 0 && position.x < target.x) || (animationStepX < 0 && position.x > target.x)) {
+          position.x += animationStepX * delta * speed
+        }
+
+        if ((animationStepY > 0 && position.y < target.y) || (animationStepY < 0 && position.y > target.y)) {
+          position.y += animationStepY * delta * speed
+        }
+      },
+    
+      render = function() {
+        el.css({
+          top: position.y * boardHeight,
+          left: position.x * (boardWidth / 2)
+        })
+      }
+
+    return {
+      moveTo: function(newPos) {
+        target = newPos
+        animationStepX = (newPos.x - position.x)
+        animationStepY = (newPos.y - position.y)
+      },
+      tick: function(delta) {
+        update(delta)
+        render()
+      }
+    }
+  }
   var Game = function(callbacks) {
     var socket = io.connect('http://localhost:8080')
+
+    var ball = window.ball = new Ball($('.ball'))
+    var player1 = window.p1 = new Player($('.paddle.p1'), true)
+    var player2 = window.p2 = new Player($('.paddle.p2'), false)
+
+    var lastLoopTime = +new Date()
+    var tick = function() {
+      var now = +new Date()
+      var delta = (now - lastLoopTime) / 1000.0
+      ball.tick(delta)
+      player1.tick(delta)
+      player2.tick(delta)
+      lastLoopTime = now
+    }
 
     socket.on('user-count', function(data) {
       callbacks.userCount(data.count)
@@ -8,25 +123,29 @@
 
     socket.on('start-game', function(data) {
       callbacks.message('Starting game')
-      callbacks.names(data.player1.username, data.player2.username)
-      callbacks.scores(data.player1.score, data.player2.score)
-      callbacks.positions(data.player1.position, data.player2.position, data.ball.position)
+      player1.username = data.player1.username
+      player2.username = data.player2.username
     })
 
     socket.on('tick', function(data) {
-      callbacks.message('Playing')
+      ball.moveTo(data.ball.position, 100)
+      player1.moveTo(data.player1.position, 100)
+      player2.moveTo(data.player2.position, 100)
       callbacks.scores(data.player1.score, data.player2.score)
-      callbacks.positions(data.player1.position, data.player2.position, data.ball.position)
     })
 
     socket.on('message', callbacks.message)
 
+    var g = this
     return {
       join: function(username) {
         socket.emit('join', { username: username })
       },
-      move: function(delta) {
-        socket.emit('move', { delta: delta })
+      move: function(position) {
+        socket.emit('move', { position: position })
+      },
+      start: function() {
+        setInterval(tick.bind(g), interval)
       }
     }
   }
@@ -50,18 +169,6 @@
       names: function(p1name, p2name) {
         board.find('.scores .p1 .name').text(p1name)
         board.find('.scores .p2 .name').text(p2name)
-      },
-      positions: function(p1pos, p2pos, ballpos) {
-        var p1paddle = board.find('.paddle.p1')
-        var p2paddle = board.find('.paddle.p2')
-        var ball = board.find('.ball')
-        
-        p1paddle.css('top', (p1pos.y * board.height()) - (p1paddle.height() / 2))
-        p2paddle.css('top', (p2pos.y * board.height()) - (p2paddle.height() / 2))
-        ball.css({
-          top: ((ballpos.y * board.height()) - (ball.height() / 2)),
-          left: ((ballpos.x * (board.width() / 2)) - (ball.width() / 2))
-        })
       }
     })
     
@@ -72,18 +179,12 @@
         alert('Please enter your username')
       } else {
         game.join(username)
+        game.start()
       }
     })
 
-    $('body').on('keydown', function(e) {
-      if (e.keyIdentifier === 'Up') {
-        game.move(-0.05)
-        return false
-      } else if (e.keyIdentifier === 'Down') {
-        game.move(0.05)
-        return false
-      }
-      return true
+    board.mousemove(function(e) {
+      game.move((e.pageY - board.offset().top) / board.height())
     })
   })
 })()

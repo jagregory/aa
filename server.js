@@ -99,11 +99,11 @@ var Game = function() {
         })
       } else {
         players[0].position = {
-          x: 0.05,
+          x: 0.025,
           y: 0.5
         }
         players[1].position = {
-          x: 1.95,
+          x: 1.925,
           y: 0.5
         }
         io.sockets.emit('start-game', {
@@ -135,16 +135,17 @@ var Game = function() {
         players.splice(index, 1)
       }
     },
-    playerMove: function(player, delta) {
-      console.log('moving')
-      player.position.y = player.position.y + delta
+    playerMove: function(player, yPosition) {
+      if (player && player.position) {
+        player.position.y = yPosition
 
-      if (player.position > 1.0) {
-        player.position.y = 1.0
-      }
+        if (player.position > 1.0) {
+          player.position.y = 1.0
+        }
 
-      if (player.position < 0.0) {
-        player.position.y = 0.0
+        if (player.position < 0.0) {
+          player.position.y = 0.0
+        }
       }
     }
   }
@@ -184,7 +185,7 @@ io.sockets.on('connection', function(socket) {
   })
 
   socket.on('move', function(data) {
-    game.playerMove(player, data.delta)
+    game.playerMove(player, data.position)
   })
 
   socket.on('disconnect', function () {
