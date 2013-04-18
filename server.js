@@ -73,6 +73,24 @@ var Game = function() {
           ball.velocity.y *= -1
         }
 
+        if (ball.position.x >= 2.0) {
+          // player 1 scores!!
+          players[0].score += 1
+          ball.position = {
+            x: 1.0,
+            y: 0.5
+          }
+        }
+
+        if (ball.position.x <= 0.0) {
+          // player 2 scores!!
+          players[1].score += 1
+          ball.position = {
+            x: 1.0,
+            y: 0.5
+          }
+        }
+
         // do game stuff
         io.sockets.emit('tick', {
           player1: players[0],
