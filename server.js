@@ -8,20 +8,37 @@ server.listen(8080)
 var Game = function() {
   var players = []
   var playing = false
+  var ball = {
+    position: {
+      x: 1,
+      y: 0.5,
+    },
+    velocity: {
+      x: 1,
+      y: 0
+    },
+    tick: function() {
+      this.position.x += (this.velocity.x * 0.05)
+      this.position.y += (this.velocity.y * 0.05)
+    }
+  }
   var tick = function() {
     if (players.length < 2) {
       io.sockets.emit('message', 'Waiting for more players')
     } else {
       if (playing) {
+        ball.tick()
         // do game stuff
         io.sockets.emit('tick', {
           player1: players[0],
-          player2: players[1]
+          player2: players[1],
+          ball: ball
         })
       } else {
         io.sockets.emit('start-game', {
           player1: players[0],
-          player2: players[1]
+          player2: players[1],
+          ball: ball
         })
         playing = true
       }
