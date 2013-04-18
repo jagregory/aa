@@ -24,17 +24,12 @@ var Rect = function(x, y, width, height) {
   }
 }
 
-var Game = function() {
-  var players = []
-  var playing = false
-  var ball = {
-    position: {
-      x: 1,
-      y: 0.5,
-    },
+var Ball = function(initialPosition) {
+  return {
+    position: initialPosition,
     velocity: {
       x: 1,
-      y: 0
+      y: 1
     },
     tick: function() {
       this.position.x += (this.velocity.x * 0.05)
@@ -47,6 +42,13 @@ var Game = function() {
       return player.bounds().intersect(this.bounds())
     }
   }
+}
+
+var Game = function() {
+  var players = []
+  var playing = false
+  var ball = new Ball({ x: 1, y: 0.5 })
+
   var tick = function() {
     if (players.length < 2) {
       io.sockets.emit('message', 'Waiting for more players')
@@ -58,6 +60,16 @@ var Game = function() {
           // reverse ball direction
           console.log('CHANGE DIRECTION!')
           ball.velocity.x *= -1
+          ball.velocity.y *= -1
+        }
+
+        if (ball.position.y >= 1.0) {
+          ball.position.y = 1.0
+          ball.velocity.y *= -1
+        }
+
+        if (ball.position.y <= 0.0) {
+          ball.position.y = 0.0
           ball.velocity.y *= -1
         }
 
