@@ -5,6 +5,25 @@ var express = require('express'),
 
 server.listen(8080)
 
+var Rect = function(x, y, width, height) {
+  return {
+    x: x,
+    y: y,
+    width: width,
+    height: height,
+    top: y,
+    right: x + width,
+    bottom: y + height,
+    left: x,
+    intersect: function(rect) {
+      return this.left <= rect.right &&
+             rect.left <= this.right &&
+             this.top <= rect.bottom &&
+             rect.top <= this.bottom
+    }
+  }
+}
+
 var Game = function() {
   var players = []
   var playing = false
@@ -20,6 +39,12 @@ var Game = function() {
     tick: function() {
       this.position.x += (this.velocity.x * 0.05)
       this.position.y += (this.velocity.y * 0.05)
+    },
+    bounds: function() {
+      return new Rect(this.position.x, this.position.y, 0.05, 0.05)
+    },
+    intersect: function(player) {
+      return player.bounds().intersect(this.bounds())
     }
   }
   var tick = function() {
@@ -28,6 +53,14 @@ var Game = function() {
     } else {
       if (playing) {
         ball.tick()
+
+        if (ball.intersect(players[0]) || ball.intersect(players[1])) {
+          // reverse ball direction
+          console.log('CHANGE DIRECTION!')
+          ball.velocity.x *= -1
+          ball.velocity.y *= -1
+        }
+
         // do game stuff
         io.sockets.emit('tick', {
           player1: players[0],
@@ -35,6 +68,14 @@ var Game = function() {
           ball: ball
         })
       } else {
+        players[0].position = {
+          x: 0.05,
+          y: 0.5
+        }
+        players[1].position = {
+          x: 1.95,
+          y: 0.5
+        }
         io.sockets.emit('start-game', {
           player1: players[0],
           player2: players[1],
@@ -66,14 +107,14 @@ var Game = function() {
     },
     playerMove: function(player, delta) {
       console.log('moving')
-      player.position = player.position + delta
+      player.position.y = player.position.y + delta
 
       if (player.position > 1.0) {
-        player.position = 1.0
+        player.position.y = 1.0
       }
 
       if (player.position < 0.0) {
-        player.position = 0.0
+        player.position.y = 0.0
       }
     }
   }
@@ -97,7 +138,16 @@ io.sockets.on('connection', function(socket) {
       username: data.username,
       socketId: socket.id,
       score: 0,
-      position: 0.5
+      position: {
+        x: 0.0,
+        y: 0.0
+      },
+      bounds: function() {
+        var height = 0.13 // these units of measurement were a bad idea
+        var width = 0.05
+
+        return new Rect(this.position.x, this.position.y - (height / 2), width, height)
+      }
     }
     game.playerJoined(player)
     notifyPlayerCount()
