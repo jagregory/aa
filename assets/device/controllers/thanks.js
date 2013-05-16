@@ -1,3 +1,5 @@
+var routie = require('../../3rdparty/routie.min');
+
 module.exports = function() {
   
   var source   = $("#tmpl-thanks").html();

@@ -1,5 +1,6 @@
-Pong = this.Pong || {}
+var routie = require('../3rdparty/routie.min');
 
+window.Pong = {}
 Pong.Device = function() {
   
   routie({
