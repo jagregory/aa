@@ -5,6 +5,7 @@ module.exports = function() {
   
   $('body').attr('id', 'gamepad');
   $('#page').html(view());
+  
   $('#exit').on('click', function() {
     routie.navigate('/thanks');
     return false;

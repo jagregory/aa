@@ -5,8 +5,9 @@ module.exports = function() {
   
   $('body').attr('id', 'thanks');
   $('#page').html(view());
+  
   setTimeout(function() {
-    routie.navigate('/');
+    routie.navigate('/register');
   }, 2000);
   
 };

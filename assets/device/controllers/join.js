@@ -5,8 +5,10 @@ module.exports = function() {
   
   $('body').attr('id', 'join');
   $('#page').html(view());
-  $('#join').on('click', function() {
+  
+  $('button').on('click', function() {
     routie.navigate('/gamepad');
+    return false;
   });
   
 };

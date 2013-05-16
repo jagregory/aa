@@ -5,6 +5,7 @@ module.exports = function() {
   
   $('body').attr('id', 'wait');
   $('#page').html(view());
+  
   setTimeout(function() {
     routie.navigate('/join');
   }, 2000);

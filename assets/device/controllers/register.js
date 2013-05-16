@@ -5,8 +5,10 @@ module.exports = function() {
   
   $('body').attr('id', 'register');
   $('#page').html(view());
+  
   $('button').on('click', function() {
     routie.navigate('/wait');
+    return false;
   });
   
 };
