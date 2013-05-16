@@ -3,7 +3,7 @@ var express = require('express'),
     server = require('http').createServer(app),
     io = require('socket.io').listen(server)
 
-server.listen(8080)
+server.listen(8080);
 
 var Rect = function(x, y, width, height) {
   return {

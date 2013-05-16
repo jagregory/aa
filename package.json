@@ -3,6 +3,10 @@
   "description": "ThoughtWorks Agile Australia game",
   "dependencies": {
     "socket.io": ">= 0.9",
-    "express": ">= 3.0"
+    "express": ">= 3.0",
+    "forever": "0.10.x"
+  },
+  "scripts": {
+      "start": "node forever.js"
   }
 }
