@@ -1,9 +1,45 @@
 body {
   margin: 0;
+  -webkit-font-smoothing: antialiased;
 }
 
 #page {
   background: #eee;
   height: 17em;
+  position: relative;
   width: 30em;
+}
+
+#gamepad {
+  background-color: #0085d6;
+  background-image: url('/stripes.png');
+  height: 17em;
+}
+
+#gamepad #exit {
+  background: #0085d6;
+  color: #fff;
+  font-size: 1.1em;
+  margin: 0 auto;
+  padding: 0.5em;
+  text-align: center;
+  width: 5em;
+  text-shadow: 0 0 5px #333;
+}
+
+#gamepad .icon {
+  bottom: 0.3em;
+  color: #0085d6;
+  display: block;
+  font-size: 9em;
+  position: absolute;
+  text-shadow: 0 0 0.15em rgba(255,255,255,0.7);
+}
+
+#gamepad #down {
+  left: 15%;
+}
+
+#gamepad #up {
+  right: 15%;
 }
