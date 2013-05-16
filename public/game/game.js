@@ -10,18 +10,18 @@ window.requestAnimFrame = (function(){
 
 ;(function() {
   var interval = 1000.0 / 60
-  var Player = function(stage, left) {
-    var texture = PIXI.Texture.fromImage('/game/paddle.png');
-    var sprite = new PIXI.Sprite(texture)
+  var playerTexture = PIXI.Texture.fromImage('/game/paddle.png');
 
+  var Player = function(stage, left) {
+    var sprite = new PIXI.Sprite(playerTexture)
     stage.addChild(sprite)
 
     var boardHeight = $('#board').height()
     var boardWidth = $('#board').width()
     var speed = 50.0
 
-    sprite.position.x = (left ? 0.025 : 1.925) * (boardWidth / 2)
-    sprite.position.y = 0.5 * boardHeight
+    sprite.position.x = 10
+    sprite.position.y = (boardHeight / 2) - (sprite.height / 2)
 
     var target = {
         x: 0,
@@ -93,53 +93,62 @@ window.requestAnimFrame = (function(){
     }
   }
 
-  var Game = function(stage, callbacks) {
+  var Game = function(stage) {
     var socket = io.connect('http://localhost:8080')
 
     var ball = window.ball = new Ball($('.ball'))
-    var player1 = window.p1 = new Player(stage, true)
-    var player2 = window.p2 = new Player(stage, false)
+    var players = []
 
     var lastLoopTime = +new Date()
     var tick = function() {
       var now = +new Date()
       var delta = (now - lastLoopTime) / 1000.0
       ball.tick(delta)
-      player1.tick(delta)
-      player2.tick(delta)
+
+      players.forEach(function(player) {
+        player.tick(delta)
+      })
       lastLoopTime = now
     }
 
-    socket.on('user-count', function(data) {
-      callbacks.userCount(data.count)
-    })
+    var playerJoin = function(data) {
+      var player = new Player(stage)
+      player.id = data.id
+      player.name = data.name
+      players.push(player)
 
-    socket.on('start-game', function(data) {
-      callbacks.message('Starting game')
-      player1.username = data.player1.username
-      player2.username = data.player2.username
-    })
+      console.log('Player ' + player.name + ' joined')
+    }
+    var playerLeave = function(data) {
+      for (var i = 0; i < players.length; i++) {
+        var player = players[i]
+        if (player && player.id === data.id) {
+          delete players[i]
+          console.log('Player ' + player.name + ' left')
+        }
+      }
+    }
+    var playerMove = function(data) {
+      var player = _.findWhere(players, { id: data.id })
+      if (player) {
+        player.moveBy(data.xDelta, data.yDelta)
+      }
+    }
 
-    socket.on('tick', function(data) {
-      console.log(data.player1.position)
-      ball.moveTo(data.ball.position, 100)
-      player1.moveTo(data.player1.position, 100)
-      player2.moveTo(data.player2.position, 100)
-      callbacks.scores(data.player1.score, data.player2.score)
-    })
-
-    socket.on('message', callbacks.message)
+    socket.on('player-join', playerJoin)
+    socket.on('player-leave', playerLeave)
+    socket.on('player-move', playerMove)
 
     var g = this
     return {
-      join: function(username) {
-        socket.emit('join', { username: username })
-      },
-      move: function(position) {
-        socket.emit('move', { position: position })
-      },
       tick: function() {
         tick.call(g)
+      },
+      playerJoin: playerJoin,
+      playerLeave: playerLeave,
+      playerMove: playerMove,
+      players: function() {
+        return players
       }
     }
   }
@@ -154,33 +163,14 @@ window.requestAnimFrame = (function(){
 
     board[0].appendChild(renderer.view)
 
-    var game = new Game(stage, {
-      userCount: function(count) {
-        countElement.text(count)
-      },
-      message: function(message) {
-        statusElement.text(message)
-      },
-      scores: function(p1score, p2score) {
-        board.find('.scores .p1 span').text(p1score)
-        board.find('.scores .p2 span').text(p2score)
-      },
-      names: function(p1name, p2name) {
-        board.find('.scores .p1 .name').text(p1name)
-        board.find('.scores .p2 .name').text(p2name)
-      }
-    })
+    var instance = window.game = new Game(stage)
 
     requestAnimFrame(function animate(delta) {
       requestAnimFrame(animate)
 
-      game.tick(delta)
+      instance.tick(delta)
 
       renderer.render(stage)
-    })
-    
-    board.mousemove(function(e) {
-      game.move((e.pageY - board.offset().top) / board.height())
     })
   })
 })()
