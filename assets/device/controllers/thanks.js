@@ -1,10 +1,9 @@
 var routie = require('../../3rdparty/routie.min');
+var view = require('../views/thanks.hbs');
 
 module.exports = function() {
   
-  var source   = $("#tmpl-thanks").html();
-  var template = Handlebars.compile(source);
-  $('#page').html(template());
+  $('#page').html(view());
   setTimeout(function() {
     routie.navigate('/');
   }, 2000);

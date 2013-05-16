@@ -1,10 +1,9 @@
 var routie = require('../../3rdparty/routie.min');
+var view = require('../views/join.hbs');
 
 module.exports = function() {
   
-  var source   = $("#tmpl-join").html();
-  var template = Handlebars.compile(source);
-  $('#page').html(template());
+  $('#page').html(view());
   $('#join').on('click', function() {
     routie.navigate('/gamepad');
   });

@@ -1,10 +1,9 @@
 var routie = require('../../3rdparty/routie.min');
+var view = require('../views/register.hbs');
 
 module.exports = function() {
   
-  var source   = $("#tmpl-register").html();
-  var template = Handlebars.compile(source);
-  $('#page').html(template());
+  $('#page').html(view());
   $('#register').on('click', function() {
     routie.navigate('/wait');
   });

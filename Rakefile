@@ -25,7 +25,7 @@ namespace :build do
   end
 
   task :js do
-    sh './node_modules/browserify/bin/cmd.js --debug assets/device/device.js > builtAssets/device/device.js'
+    sh './node_modules/browserify/bin/cmd.js -t hbsfy --debug assets/device/device.js > builtAssets/device/device.js'
   end
 
   task :css do

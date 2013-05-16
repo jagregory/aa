@@ -1,10 +1,9 @@
 var routie = require('../../3rdparty/routie.min');
+var view = require('../views/wait.hbs');
 
 module.exports = function() {
   
-  var source   = $("#tmpl-wait").html();
-  var template = Handlebars.compile(source);
-  $('#page').html(template());
+  $('#page').html(view());
   setTimeout(function() {
     routie.navigate('/join');
   }, 2000);

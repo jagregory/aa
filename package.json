@@ -8,6 +8,9 @@
   },
   "devDependencies": {
       "browserify": "2.12.x",
+      "hbsfy": "0.1.x",
+      "handlebars": "1.0.x",
+      "handlebars-runtime": "1.0.x",
       "stylus": "0.29.x",
       "nib": "0.8.x"
   },
