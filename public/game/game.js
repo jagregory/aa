@@ -10,15 +10,15 @@ window.requestAnimFrame = (function(){
 
 ;(function() {
   var interval = 1000.0 / 60
-  var playerTexture = PIXI.Texture.fromImage('/game/paddle.png');
 
   var Player = function(stage, left) {
-    var sprite = new PIXI.Sprite(playerTexture)
+    var texture = PIXI.Texture.fromImage('/game/paddle.png')
+    var sprite = new PIXI.Sprite(texture)
     stage.addChild(sprite)
+    var speed = 50.0
 
     var boardHeight = $('#board').height()
     var boardWidth = $('#board').width()
-    var speed = 50.0
 
     sprite.position.x = 10
     sprite.position.y = (boardHeight / 2) - (sprite.height / 2)
@@ -52,15 +52,19 @@ window.requestAnimFrame = (function(){
     }
   }
 
-  var Ball = function(stage, el) {
+  var Ball = function(stage) {
+    var texture = PIXI.Texture.fromImage('/game/ball.png')
+    var sprite = new PIXI.Sprite(texture)
+    stage.addChild(sprite)
+
     var boardHeight = $('#board').height()
     var boardWidth = $('#board').width()
+
+    sprite.position.x = (boardWidth / 2) - (sprite.width / 2)
+    sprite.position.y = (boardHeight / 2) - (sprite.height / 2)
+
     var speed = 50.0
-    var position = {
-        x: 1.0,
-        y: 0.5
-      },
-      target = {
+    var target = {
         x: 0,
         y: 0
       },
@@ -93,13 +97,14 @@ window.requestAnimFrame = (function(){
   var Game = function(stage) {
     var socket = io.connect('http://localhost:8080')
 
-    var ball = window.ball = new Ball($('.ball'))
+    var ball = new Ball(stage)
     var players = []
 
     var lastLoopTime = +new Date()
     var tick = function() {
       var now = +new Date()
       var delta = (now - lastLoopTime) / 1000.0
+      
       ball.tick(delta)
 
       players.forEach(function(player) {
@@ -160,14 +165,21 @@ window.requestAnimFrame = (function(){
 
     board[0].appendChild(renderer.view)
 
-    var instance = window.game = new Game(stage)
+    var assetLoader = new PIXI.AssetLoader(['/game/paddle.png', '/game/ball.png'])
+    assetLoader.onComplete = function() {
+      console.log('Assets loaded. Starting game.')
+      var instance = window.game = new Game(stage)
 
-    requestAnimFrame(function animate(delta) {
-      requestAnimFrame(animate)
+      requestAnimFrame(function animate(delta) {
+        requestAnimFrame(animate)
 
-      instance.tick(delta)
+        instance.tick(delta)
 
-      renderer.render(stage)
-    })
+        renderer.render(stage)
+      })
+    }
+
+    console.log('Loading assets')
+    assetLoader.load()
   })
 })()
