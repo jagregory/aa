@@ -42,12 +42,9 @@ window.requestAnimFrame = (function(){
       }
 
     return {
-      moveTo: function(newPos) {
-        // target = newPos
-        // animationStepX = (newPos.x - sprite.position.x)
-        // animationStepY = (newPos.y - sprite.position.y)
-        sprite.position.x = newPos.x * (boardWidth / 2)
-        sprite.position.y = newPos.y * boardHeight
+      moveBy: function(xDelta, yDelta) {
+        sprite.position.x += xDelta
+        sprite.position.y += yDelta
       },
       tick: function(delta) {
         update(delta)
