@@ -202,6 +202,10 @@ app.get('/game', function(req, res) {
   res.sendfile('public/game/index.html')
 })
 
+app.get('/device', function(req, res) {
+  res.sendfile('public/device/index.html')
+})
+
 app.get(/\/(.*)/, function(req, res) {
   res.sendfile('public/' + req.params[0])
 })
