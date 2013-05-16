@@ -25,11 +25,11 @@ namespace :build do
   end
 
   task :js do
-    sh './node_modules/browserify/bin/cmd.js --debug assets/device/js/device.js > builtAssets/device/device.js'
+    sh './node_modules/browserify/bin/cmd.js --debug assets/device/device.js > builtAssets/device/device.js'
   end
 
   task :css do
-    sh './node_modules/stylus/bin/stylus -u nib --line-numbers assets/device/css/device.styl --out builtAssets/device/'
+    sh './node_modules/stylus/bin/stylus -u nib --line-numbers assets/device/device.styl --out builtAssets/device/'
   end
 
 end
