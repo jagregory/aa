@@ -1,0 +1,7 @@
+typical node structure
+
+- root
+   package.json
+   server.js
+   - src
+   - assets

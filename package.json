@@ -6,7 +6,12 @@
     "express": ">= 3.0",
     "forever": "0.10.x"
   },
+  "devDependencies": {
+      "browserify": "2.12.x",
+      "stylus": "0.29.x",
+      "nib": "0.8.x"
+  },
   "scripts": {
-      "start": "node forever.js"
+      "start": "node monitor.js"
   }
 }

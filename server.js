@@ -3,6 +3,8 @@ var express = require('express'),
     server = require('http').createServer(app),
     io = require('socket.io').listen(server)
 
+var fs = require('fs');
+
 server.listen(8080);
 
 var Rect = function(x, y, width, height) {
@@ -203,12 +205,16 @@ app.get('/game', function(req, res) {
 })
 
 app.get('/device', function(req, res) {
-  res.sendfile('public/device/index.html')
+  res.sendfile('builtAssets/device/index.html')
 })
 
 app.get(/\/(.*)/, function(req, res) {
-  res.sendfile('public/' + req.params[0])
-})
+  if (fs.existsSync('public/' + req.params[0])) {
+    res.sendfile('public/' + req.params[0])
+  } else {
+    res.sendfile('builtAssets/' + req.params[0])
+  }
+});
 
 var game = new Game()
 game.start()
