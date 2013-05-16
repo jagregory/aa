@@ -10,15 +10,20 @@ window.requestAnimFrame = (function(){
 
 ;(function() {
   var interval = 1000.0 / 60
-  var Player = function(el, left) {
+  var Player = function(stage, left) {
+    var texture = PIXI.Texture.fromImage('paddle.png');
+    var sprite = new PIXI.Sprite(texture)
+
+    stage.addChild(sprite)
+
     var boardHeight = $('#board').height()
     var boardWidth = $('#board').width()
     var speed = 50.0
-    var position = {
-        x: left ? 0.025 : 1.925,
-        y: 0.5
-      },
-      target = {
+
+    sprite.position.x = (left ? 0.025 : 1.925) * (boardWidth / 2)
+    sprite.position.y = 0.5 * boardHeight
+
+    var target = {
         x: 0,
         y: 0
       },
@@ -27,35 +32,30 @@ window.requestAnimFrame = (function(){
       animationStepY = 0,
     
       update = function(delta) {
-        if ((animationStepX > 0 && position.x < target.x) || (animationStepX < 0 && position.x > target.x)) {
-          position.x += animationStepX * delta * speed
-        }
+        // if ((animationStepX > 0 && sprite.position.x < target.x) || (animationStepX < 0 && sprite.position.x > target.x)) {
+        //   sprite.position.x += animationStepX * delta * speed
+        // }
 
-        if ((animationStepY > 0 && position.y < target.y) || (animationStepY < 0 && position.y > target.y)) {
-          position.y += animationStepY * delta * speed
-        }
-      },
-    
-      render = function() {
-        el.css({
-          top: position.y * boardHeight,
-          left: position.x * (boardWidth / 2)
-        })
+        // if ((animationStepY > 0 && sprite.position.y < target.y) || (animationStepY < 0 && sprite.position.y > target.y)) {
+        //   sprite.position.y += animationStepY * delta * speed
+        // }
       }
 
     return {
       moveTo: function(newPos) {
-        target = newPos
-        animationStepX = (newPos.x - position.x)
-        animationStepY = (newPos.y - position.y)
+        // target = newPos
+        // animationStepX = (newPos.x - sprite.position.x)
+        // animationStepY = (newPos.y - sprite.position.y)
+        sprite.position.x = newPos.x * (boardWidth / 2)
+        sprite.position.y = newPos.y * boardHeight
       },
       tick: function(delta) {
         update(delta)
-        render()
       }
     }
   }
-  var Ball = function(el) {
+
+  var Ball = function(stage, el) {
     var boardHeight = $('#board').height()
     var boardWidth = $('#board').width()
     var speed = 50.0
@@ -72,40 +72,33 @@ window.requestAnimFrame = (function(){
       animationStepY = 0,
     
       update = function(delta) {
-        if ((animationStepX > 0 && position.x < target.x) || (animationStepX < 0 && position.x > target.x)) {
-          position.x += animationStepX * delta * speed
-        }
+        // if ((animationStepX > 0 && position.x < target.x) || (animationStepX < 0 && position.x > target.x)) {
+        //   position.x += animationStepX * delta * speed
+        // }
 
-        if ((animationStepY > 0 && position.y < target.y) || (animationStepY < 0 && position.y > target.y)) {
-          position.y += animationStepY * delta * speed
-        }
-      },
-    
-      render = function() {
-        el.css({
-          top: position.y * boardHeight,
-          left: position.x * (boardWidth / 2)
-        })
+        // if ((animationStepY > 0 && position.y < target.y) || (animationStepY < 0 && position.y > target.y)) {
+        //   position.y += animationStepY * delta * speed
+        // }
       }
 
     return {
       moveTo: function(newPos) {
-        target = newPos
-        animationStepX = (newPos.x - position.x)
-        animationStepY = (newPos.y - position.y)
+        // target = newPos
+        // animationStepX = (newPos.x - position.x)
+        // animationStepY = (newPos.y - position.y)
       },
       tick: function(delta) {
         update(delta)
-        render()
       }
     }
   }
-  var Game = function(callbacks) {
+
+  var Game = function(stage, callbacks) {
     var socket = io.connect('http://localhost:8080')
 
     var ball = window.ball = new Ball($('.ball'))
-    var player1 = window.p1 = new Player($('.paddle.p1'), true)
-    var player2 = window.p2 = new Player($('.paddle.p2'), false)
+    var player1 = window.p1 = new Player(stage, true)
+    var player2 = window.p2 = new Player(stage, false)
 
     var lastLoopTime = +new Date()
     var tick = function() {
@@ -128,6 +121,7 @@ window.requestAnimFrame = (function(){
     })
 
     socket.on('tick', function(data) {
+      console.log(data.player1.position)
       ball.moveTo(data.ball.position, 100)
       player1.moveTo(data.player1.position, 100)
       player2.moveTo(data.player2.position, 100)
@@ -144,8 +138,8 @@ window.requestAnimFrame = (function(){
       move: function(position) {
         socket.emit('move', { position: position })
       },
-      start: function() {
-        setInterval(tick.bind(g), interval)
+      tick: function() {
+        tick.call(g)
       }
     }
   }
@@ -154,8 +148,13 @@ window.requestAnimFrame = (function(){
     var countElement = $('#count')
     var statusElement = $('#status')
     var board = $('#board')
-    
-    var game = new Game({
+
+    var stage = new PIXI.Stage(0x000000, false)
+    var renderer = PIXI.autoDetectRenderer(500, 300)
+
+    board[0].appendChild(renderer.view)
+
+    var game = new Game(stage, {
       userCount: function(count) {
         countElement.text(count)
       },
@@ -171,6 +170,14 @@ window.requestAnimFrame = (function(){
         board.find('.scores .p2 .name').text(p2name)
       }
     })
+
+    requestAnimFrame(function animate(delta) {
+      requestAnimFrame(animate)
+
+      game.tick(delta)
+
+      renderer.render(stage)
+    })
     
     $('#register').click(function() {
       var username = $('#username').val().trim()
@@ -179,7 +186,6 @@ window.requestAnimFrame = (function(){
         alert('Please enter your username')
       } else {
         game.join(username)
-        game.start()
       }
     })
 

@@ -2,9 +2,10 @@
 <html>
   <head>
     <title>ThoughtWorks Agile Australia game</title>
-    <script src="/zepto.min.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
-    <script type="text/javascript" src="app.js"></script>
+    <script src="/zepto.min.js" type="text/javascript"></script>
+    <script src="/socket.io/socket.io.js" type="text/javascript"></script>
+    <script src="/pixi.min.js" type="text/javascript"></script>
+    <script src="/app.js" type="text/javascript"></script>
     <link type="text/css" rel="stylesheet" href="/app.css" />
   </head>
   <body>
@@ -15,15 +16,11 @@
     <p>Number of players: <strong id="count"></strong></p>
     <p>Status: <strong id="status"></strong></p>
 
-    <div id="board">
-      <div class="scores">
+    <div class="scores">
         <p class="player p1"><strong class="name">P1</strong>: <span>0</span></p>
         <p class="player p2"><span>0</span> :<strong class="name">P2</strong></p>
       </div>
-
-      <div class="paddle p1"></div>
-      <div class="ball"></div>
-      <div class="paddle p2"></div>      
+    <div id="board">
     </div>
   </body>
 </html>
