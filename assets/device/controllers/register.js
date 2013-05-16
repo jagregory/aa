@@ -4,7 +4,7 @@ var view = require('../views/register.hbs');
 module.exports = function() {
   
   $('#page').html(view());
-  $('#register').on('click', function() {
+  $('button').on('click', function() {
     routie.navigate('/wait');
   });
   
