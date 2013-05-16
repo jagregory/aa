@@ -195,7 +195,11 @@ io.sockets.on('connection', function(socket) {
 })
 
 app.get('/', function(req, res) {
-  res.sendfile('public/index.html')
+  res.sendfile('public/admin/index.html')
+})
+
+app.get('/game', function(req, res) {
+  res.sendfile('public/game/index.html')
 })
 
 app.get(/\/(.*)/, function(req, res) {

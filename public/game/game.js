@@ -11,7 +11,7 @@ window.requestAnimFrame = (function(){
 ;(function() {
   var interval = 1000.0 / 60
   var Player = function(stage, left) {
-    var texture = PIXI.Texture.fromImage('paddle.png');
+    var texture = PIXI.Texture.fromImage('/game/paddle.png');
     var sprite = new PIXI.Sprite(texture)
 
     stage.addChild(sprite)
@@ -179,16 +179,6 @@ window.requestAnimFrame = (function(){
       renderer.render(stage)
     })
     
-    $('#register').click(function() {
-      var username = $('#username').val().trim()
-
-      if (username.length === 0) {
-        alert('Please enter your username')
-      } else {
-        game.join(username)
-      }
-    })
-
     board.mousemove(function(e) {
       game.move((e.pageY - board.offset().top) / board.height())
     })
