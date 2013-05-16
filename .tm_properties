@@ -1,4 +1,4 @@
-exclude = '{$exclude,node_modules,.git}'
+exclude = '{$exclude,node_modules,.git,builtAssets}'
 include = '{$include,.gitignore,.foreverignore}'
 
 softWrap = true
