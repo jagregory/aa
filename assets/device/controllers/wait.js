@@ -3,7 +3,7 @@ var view = require('../views/wait.hbs');
 
 module.exports = function() {
   
-  $('body').attr('id', 'wait');
+  $('#page').attr('class', 'wait');
   $('#page').html(view());
   
   setTimeout(function() {

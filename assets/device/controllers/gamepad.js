@@ -3,7 +3,7 @@ var view = require('../views/gamepad.hbs');
 
 module.exports = function() {
   
-  $('body').attr('id', 'gamepad');
+  $('#page').attr('class', 'gamepad');
   $('#page').html(view());
   
   $('#exit').on('click', function() {

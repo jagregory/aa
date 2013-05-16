@@ -3,7 +3,7 @@ var view = require('../views/join.hbs');
 
 module.exports = function() {
   
-  $('body').attr('id', 'join');
+  $('#page').attr('class', 'join');
   $('#page').html(view());
   
   $('button').on('click', function() {

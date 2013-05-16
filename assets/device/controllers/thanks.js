@@ -3,7 +3,7 @@ var view = require('../views/thanks.hbs');
 
 module.exports = function() {
   
-  $('body').attr('id', 'thanks');
+  $('#page').attr('class', 'thanks');
   $('#page').html(view());
   
   setTimeout(function() {

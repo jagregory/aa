@@ -3,7 +3,7 @@ var view = require('../views/register.hbs');
 
 module.exports = function() {
   
-  $('body').attr('id', 'register');
+  $('#page').attr('class', 'register');
   $('#page').html(view());
   
   $('button').on('click', function() {
