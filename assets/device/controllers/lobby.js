@@ -3,7 +3,7 @@ var routie = require('routie');
 var view = require('../views/lobby.hbs');
 require('../../3rdparty/rx.zepto');
 
-module.exports = function() {
+exports.on = function() {
   
   $('#page').attr('class', 'lobby');
   $('#page').html(view());
@@ -12,17 +12,22 @@ module.exports = function() {
     .interval(5000)
     .select(observableLobby)
     .switchLatest()
-    .where(canJoin)
+    .skipWhile(gameIsFull)
+    .take(1)
     .subscribe(switchState, onError);
 
+};
+
+exports.off = function() {
+  
 };
 
 function observableLobby() {
   return $.getJSONAsObservable('/lobby');
 }
 
-function canJoin(res) {
-  return res.data.canJoin;
+function gameIsFull(res) {
+  return res.data.canJoin === false;
 }
 
 function switchState() {
