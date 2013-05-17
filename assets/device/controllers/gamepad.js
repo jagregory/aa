@@ -9,7 +9,7 @@ module.exports = function() {
   }
   
   $('#page').attr('class', 'gamepad');
-  $('#page').addClass('p' + player);
+  $('#page').addClass('p' + player.get().pos);
   
   $('#page').html(view());
   

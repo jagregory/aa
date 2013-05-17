@@ -25,7 +25,7 @@ module.exports = function() {
   }
   
   function go(data) {
-    player.save({
+    player.set({
       id: data.id,
       name: data.name
     });

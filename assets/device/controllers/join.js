@@ -17,7 +17,7 @@ module.exports = function() {
   });
 
   function joinGame(data) {
-    player.save({pos: data.pos});
+    player.set({pos: data.pos});
     routie.navigate('/gamepad');
   }
   
