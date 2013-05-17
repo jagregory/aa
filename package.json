@@ -16,7 +16,8 @@
       "grunt-browserify2": "~0.1.6",
       "grunt-contrib-copy": "*",
       "grunt-contrib-watch": "~0.4.3",
-      "rxjs": "1.0.x"
+      "rxjs": "1.0.x",
+      "routie": "git://github.com/rprieto/routie.git"
   },
   "scripts": {
       "start": "node monitor.js"
