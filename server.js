@@ -30,3 +30,9 @@ app.get(/\/(.*)/, function(req, res) {
     res.sendfile('builtAssets/' + req.params[0])
   }
 });
+
+app.post('/register', function(req, res) {
+  res.send({
+    userId: 123
+  });
+});

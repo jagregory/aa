@@ -13,10 +13,14 @@ module.exports = function() {
 
   function register() {
     if ($('form').get(0).checkValidity()) {
-      routie.navigate('/wait');
+      $.post('/register').then(go);
     } else {
       window.alert('Please fill out the form');
     }
+  }
+  
+  function go() {
+    routie.navigate('/wait');
   }
   
 };
