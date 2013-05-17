@@ -1,16 +1,12 @@
+P1COLOR = #0065a3
+P2COLOR = #d65100
+
 #page.gamepad
 
-  background-color: #0085d6
-  background-image: url('/stripes.png')
-  border: none
+  background-image: url('/images/stripes.png')
   padding: 0
 
   #exit
-    background: #0085d6
-    border-left: 1px solid #0065a3
-    border-bottom: 1px solid #0065a3
-    border-right: 1px solid #0065a3
-    box-shadow: 0 0 7px rgba(0,0,0,0.5)
     color: #fff
     font-size: 1.1em
     margin: 0 auto
@@ -21,7 +17,6 @@
 
   .icon
     bottom: 0.3em
-    color: #0085d6
     display: block
     font-size: 9em
     position: absolute
@@ -32,3 +27,19 @@
 
   #up
     right: 15%
+
+#page.gamepad.p1
+  background-color: lighten(P1COLOR, 30%)
+  border: 1em solid P1COLOR
+  #exit
+    background: P1COLOR
+  .icon
+    color: P1COLOR
+
+#page.gamepad.p2
+  background-color: lighten(P2COLOR, 30%)
+  border: 1em solid P2COLOR
+  #exit
+    background: P2COLOR
+  .icon
+    color: P2COLOR
