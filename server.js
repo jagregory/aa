@@ -3,6 +3,7 @@ var http = require('http');
 var socketio = require('socket.io');
 var express = require('express');
 var routes = require('./src/routes');
+var bridge = require('./src/bridge');
 
 var app = express();
 
@@ -24,6 +25,7 @@ server.listen(app.get('port'), function() {
 });
 
 io.sockets.on('connection', function(socket) {
+  bridge.connect(socket);
   console.log('Established connection with gameview');
 });
 

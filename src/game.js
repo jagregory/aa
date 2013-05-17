@@ -1,4 +1,5 @@
 var _ = require('underscore');
+var bridge = require('./bridge');
 
 var players = [
   null,
@@ -19,5 +20,6 @@ exports.newPlayerId = function() {
 
 exports.addPlayer = function(id) {
   players[0] = {id: id};
-  return 0;
+  bridge.send('player-join', {pos: 1, id: id, name: 'Bob'});
+  return 1;
 };
