@@ -15,7 +15,7 @@ window.requestAnimFrame = (function(){
     var texture = PIXI.Texture.fromImage('/game/paddle.png')
     var sprite = new PIXI.Sprite(texture)
     stage.addChild(sprite)
-    var speed = 50.0
+    var speed = 0.1
 
     var boardHeight = $('#board').height()
     var boardWidth = $('#board').width()
@@ -24,27 +24,32 @@ window.requestAnimFrame = (function(){
     sprite.position.y = (boardHeight / 2) - (sprite.height / 2)
 
     var target = {
-        x: 0,
-        y: 0
-      },
+      x: 0,
+      y: 0
+    }
 
-      animationStepX = 0,
-      animationStepY = 0,
+    var animationStepX = 0
+    var animationStepY = 0
     
-      update = function(delta) {
-        // if ((animationStepX > 0 && sprite.position.x < target.x) || (animationStepX < 0 && sprite.position.x > target.x)) {
-        //   sprite.position.x += animationStepX * delta * speed
-        // }
-
-        // if ((animationStepY > 0 && sprite.position.y < target.y) || (animationStepY < 0 && sprite.position.y > target.y)) {
-        //   sprite.position.y += animationStepY * delta * speed
-        // }
+    var update = function(delta) {
+      if ((animationStepX > 0 && sprite.position.x < target.x) || (animationStepX < 0 && sprite.position.x > target.x)) {
+        sprite.position.x += animationStepX * delta * speed
       }
+
+      if ((animationStepY > 0 && sprite.position.y < target.y) || (animationStepY < 0 && sprite.position.y > target.y)) {
+        sprite.position.y += animationStepY * delta * speed
+      }
+    }
 
     return {
       moveBy: function(xDelta, yDelta) {
-        sprite.position.x += xDelta
-        sprite.position.y += yDelta
+        target = {
+          x: sprite.position.x + xDelta,
+          y: sprite.position.y + yDelta
+        }
+
+        animationStepX = target.x - sprite.position.x
+        animationStepY = target.y - sprite.position.y
       },
       tick: function(delta) {
         update(delta)
@@ -95,22 +100,19 @@ window.requestAnimFrame = (function(){
   }
 
   var Game = function(stage) {
+    var time = new Time()
     var socket = io.connect('http://localhost:8080')
 
     var ball = new Ball(stage)
     var players = []
 
-    var lastLoopTime = +new Date()
     var tick = function() {
-      var now = +new Date()
-      var delta = (now - lastLoopTime) / 1000.0
-      
-      ball.tick(delta)
+      time.update()
+      ball.tick(time.delta)
 
       players.forEach(function(player) {
-        player.tick(delta)
+        player.tick(time.delta)
       })
-      lastLoopTime = now
     }
 
     var playerJoin = function(data) {
@@ -171,11 +173,11 @@ window.requestAnimFrame = (function(){
       var instance = window.game = new Game(stage)
 
       requestAnimFrame(function animate(delta) {
-        requestAnimFrame(animate)
-
         instance.tick(delta)
 
         renderer.render(stage)
+
+        requestAnimFrame(animate)
       })
     }
 
