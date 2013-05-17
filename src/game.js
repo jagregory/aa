@@ -25,5 +25,6 @@ exports.addPlayer = function(id) {
 };
 
 exports.movePlayer = function(id, direction) {
-  bridge.send('player-move', {id: id, xDelta: 0, yDelta: 10});
+  var y = (direction === 'up') ? -10 : 10;
+  bridge.send('player-move', {id: id, xDelta: 0, yDelta: y});
 };
