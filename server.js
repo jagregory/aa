@@ -1,38 +1,29 @@
-var express = require('express'),
-    app = express(),
-    server = require('http').createServer(app),
-    io = require('socket.io').listen(server)
-
 var fs = require('fs');
+var http = require('http');
+var socketio = require('socket.io');
+var express = require('express');
+var routes = require('./src/routes');
 
-server.listen(8080);
+var app = express();
+
+app.configure(function() {
+  app.set('port', process.env.port || 8080)
+  app.use(express.logger('dev'));
+  app.use(express.compress());
+  app.use(express.static('public'));
+  app.use(express.static('builtAssets'));
+});
+
+routes.register(app);
+
+var server = http.createServer(app);
+var io = socketio.listen(server);
+
+server.listen(app.get('port'), function() {
+  console.log('Server started on port ' + app.get('port'));
+});
 
 io.sockets.on('connection', function(socket) {
   console.log('Established connection with gameview')
-})
-
-app.get('/', function(req, res) {
-  res.sendfile('public/admin/index.html')
-})
-
-app.get('/game', function(req, res) {
-  res.sendfile('public/game/index.html')
-})
-
-app.get('/device', function(req, res) {
-  res.sendfile('builtAssets/device/index.html')
-})
-
-app.get(/\/(.*)/, function(req, res) {
-  if (fs.existsSync('public/' + req.params[0])) {
-    res.sendfile('public/' + req.params[0])
-  } else {
-    res.sendfile('builtAssets/' + req.params[0])
-  }
 });
 
-app.post('/register', function(req, res) {
-  res.send({
-    userId: 123
-  });
-});
