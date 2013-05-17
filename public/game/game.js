@@ -9,27 +9,26 @@ window.requestAnimFrame = (function(){
 })()
 
 ;(function() {
-  var interval = 1000.0 / 60
-
   var box2world = function(val) {
-    return val * 50.0
+    return val * 30.0
   }
 
   var world2box = function(val) {
-    return val / 29.5
+    return val / 30.0
   }
 
   var Player = function(stage, physicsWorld) {
-    var texture = PIXI.Texture.fromImage('/game/paddle.png')
-    var sprite = new PIXI.Sprite(texture)
+    var texture = PIXI.Texture.fromImage('/game/wall.png')
+    var sprite = new PIXI.TilingSprite(texture)
     stage.addChild(sprite)
-    var speed = 0.1
 
     var boardHeight = $('#board').height()
     var boardWidth = $('#board').width()
 
-    sprite.position.x = 30
-    sprite.position.y = (boardHeight / 2) - (sprite.height / 2)
+    sprite.position.x = 50
+    sprite.position.y = 50
+    sprite.width = 10
+    sprite.height = 40
 
     var fixDef = new Box2D.Dynamics.b2FixtureDef
     fixDef.density = 1.0
@@ -38,14 +37,14 @@ window.requestAnimFrame = (function(){
 
     var bodyDef = new Box2D.Dynamics.b2BodyDef
     
-    bodyDef.type = Box2D.Dynamics.b2Body.b2_staticBody
-    bodyDef.position.x = world2box(sprite.position.x)
-    bodyDef.position.y = world2box(sprite.position.y)
+    bodyDef.type = Box2D.Dynamics.b2Body.b2_dynamicBody
+    bodyDef.position.x = world2box(50) + (world2box(sprite.width) / 2.0)
+    bodyDef.position.y = world2box(50) + (world2box(sprite.height) / 2.0)
     fixDef.shape = new Box2D.Collision.Shapes.b2PolygonShape
     fixDef.shape.SetAsBox(world2box(sprite.width), world2box(sprite.height))
-    physicsWorld
-      .CreateBody(bodyDef)
-      .CreateFixture(fixDef)
+    
+    var physicsBody = physicsWorld.CreateBody(bodyDef)
+    physicsBody.CreateFixture(fixDef)
 
     var target = {
       x: 0,
@@ -56,24 +55,22 @@ window.requestAnimFrame = (function(){
     var animationStepY = 0
     
     var update = function(delta) {
-      if ((animationStepX > 0 && sprite.position.x < target.x) || (animationStepX < 0 && sprite.position.x > target.x)) {
-        sprite.position.x += animationStepX * delta * speed
-      }
-
-      if ((animationStepY > 0 && sprite.position.y < target.y) || (animationStepY < 0 && sprite.position.y > target.y)) {
-        sprite.position.y += animationStepY * delta * speed
-      }
+      sprite.position.x = box2world(physicsBody.GetPosition().x) + (sprite.width / 2)
+      sprite.position.y = box2world(physicsBody.GetPosition().y) + (sprite.height / 2)
     }
 
     return {
       moveBy: function(xDelta, yDelta) {
-        target = {
-          x: sprite.position.x + xDelta,
-          y: sprite.position.y + yDelta
-        }
+        // target = {
+        //   x: sprite.position.x + xDelta,
+        //   y: sprite.position.y + yDelta
+        // }
 
-        animationStepX = target.x - sprite.position.x
-        animationStepY = target.y - sprite.position.y
+        // animationStepX = target.x - sprite.position.x
+        // animationStepY = target.y - sprite.position.y
+        force = new Box2D.Common.Math.b2Vec2(xDelta * -1, yDelta * -1);
+        physicsBody.SetAwake(true);
+        physicsBody.SetLinearVelocity(force);
       },
       tick: function(delta) {
         update(delta)
@@ -132,8 +129,8 @@ window.requestAnimFrame = (function(){
     var bodyDef = new Box2D.Dynamics.b2BodyDef
     
     bodyDef.type = Box2D.Dynamics.b2Body.b2_staticBody
-    bodyDef.position.x = world2box(x)
-    bodyDef.position.y = world2box(y)
+    bodyDef.position.x = world2box(x) + (world2box(width) / 2.0)
+    bodyDef.position.y = world2box(y) + (world2box(height) / 2.0)
     fixDef.shape = new Box2D.Collision.Shapes.b2PolygonShape
     fixDef.shape.SetAsBox(world2box(width), world2box(height))
     physicsWorld
@@ -155,7 +152,7 @@ window.requestAnimFrame = (function(){
     var socket = io.connect('http://localhost:8080')
 
     var physicsWorld = new Box2D.Dynamics.b2World(
-      new Box2D.Common.Math.b2Vec2(0, 10),
+      new Box2D.Common.Math.b2Vec2(0, 0),
       true
     )
 
@@ -264,8 +261,8 @@ window.requestAnimFrame = (function(){
     var statusElement = $('#status')
     var board = $('#board')
 
-    var stage = new PIXI.Stage(0x000000, false)
-    var renderer = new PIXI.CanvasRenderer(600, 400)
+    var stage = new PIXI.Stage()
+    var renderer = new PIXI.CanvasRenderer(600, 400, document.getElementById('canvas'), false)
 
     board[0].appendChild(renderer.view)
 
