@@ -13,9 +13,32 @@ module.exports = function() {
   
   $('#page').html(view());
   
-  $('#exit').on('click', function(e) {
-    e.preventDefault();
-    routie.navigate('/thanks');
-  });
+  $('#up').on('click', goUp);
+  $('#down').on('click', goDown);
+  $('#exit').on('click', forfeit);
   
 };
+
+function goUp(e) {
+  e.preventDefault();
+  sendAction('up');
+}
+
+function goDown(e) {
+  e.preventDefault();
+  sendAction('down');
+}
+
+function sendAction(actionName) {
+  $.ajax({
+    type: 'PUT',
+    url: '/game/' + player.get().id,
+    data: JSON.stringify({action: actionName}),
+    contentType: 'application/json'
+  });
+}
+
+function forfeit(e) {
+  e.preventDefault();
+  routie.navigate('/thanks');
+}

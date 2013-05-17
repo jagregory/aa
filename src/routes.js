@@ -33,6 +33,7 @@ exports.register = function(app) {
   app.put('/game/:userId', function(req, res) {
     var id = req.param.userId;
     if (game.hasPlayerWithId(id)) {
+      game.movePlayer(id, 'up');
       res.send({
         processed: true
       });

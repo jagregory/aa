@@ -2,8 +2,8 @@ var _ = require('underscore');
 var bridge = require('./bridge');
 
 var players = [
-  null,
-  null
+  {id: null},
+  {id: null}
 ];
 
 exports.hasPlayerWithId = function(id) {
@@ -11,7 +11,7 @@ exports.hasPlayerWithId = function(id) {
 };
 
 exports.needsPlayer = function() {
-  return _.any(players, function(p) { return p === null; })
+  return _.findWhere(players, {id: null}) != null;
 };
 
 exports.newPlayerId = function() {
@@ -20,6 +20,10 @@ exports.newPlayerId = function() {
 
 exports.addPlayer = function(id) {
   players[0] = {id: id};
-  bridge.send('player-join', {pos: 1, id: id, name: 'Bob'});
+  bridge.send('player-join', {id: id, pos: 1, name: 'Bob'});
   return 1;
+};
+
+exports.movePlayer = function(id, direction) {
+  bridge.send('player-move', {id: id, xDelta: 0, yDelta: 10});
 };
