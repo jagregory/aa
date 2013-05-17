@@ -22,7 +22,7 @@ exports.register = function(app) {
     var id = req.param.userId;
     if (game.needsPlayer()) {
       res.send({
-        joined: game.addPlayer(id)
+        player: game.addPlayer(id)
       });
     } else {
       res.status(409).send('Game full');

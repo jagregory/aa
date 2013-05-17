@@ -8,9 +8,18 @@ module.exports = function() {
   
   var userId = window.localStorage['userId'];
   
-  $('button').on('click', function() {
-    routie.navigate('/gamepad');
-    return false;
+  $('button').on('click', function(e) {
+    e.preventDefault();
+    $.post('/game/' + userId).then(joinGame).fail(backToLobby);
   });
+
+  function joinGame(data) {
+    window.localStorage['player'] = data.player;
+    routie.navigate('/gamepad');
+  }
   
+  function backToLobby() {
+    routie.navigate('/lobby');
+  }
+
 };
