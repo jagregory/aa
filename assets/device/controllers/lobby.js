@@ -13,7 +13,7 @@ module.exports = function() {
     .select(observableLobby)
     .switchLatest()
     .where(canJoin)
-    .subscribe(switchState);
+    .subscribe(switchState, onError);
 
 };
 
@@ -27,4 +27,8 @@ function canJoin(res) {
 
 function switchState() {
   routie.navigate('/join');
+}
+
+function onError() {
+  console.log('Lobby not responding');
 }

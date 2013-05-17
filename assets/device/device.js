@@ -6,7 +6,7 @@ Pong.Device = function() {
   routie({
       '':            require('./controllers/register'),
       '/register':   require('./controllers/register'),
-      '/wait':       require('./controllers/wait'),
+      '/lobby':       require('./controllers/lobby'),
       '/join':       require('./controllers/join'),
       '/gamepad':    require('./controllers/gamepad'),
       '/thanks':     require('./controllers/thanks')
