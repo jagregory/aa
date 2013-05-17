@@ -1,5 +1,5 @@
 exclude = '{$exclude,node_modules,.git,builtAssets}'
-include = '{$include,.gitignore,.foreverignore}'
+include = '{$include,.gitignore}'
 
 softWrap = true
 tabSize = 2

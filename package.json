@@ -7,12 +7,12 @@
     "forever": "0.10.x"
   },
   "devDependencies": {
-      "browserify": "2.12.x",
-      "hbsfy": "0.1.x",
-      "handlebars": "1.0.x",
-      "handlebars-runtime": "1.0.x",
-      "stylus": "0.29.x",
-      "nib": "0.8.x"
+      "matchdep": "~0.1.2",
+      "grunt": "~0.4.1",
+      "grunt-contrib-stylus": "~0.5.0",
+      "grunt-browserify2": "~0.1.6",
+      "grunt-contrib-copy": "*",
+      "grunt-contrib-watch": "~0.4.3"
   },
   "scripts": {
       "start": "node monitor.js"
