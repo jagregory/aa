@@ -1,4 +1,5 @@
 var routie = require('routie');
+var player = require('../player');
 var view = require('../views/register.hbs');
 
 module.exports = function() {
@@ -24,7 +25,10 @@ module.exports = function() {
   }
   
   function go(data) {
-    window.localStorage['userId'] = data.userId;
+    player.save({
+      id: data.id,
+      name: data.name
+    });
     routie.navigate('/lobby');
   }
   

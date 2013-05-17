@@ -1,15 +1,16 @@
+var _ = require('underscore');
 
-var users = {
-  p1: null,
-  p2: null
-};
+var players = [
+  null,
+  null
+];
 
 exports.hasPlayerWithId = function(id) {
-  return users.p1 === id || users.p2 === id;
+  return _.findWhere(players, {id: id}) != null;
 };
 
 exports.needsPlayer = function() {
-  return !(users.p1 && users.p2);
+  return _.any(players, function(p) { return p === null; })
 };
 
 exports.newPlayerId = function() {
@@ -17,6 +18,6 @@ exports.newPlayerId = function() {
 };
 
 exports.addPlayer = function(id) {
-  users.p1 = id;
-  return 'p1';
+  players[0] = {id: id};
+  return 0;
 };

@@ -1,9 +1,14 @@
 var rx = require('rxjs');
 var routie = require('routie');
+var player = require('../player');
 var view = require('../views/lobby.hbs');
 require('../../3rdparty/rx.zepto');
 
-exports.on = function() {
+module.exports = function() {
+  
+  if (player.get().id == undefined) {
+    routie.navigate('/register');
+  }
   
   $('#page').attr('class', 'lobby');
   $('#page').html(view());
@@ -16,10 +21,6 @@ exports.on = function() {
     .take(1)
     .subscribe(switchState, onError);
 
-};
-
-exports.off = function() {
-  
 };
 
 function observableLobby() {

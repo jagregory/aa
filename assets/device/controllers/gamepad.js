@@ -1,15 +1,15 @@
 var routie = require('routie');
+var player = require('../player');
 var view = require('../views/gamepad.hbs');
 
 module.exports = function() {
-  
-  var player = window.localStorage['player'];
-  if (!player) {
-    return routie.navigate('/lobby');
+
+  if (player.get().pos == undefined) {
+    routie.navigate('/lobby');
   }
   
   $('#page').attr('class', 'gamepad');
-  $('#page').addClass(player);
+  $('#page').addClass('p' + player);
   
   $('#page').html(view());
   

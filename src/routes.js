@@ -8,7 +8,8 @@ exports.register = function(app) {
 
   app.post('/register', function(req, res) {
     res.send({
-      userId: game.newPlayerId()
+      id: game.newPlayerId(),
+      name: 'Bob'
     });
   });
 
@@ -22,7 +23,7 @@ exports.register = function(app) {
     var id = req.param.userId;
     if (game.needsPlayer()) {
       res.send({
-        player: game.addPlayer(id)
+        pos: game.addPlayer(id)
       });
     } else {
       res.status(409).send('Game full');
