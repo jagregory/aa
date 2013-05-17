@@ -1,21 +1,36 @@
 # Agile Australia game
 
-# First setup
+---
+
+## Getting set up
+
+Install Node.js version `0.8.x`, then run
 
 ```
 npm install -g grunt-cli
 npm install
 ```
 
-# Dev
+## Build time!
 
-- `grunt` for a one-off build
-- `grunt watch` to rebuild continuously when files change
+Assets are built using [grunt](http://gruntjs.com):
 
-# Running the game
+```
+grunt
+```
+
+Or to continuously rebuilds assets when needed:
+```
+grunt watch
+```
+
+## Running the game
 
 ```
 npm start
 ```
 
-Runs the game, and restarts the server if something goes wrong.
+This also restarts the server
+
+- if something goes wrong
+- when any server-side code changes
