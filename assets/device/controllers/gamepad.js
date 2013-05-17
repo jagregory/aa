@@ -13,9 +13,9 @@ module.exports = function() {
   
   $('#page').html(view());
   
-  $('#exit').on('click', function() {
+  $('#exit').on('click', function(e) {
+    e.preventDefault();
     routie.navigate('/thanks');
-    return false;
   });
   
 };
