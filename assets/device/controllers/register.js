@@ -6,9 +6,17 @@ module.exports = function() {
   $('#page').attr('class', 'register');
   $('#page').html(view());
   
-  $('button').on('click', function() {
-    routie.navigate('/wait');
-    return false;
+  $('button').on('click', function(e) {
+    e.preventDefault();
+    register();
   });
+
+  function register() {
+    if ($('form').get(0).checkValidity()) {
+      routie.navigate('/wait');
+    } else {
+      window.alert('Please fill out the form');
+    }
+  }
   
 };

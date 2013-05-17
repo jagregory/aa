@@ -7,16 +7,20 @@
   Of course we won't give your details to anyone.
 </p>
 
-<label for="first-name">First name</label>
-<input name="first-name" type="text" value="" />
+<form>
+  
+  <label for="first-name">First name</label>
+  <input name="first-name" type="text" required />
 
-<label for="last-name">Last name</label>
-<input name="last-name" type="text" value="" />
+  <label for="last-name">Last name</label>
+  <input name="last-name" type="text" required />
 
-<label for="mobile">Mobile phone</label>
-<input name="mobile" type="tel" value="" />
+  <label for="mobile">Mobile phone</label>
+  <input name="mobile" type="tel" required pattern="[0-9]{10}" />
 
-<button id="register">
-  <i class="icon icon-gamepad"></i>
-  Join the game!
-</button>
+  <button id="register">
+    <i class="icon icon-gamepad"></i>
+    Join the game!
+  </button>
+
+</form>

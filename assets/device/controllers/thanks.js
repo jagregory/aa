@@ -8,6 +8,6 @@ module.exports = function() {
   
   setTimeout(function() {
     routie.navigate('/register');
-  }, 2000);
+  }, 4000);
   
 };
