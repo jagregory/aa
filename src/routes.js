@@ -1,3 +1,4 @@
+var game = require('./game');
 
 exports.register = function(app) {
 
@@ -7,35 +8,47 @@ exports.register = function(app) {
 
   app.post('/register', function(req, res) {
     res.send({
-      userId: 123
+      userId: game.newPlayerId()
     });
   });
 
   app.get('/lobby', function(req, res) {
     res.send({
-      canJoin: Math.random() > 0.6
+      canJoin: game.needsPlayer()
     });
   });
   
   app.post('/game/:userId', function(req, res) {
-    // if the spot is still free, HTTP 200
-    // otherwise HTTP 409 conflict
-    res.send({
-      joined: true
-    });
+    var id = req.param.userId;
+    if (game.needsPlayer()) {
+      res.send({
+        joined: game.addPlayer(id)
+      });
+    } else {
+      res.status(409).send('Game full');
+    }
   });
   
   app.put('/game/:userId', function(req, res) {
-    // req.body.action = UP / DOWN
-    res.send({
-      ok: true
-    });
+    var id = req.param.userId;
+    if (game.hasPlayerWithId(id)) {
+      res.send({
+        processed: true
+      });
+    } else {
+      res.status(404).send('User ' + id + ' not in the game');
+    }
   });
   
   app.delete('/game/:userId', function(req, res) {
-    res.send({
-      left: true
-    });
+    var id = req.param.userId;
+    if (game.hasPlayerWithId(id)) {
+      res.send({
+        leftGame: true
+      });
+    } else {
+      res.status(404).send('User ' + id + ' not in the game');
+    }
   });
 
 };
