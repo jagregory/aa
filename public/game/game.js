@@ -203,27 +203,22 @@ window.requestAnimFrame = (function(){
     var ball = new Ball(stage)
     var players = []
 
-    var tick = function() {
-      time.update()
-      physicsWorld.Step(
-        1 / 60, // frame-rate
-        10,     // velocity iterations
-        10      // position iterations
-      )
-      physicsWorld.DrawDebugData()
-      physicsWorld.ClearForces()
-
-      ball.tick(time.delta)
-
-      players.forEach(function(player) {
-        player.tick(time.delta)
-      })
-    }
-
-    var g = this
     return {
       tick: function() {
-        tick.call(g)
+        time.update()
+        physicsWorld.Step(
+          1 / 60, // frame-rate
+          10,     // velocity iterations
+          10      // position iterations
+        )
+        physicsWorld.DrawDebugData()
+        physicsWorld.ClearForces()
+
+        ball.tick(time.delta)
+
+        players.forEach(function(player) {
+          player.tick(time.delta)
+        })
       },
       playerJoin: function(data) {
         var player = new Player(stage, physicsWorld)
@@ -255,10 +250,7 @@ window.requestAnimFrame = (function(){
   }
 
   $(function() {
-    var countElement = $('#count')
-    var statusElement = $('#status')
     var board = $('#board')
-
     var stage = new PIXI.Stage()
     var renderer = PIXI.autoDetectRenderer(600, 400)
 
