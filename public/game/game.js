@@ -19,6 +19,66 @@ window.requestAnimFrame = (function(){
 
   var SCALE = 2.0
 
+  var createStaticBody = function(physicsWorld, options) {
+    options = $.extend({
+      density: 1.0,
+      friction: 0.5,
+      restitution: 0.2
+    }, options)
+
+    ;['width', 'height', 'x', 'y'].forEach(function(opt) {
+      if (typeof options[opt] === 'undefined') {
+       throw 'No ' + opt + ' specified for static body'
+      }
+    })
+
+    var fixDef = new Box2D.Dynamics.b2FixtureDef
+    fixDef.density = options.density
+    fixDef.friction = options.friction
+    fixDef.restitution = options.restitution
+    fixDef.shape = new Box2D.Collision.Shapes.b2PolygonShape
+    fixDef.shape.SetAsBox(world2box(options.width / SCALE), world2box(options.height / SCALE))
+    
+    var bodyDef = new Box2D.Dynamics.b2BodyDef
+    bodyDef.type = Box2D.Dynamics.b2Body.b2_staticBody
+    bodyDef.position.x = world2box(options.x) + (world2box(options.width) / SCALE)
+    bodyDef.position.y = world2box(options.y) + (world2box(options.height) / SCALE)
+
+    var physicsBody = physicsWorld.CreateBody(bodyDef)
+    physicsBody.CreateFixture(fixDef)
+    return physicsBody
+  }
+
+  var createDynamicBody = function(physicsWorld, options) {
+    options = $.extend({
+      density: 1.0,
+      friction: 0.5,
+      restitution: 0.2
+    }, options)
+
+    ;['width', 'height', 'x', 'y'].forEach(function(opt) {
+      if (typeof options[opt] === 'undefined') {
+       throw 'No ' + opt + ' specified for static body'
+      }
+    })
+
+    var fixDef = new Box2D.Dynamics.b2FixtureDef
+    fixDef.density = options.density
+    fixDef.friction = options.friction
+    fixDef.restitution = options.restitution
+    fixDef.shape = new Box2D.Collision.Shapes.b2PolygonShape
+    fixDef.shape.SetAsBox(world2box(options.width / SCALE), world2box(options.height / SCALE))
+
+    var bodyDef = new Box2D.Dynamics.b2BodyDef
+    bodyDef.type = Box2D.Dynamics.b2Body.b2_dynamicBody
+    bodyDef.position.x = world2box(options.x)
+    bodyDef.position.y = world2box(options.y)
+    
+    var physicsBody = physicsWorld.CreateBody(bodyDef)
+    physicsBody.CreateFixture(fixDef)
+    return physicsBody
+  }
+
   var Player = function(stage, physicsWorld) {
     var texture = PIXI.Texture.fromImage('/game/paddle.png')
     var sprite = new PIXI.Sprite(texture)
@@ -34,21 +94,12 @@ window.requestAnimFrame = (function(){
     sprite.width = 10
     sprite.height = 40
 
-    var fixDef = new Box2D.Dynamics.b2FixtureDef
-    fixDef.density = 1.0
-    fixDef.friction = 0.5
-    fixDef.restitution = 0.2
-
-    var bodyDef = new Box2D.Dynamics.b2BodyDef
-    
-    bodyDef.type = Box2D.Dynamics.b2Body.b2_dynamicBody
-    bodyDef.position.x = world2box(sprite.position.x)
-    bodyDef.position.y = world2box(sprite.position.y)
-    fixDef.shape = new Box2D.Collision.Shapes.b2PolygonShape
-    fixDef.shape.SetAsBox(world2box(sprite.width / SCALE), world2box(sprite.height / SCALE))
-    
-    var physicsBody = physicsWorld.CreateBody(bodyDef)
-    physicsBody.CreateFixture(fixDef)
+    var physicsBody = createDynamicBody(physicsWorld, {
+      width: sprite.width,
+      height: sprite.height,
+      x: sprite.position.x,
+      y: sprite.position.y
+    })
 
     var update = function(delta) {
       sprite.position.x = box2world(physicsBody.GetPosition().x)
@@ -111,21 +162,12 @@ window.requestAnimFrame = (function(){
   }
 
   var Wall = function(stage, physicsWorld, x, y, width, height) {
-    var fixDef = new Box2D.Dynamics.b2FixtureDef
-    fixDef.density = 1.0
-    fixDef.friction = 0.5
-    fixDef.restitution = 0.2
-
-    var bodyDef = new Box2D.Dynamics.b2BodyDef
-    
-    bodyDef.type = Box2D.Dynamics.b2Body.b2_staticBody
-    bodyDef.position.x = world2box(x) + (world2box(width) / SCALE)
-    bodyDef.position.y = world2box(y) + (world2box(height) / SCALE)
-    fixDef.shape = new Box2D.Collision.Shapes.b2PolygonShape
-    fixDef.shape.SetAsBox(world2box(width / SCALE), world2box(height / SCALE))
-    physicsWorld
-      .CreateBody(bodyDef)
-      .CreateFixture(fixDef)
+    var physicsBody = createStaticBody(physicsWorld, {
+      width: width,
+      height: height,
+      x: x,
+      y: y
+    })
 
     var texture = PIXI.Texture.fromImage('/game/wall.png')
     var sprite = new PIXI.TilingSprite(texture)
