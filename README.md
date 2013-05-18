@@ -13,15 +13,19 @@ npm install
 
 ## Build time!
 
-Assets are built using [grunt](http://gruntjs.com):
-
+We use [grunt](http://gruntjs.com):
 ```
 grunt
 ```
 
-Or to continuously rebuilds assets when needed:
+In watch mode, it continuously rebuilds assets & runs tests when needed:
 ```
 grunt watch
+```
+
+To run the tests on their own:
+```
+grunt test
 ```
 
 ## Running the game
