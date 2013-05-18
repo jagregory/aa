@@ -30,4 +30,19 @@ describe('Match', function() {
     m.hasPlayer({id: '3'}).should.eql(false);
   });
   
+  it("can send actions to the game engine", function() {
+    var m = match.create(lobby);
+    bridge.send.reset();
+    m.send({id: '1'}, 'up');
+    sinon.assert.called(bridge.send);
+    bridge.send.lastCall.args[0].should.eql('match-move');
+  });
+  
+  it("ignores actions from invalid players", function() {
+    var m = match.create(lobby);
+    bridge.send.reset();
+    m.send({id: '3'}, 'up');
+    sinon.assert.notCalled(bridge.send);
+  });
+  
 });

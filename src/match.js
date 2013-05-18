@@ -19,7 +19,7 @@ exports.create = function(lobby) {
   
   match.send = function(player, action) {
     var idx = indexOf(player.id);
-    if (idx) {
+    if (idx != null) {
       var param = _.extend(actions[action], {pindex: idx});
       bridge.send('match-move', param);
     }
@@ -27,7 +27,7 @@ exports.create = function(lobby) {
   
   match.forfeit = function(player) {
     var idx = indexOf(player.id);
-    if (idx) {
+    if (idx != null) {
       bridge.send('match-forfeit', {pindex: idx});
     }
   }
