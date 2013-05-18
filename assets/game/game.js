@@ -1,18 +1,13 @@
 var Time = require('./time'),
   Physics = require('./physics'),
-  Wall = require('./wall'),
+  Arena = require('./arena'),
   Ball = require('./ball'),
   Player = require('./player')
 
 module.exports = function(stage) {
   var time = new Time()
-
   var physics = new Physics()
-
-  var topWall = new Wall(stage, physics, 0, 0, 600, 16)
-  var bottomWall = new Wall(stage, physics, 0, 384, 600, 16)
-  var leftWall = new Wall(stage, physics, 0, 0, 16, 400)
-  var rightWall = new Wall(stage, physics, 584, 0, 16, 400)
+  var arena = new Arena(stage, physics)
 
   physics.debugDraw()
 
