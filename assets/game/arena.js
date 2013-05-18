@@ -7,10 +7,10 @@ var arena = function(stage, physics) {
 }
 
 arena.prototype.walls = [
-  { x: 16, y: 0, width: 568, height: 16 },
-  { x: 16, y: 384, width: 568, height: 16 },
-  { x: 16, y: 0, width: 16, height: 400 },
-  { x: 568, y: 0, width: 16, height: 400 }
+  { x: 1.5, y: 15, width: 1, height: 30 },
+  { x: 38.5, y: 15, width: 1, height: 30 },
+  { x: 20, y: .5, width: 36, height: 1 },
+  { x: 20, y: 29.5, width: 36, height: 1 },
 ]
 
 arena.prototype.addWall = function(definition) {
