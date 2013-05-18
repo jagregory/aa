@@ -1,7 +1,7 @@
 var rx = require('rxjs');
 var routie = require('routie');
 var player = require('../player');
-var view = require('../views/lobby.hbs');
+var view = require('../views/wait.hbs');
 require('../../3rdparty/rx.zepto');
 
 module.exports = function() {
@@ -10,16 +10,16 @@ module.exports = function() {
     routie.navigate('/register');
   }
   
-  $('#page').attr('class', 'lobby');
+  $('#page').attr('class', 'wait');
   $('#page').html(view());
 
   var observable = rx.Observable
-    .interval(1000)
+    .interval(3000)
     .select(observableLobby)
     .switchLatest()
-    .skipWhile(playerIsMissing)
+    .skipWhile(gameIsFull)
     .take(1)
-    .subscribe(startMatch, onError);
+    .subscribe(switchState, onError);
 
 };
 
@@ -27,12 +27,12 @@ function observableLobby() {
   return $.getJSONAsObservable('/lobby');
 }
 
-function playerIsMissing(res) {
-  return res.data.full === false;
+function gameIsFull(res) {
+  return res.data.full === true;
 }
 
-function startMatch() {
-  routie.navigate('/gamepad');
+function switchState() {
+  routie.navigate('/join');
 }
 
 function onError() {

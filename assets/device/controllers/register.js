@@ -4,6 +4,10 @@ var view = require('../views/register.hbs');
 
 module.exports = function() {
   
+  if (player.get().id) {
+    return routie.navigate('/wait');
+  }
+  
   $('#page').attr('class', 'register');
   $('#page').html(view());
   
@@ -11,25 +15,30 @@ module.exports = function() {
     e.preventDefault();
     register();
   });
-
-  function register() {
-    if (isValid()) {
-      $.post('/register').then(go);
-    } else {
-      window.alert('Please fill out the form');
-    }
-  }
-  
-  function isValid() {
-    return $('form').get(0).checkValidity();
-  }
-  
-  function go(data) {
-    player.set({
-      id: data.id,
-      name: data.name
-    });
-    routie.navigate('/lobby');
-  }
   
 };
+
+function register() {
+  if (isValid()) {
+    var p = {
+      firstName: $("#first-name").val(),
+      lastName: $("#last-name").val(),
+      mobile: $("#mobile").val()
+    };
+    $.post('/player', p).then(go);
+  } else {
+    window.alert('Please fill out the form');
+  }
+}
+
+function isValid() {
+  return $('form').get(0).checkValidity();
+}
+
+function go(data) {
+  player.set({
+    id: data.id,
+    name: data.name
+  });
+  routie.navigate('/lobby');
+}

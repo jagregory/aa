@@ -4,8 +4,8 @@ var view = require('../views/gamepad.hbs');
 
 module.exports = function() {
 
-  if (player.get().pos == undefined) {
-    routie.navigate('/lobby');
+  if (player.get().id == undefined) {
+    routie.navigate('/register');
   }
   
   $('#page').attr('class', 'gamepad');

@@ -10,19 +10,19 @@ module.exports = function() {
   
   $('#page').attr('class', 'join');
   $('#page').html(view());
-  
-  $('button').on('click', function(e) {
-    e.preventDefault();
-    $.post('/game/' + player.get().id).then(joinGame).fail(backToLobby);
-  });
-
-  function joinGame(data) {
-    player.set({pos: data.pos});
-    routie.navigate('/gamepad');
-  }
-  
-  function backToLobby() {
-    routie.navigate('/lobby');
-  }
+  $('button').on('click', joinLobby);
 
 };
+
+function joinLobby(e) {
+  e.preventDefault();
+  $.post('/lobby/' + player.get().id).then(joined).fail(backToWait);
+}
+
+function joined(data) {
+  routie.navigate('/lobby');
+}
+
+function backToWait() {
+  routie.navigate('/wait');
+}
