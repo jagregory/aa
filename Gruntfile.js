@@ -57,7 +57,7 @@ config.watch = {
     tasks: ['copy']
   },
   tests: {
-    files: ['test/**/*'],
+    files: ['test/**/*', 'src/**/*'],
     tasks: ['simplemocha']
   }
 };
