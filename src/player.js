@@ -1,10 +1,14 @@
 var _ = require('underscore');
 var uuid = require('node-uuid');
+var db = require('./db');
 
+// Load players from disk.. eventually this could be a DB
 var players = [];
 
-// should save new players to a DB
-// and load all players on startup
+db.loadPlayers(function(err, list) {
+  console.log('Loaded ' + list.length + ' players');
+  players = list;
+});
 
 exports.create = function(firstName, lastName, mobile) {
   var p = Object.freeze({
@@ -15,6 +19,7 @@ exports.create = function(firstName, lastName, mobile) {
     level: 1
   });
   players.push(p);
+  db.savePlayers(players);
   return p;
 };
 
