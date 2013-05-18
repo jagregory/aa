@@ -25,3 +25,7 @@ exports.withId = function(id) {
 exports.all = function() {
   return players;
 };
+
+exports.delete = function(player) {
+  players = _.reject(players, function(p) { return p.id === player.id; });
+};

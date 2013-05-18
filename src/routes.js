@@ -26,6 +26,17 @@ exports.register = function(app) {
     res.send(p);
   });
 
+  // delete a player
+  app.delete('/player/:playerId', function(req, res) {
+    var p = player.withId(req.params.playerId);
+    if (!p) {
+      res.status(404).send('Player unknown');
+    } else {
+      player.delete(p);
+      res.send({deleted: p.id});
+    }
+  });
+
   // get the lobby state
   app.get('/lobby', function(req, res) {
     res.send(lobby.state());

@@ -7,12 +7,12 @@
     <th>Actions</th>
   </tr>
   {{#each players}}
-    <tr>
+    <tr id="{{id}}">
       <td>{{firstName}}</td>
       <td>{{lastName}}</td>
       <td>{{mobile}}</td>
       <td>{{level}}</td>
-      <td><a href="#">delete</a></td>
+      <td><a class="delete" href="#">delete</a></td>
     </tr>
   {{/each}}
 </table>
