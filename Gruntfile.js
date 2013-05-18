@@ -65,10 +65,11 @@ config.watch = {
 config.simplemocha = {
   options: {
     globals: ['should', 'sinon'],
+    require: ['test/spec-helper.js'],
     timeout: 3000,
     ignoreLeaks: true,
     ui: 'bdd',
-    reporter: 'tap'
+    reporter: 'spec'
   },
   all: { src: ['test/**/*.js'] }
 };
