@@ -9,77 +9,7 @@ window.requestAnimFrame = (function(){
 })()
 
 ;(function() {
-  var box2world = function(val) {
-    return val * 30.0
-  }
-
-  var world2box = function(val) {
-    return val / 30.0
-  }
-
-  var SCALE = 2.0
-
-  var createStaticBody = function(physicsWorld, options) {
-    options = $.extend({
-      density: 1.0,
-      friction: 0.5,
-      restitution: 0.2
-    }, options)
-
-    ;['width', 'height', 'x', 'y'].forEach(function(opt) {
-      if (typeof options[opt] === 'undefined') {
-       throw 'No ' + opt + ' specified for static body'
-      }
-    })
-
-    var fixDef = new Box2D.Dynamics.b2FixtureDef
-    fixDef.density = options.density
-    fixDef.friction = options.friction
-    fixDef.restitution = options.restitution
-    fixDef.shape = new Box2D.Collision.Shapes.b2PolygonShape
-    fixDef.shape.SetAsBox(world2box(options.width / SCALE), world2box(options.height / SCALE))
-    
-    var bodyDef = new Box2D.Dynamics.b2BodyDef
-    bodyDef.type = Box2D.Dynamics.b2Body.b2_staticBody
-    bodyDef.position.x = world2box(options.x + (options.width / SCALE))
-    bodyDef.position.y = world2box(options.y + (options.height / SCALE))
-
-    var physicsBody = physicsWorld.CreateBody(bodyDef)
-    physicsBody.CreateFixture(fixDef)
-    return physicsBody
-  }
-
-  var createDynamicBody = function(physicsWorld, options) {
-    options = $.extend({
-      density: 1.0,
-      friction: 0.5,
-      restitution: 0.2
-    }, options)
-
-    ;['width', 'height', 'x', 'y'].forEach(function(opt) {
-      if (typeof options[opt] === 'undefined') {
-       throw 'No ' + opt + ' specified for static body'
-      }
-    })
-
-    var fixDef = new Box2D.Dynamics.b2FixtureDef
-    fixDef.density = options.density
-    fixDef.friction = options.friction
-    fixDef.restitution = options.restitution
-    fixDef.shape = new Box2D.Collision.Shapes.b2PolygonShape
-    fixDef.shape.SetAsBox(world2box(options.width / SCALE), world2box(options.height / SCALE))
-
-    var bodyDef = new Box2D.Dynamics.b2BodyDef
-    bodyDef.type = Box2D.Dynamics.b2Body.b2_dynamicBody
-    bodyDef.position.x = world2box(options.x)
-    bodyDef.position.y = world2box(options.y)
-    
-    var physicsBody = physicsWorld.CreateBody(bodyDef)
-    physicsBody.CreateFixture(fixDef)
-    return physicsBody
-  }
-
-  var Player = function(stage, physicsWorld) {
+  var Player = function(stage, physics) {
     var texture = PIXI.Texture.fromImage('/game/paddle.png')
     var sprite = new PIXI.Sprite(texture)
     stage.addChild(sprite)
@@ -94,7 +24,7 @@ window.requestAnimFrame = (function(){
     sprite.width = 10
     sprite.height = 40
 
-    var physicsBody = createDynamicBody(physicsWorld, {
+    var physicsBody = physics.createDynamicBody({
       width: sprite.width,
       height: sprite.height,
       x: sprite.position.x,
@@ -102,8 +32,8 @@ window.requestAnimFrame = (function(){
     })
 
     var update = function(delta) {
-      sprite.position.x = box2world(physicsBody.GetPosition().x)
-      sprite.position.y = box2world(physicsBody.GetPosition().y)
+      sprite.position.x = physics.physics2world(physicsBody.GetPosition().x)
+      sprite.position.y = physics.physics2world(physicsBody.GetPosition().y)
       sprite.rotation = physicsBody.GetAngle()
     }
 
@@ -161,8 +91,8 @@ window.requestAnimFrame = (function(){
     }
   }
 
-  var Wall = function(stage, physicsWorld, x, y, width, height) {
-    var physicsBody = createStaticBody(physicsWorld, {
+  var Wall = function(stage, physics, x, y, width, height) {
+    var physicsBody = physics.createStaticBody({
       width: width,
       height: height,
       x: x,
@@ -182,23 +112,14 @@ window.requestAnimFrame = (function(){
   var Game = function(stage) {
     var time = new Time()
 
-    var physicsWorld = new Box2D.Dynamics.b2World(
-      new Box2D.Common.Math.b2Vec2(0, 0),
-      true
-    )
+    var physics = new Physics()
 
-    var topWall = new Wall(stage, physicsWorld, 0, 0, 600, 16)
-    var bottomWall = new Wall(stage, physicsWorld, 0, 384, 600, 16)
-    var leftWall = new Wall(stage, physicsWorld, 0, 0, 16, 400)
-    var rightWall = new Wall(stage, physicsWorld, 584, 0, 16, 400)
+    var topWall = new Wall(stage, physics, 0, 0, 600, 16)
+    var bottomWall = new Wall(stage, physics, 0, 384, 600, 16)
+    var leftWall = new Wall(stage, physics, 0, 0, 16, 400)
+    var rightWall = new Wall(stage, physics, 584, 0, 16, 400)
 
-    var debugDraw = new Box2D.Dynamics.b2DebugDraw()
-    debugDraw.SetSprite($('#canvas2')[0].getContext("2d"))
-    debugDraw.SetDrawScale(30.0)
-    debugDraw.SetFillAlpha(0.3)
-    debugDraw.SetLineThickness(1.0)
-    debugDraw.SetFlags(Box2D.Dynamics.b2DebugDraw.e_shapeBit | Box2D.Dynamics.b2DebugDraw.e_jointBit)
-    physicsWorld.SetDebugDraw(debugDraw)
+    physics.debugDraw()
 
     var ball = new Ball(stage)
     var players = []
@@ -206,13 +127,7 @@ window.requestAnimFrame = (function(){
     return {
       tick: function() {
         time.update()
-        physicsWorld.Step(
-          1 / 60, // frame-rate
-          10,     // velocity iterations
-          10      // position iterations
-        )
-        physicsWorld.DrawDebugData()
-        physicsWorld.ClearForces()
+        physics.update()
 
         ball.tick(time.delta)
 
@@ -221,7 +136,7 @@ window.requestAnimFrame = (function(){
         })
       },
       playerJoin: function(data) {
-        var player = new Player(stage, physicsWorld)
+        var player = new Player(stage, physics)
         player.id = data.id
         player.name = data.name
         players.push(player)
