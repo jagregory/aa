@@ -9,7 +9,14 @@ window.requestAnimFrame = (function(){
 })()
 
 ;(function() {
-  var Player = function(stage, physics) {
+  var Player = function(stage, physics, options) {
+    options = $.extend({
+      x: 50,
+      y: 50,
+      width: 10,
+      height: 40
+    }, options)
+
     var texture = PIXI.Texture.fromImage('/game/paddle.png')
     var sprite = new PIXI.Sprite(texture)
     stage.addChild(sprite)
@@ -19,16 +26,16 @@ window.requestAnimFrame = (function(){
 
     sprite.anchor.x = 0.5
     sprite.anchor.y = 0.5
-    sprite.position.x = 50
-    sprite.position.y = 50
-    sprite.width = 10
-    sprite.height = 40
+    sprite.width = options.width
+    sprite.height = options.height
+    sprite.position.x = options.x
+    sprite.position.y = options.y
 
     var physicsBody = physics.createDynamicBody({
-      width: sprite.width,
-      height: sprite.height,
-      x: sprite.position.x,
-      y: sprite.position.y
+      width: options.width,
+      height: options.height,
+      x: options.x,
+      y: options.y
     })
 
     var update = function(delta) {
@@ -38,6 +45,8 @@ window.requestAnimFrame = (function(){
     }
 
     return {
+      id: options.id,
+      name: options.name,
       moveBy: function(xDelta, yDelta) {
         force = new Box2D.Common.Math.b2Vec2(xDelta * -1, yDelta * -1);
         physicsBody.SetAwake(true);
@@ -136,9 +145,12 @@ window.requestAnimFrame = (function(){
         })
       },
       playerJoin: function(data) {
-        var player = new Player(stage, physics)
-        player.id = data.id
-        player.name = data.name
+        var player = new Player(stage, physics, {
+          id: data.id,
+          name: data.name,
+          x: 50,
+          y: 50
+        })
         players.push(player)
 
         console.log('Player ' + player.name + ' joined')
