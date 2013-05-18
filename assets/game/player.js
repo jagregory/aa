@@ -1,9 +1,9 @@
 module.exports = function(stage, physics, options) {
   options = $.extend({
-    x: 50,
-    y: 50,
-    width: 10,
-    height: 40
+    x: 5,
+    y: 5,
+    width: 1,
+    height: 4
   }, options)
 
   var texture = PIXI.Texture.fromImage('/game/paddle.png')
@@ -15,8 +15,8 @@ module.exports = function(stage, physics, options) {
 
   sprite.anchor.x = 0.5
   sprite.anchor.y = 0.5
-  sprite.width = options.width
-  sprite.height = options.height
+  sprite.width = physics.physics2world(options.width)
+  sprite.height = physics.physics2world(options.height)
   sprite.position.x = options.x
   sprite.position.y = options.y
 

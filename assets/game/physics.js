@@ -62,12 +62,12 @@ module.exports = function() {
     fixDef.friction = options.friction
     fixDef.restitution = options.restitution
     fixDef.shape = new Box2D.Collision.Shapes.b2PolygonShape
-    fixDef.shape.SetAsBox(world2physics(options.width / SCALE), world2physics(options.height / SCALE))
+    fixDef.shape.SetAsBox(options.width / SCALE, options.height / SCALE)
 
     var bodyDef = new Box2D.Dynamics.b2BodyDef
     bodyDef.type = Box2D.Dynamics.b2Body.b2_dynamicBody
-    bodyDef.position.x = world2physics(options.x)
-    bodyDef.position.y = world2physics(options.y)
+    bodyDef.position.x = options.x
+    bodyDef.position.y = options.y
     
     var physicsBody = physicsWorld.CreateBody(bodyDef)
     physicsBody.CreateFixture(fixDef)

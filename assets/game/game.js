@@ -29,8 +29,8 @@ module.exports = function(stage) {
       var player = new Player(stage, physics, {
         id: data.id,
         name: data.name,
-        x: 50,
-        y: 50
+        x: 5,
+        y: 5
       })
       players.push(player)
 
