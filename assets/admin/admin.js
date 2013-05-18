@@ -1,19 +1,28 @@
 var _ = require('underscore');
-var view = require('./views/player.hbs');
+var viewPlayers = require('./views/players.hbs');
+var viewLobby   = require('./views/lobby.hbs');
 
 window.Admin = function() {
   $('#players').on('click', '.delete', deletePlayer);
   getPlayers();
+  getLobby();
+  setInterval(getLobby, 5000);
 };
 
 function getPlayers() {
-  $.get('/player').then(render);
+  $.get('/player').then(renderPlayers);
 }
 
-function render(data) {
-  $('#players').html(view({
-    players: data
-  }));
+function getLobby() {
+  $.get('/lobby').then(renderLobby);
+}
+
+function renderPlayers(data) {
+  $('#players').html(viewPlayers({players: data}));
+}
+
+function renderLobby(data) {
+  $('#lobby').html(viewLobby(data));
 }
 
 function deletePlayer(e) {

@@ -1,0 +1,23 @@
+<table>
+  <tr>
+    <th>First name</th>
+    <th>Last name</th>
+    <th>Mobile</th>
+    <th>Game level</th>
+  </tr>
+  {{#each players}}
+    {{#if id}}
+      <tr>
+        <td>{{firstName}}</td>
+        <td>{{lastName}}</td>
+        <td>{{mobile}}</td>
+        <td>{{level}}</td>
+      </tr>
+    {{/if}}
+    {{#unless id}}
+    <tr>
+      <td class="empty" colspan="4">EMPTY</td>
+    </tr>
+    {{/unless}}
+  {{/each}}
+</table>
