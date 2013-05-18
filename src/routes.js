@@ -1,56 +1,92 @@
-var game = require('./game');
+var player = require('./player');
+var lobby = require('./lobby');
+var match = require('./match');
+
+var matchInProgress = null;
 
 exports.register = function(app) {
 
+  // mobile landing page
   app.get('/', function(req, res) {
     res.redirect('/device')
   })
 
-  app.post('/register', function(req, res) {
-    res.send({
-      id: game.newPlayerId(),
-      name: 'Bob'
-    });
+  // get all players (for debugging)
+  app.get('/player', function(req, res) {
+    res.send(player.all());
   });
 
+  // create a player
+  app.post('/player', function(req, res) {
+    var p = player.create(
+      req.body.firstName,
+      req.body.lastName,
+      req.body.mobile
+    );
+    res.send(p);
+  });
+
+  // get the lobby state
   app.get('/lobby', function(req, res) {
-    res.send({
-      canJoin: game.needsPlayer()
-    });
+    res.send(lobby.state());
   });
-  
-  app.post('/game/:userId', function(req, res) {
-    var id = req.param.userId;
-    if (game.needsPlayer()) {
-      res.send({
-        pos: game.addPlayer(id)
-      });
+
+  // try to join the lobby
+  app.post('/lobby/:playerId', function(req, res) {
+    var p = player.withId(req.params.playerId);
+    if (!p) {
+      res.status(404).send('Player unknown');
+    } else if (lobby.isFull()) {
+      res.status(409).send('Lobby full');
     } else {
-      res.status(409).send('Game full');
+      lobby.addPlayer(p);
+      if (lobby.isFull()) {
+        matchInProgress = match.create(lobby);
+      }
+      res.send(lobby.state());
     }
   });
-  
-  app.put('/game/:userId', function(req, res) {
-    var id = req.param.userId;
-    var action = req.body.action;
-    if (game.hasPlayerWithId(id)) {
-      game.movePlayer(id, action);
-      res.send({
-        processed: true
-      });
+
+  // leave the lobby
+  app.delete('/lobby/:playerId', function(req, res) {
+    var p = player.withId(req.params.playerId);
+    if (!p) {
+      res.status(404).send('Player unknown');
     } else {
-      res.status(404).send('User ' + id + ' not in the game');
+      lobby.removePlayer(p);
+      res.send(lobby.state());
     }
   });
-  
-  app.delete('/game/:userId', function(req, res) {
-    var id = req.param.userId;
-    if (game.hasPlayerWithId(id)) {
-      res.send({
-        leftGame: true
-      });
+
+  // send an action to the game
+  app.post('/game/:playerId', function(req, res) {
+    var p = player.withId(req.params.playerId);
+    if (!p) {
+      res.status(404).send('Player unknown');
+    } else if (matchInProgress === null) {
+      res.status(404).send('No match in progress');
+    } else if (matchInProgress.hasPlayer(p) === false) {
+      res.status(403).send('Player not in this match');
     } else {
-      res.status(404).send('User ' + id + ' not in the game');
+      var action = req.body.action;
+      matchInProgress.send(p, action);
+      res.send({processed: true});
+    }
+  });
+
+  // forfeit the game
+  app.delete('/game/:playerId', function(req, res) {
+    var p = player.withId(req.params.playerId);
+    if (!p) {
+      res.status(404).send('Player unknown');
+    } else if (matchInProgress === null) {
+      res.status(404).send('No match in progress');
+    } else if (matchInProgress.hasPlayer(p) === false) {
+      res.status(403).send('Player not in this match');
+    } else {
+      var action = req.body.action;
+      matchInProgress.forfeit(p);
+      res.send({forfeit: true});
     }
   });
 
