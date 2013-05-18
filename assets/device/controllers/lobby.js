@@ -12,6 +12,7 @@ module.exports = function() {
   
   $('#page').attr('class', 'lobby');
   $('#page').html(view());
+  $('#cancel').on('click', exitLobby);
 
   var observable = rx.Observable
     .interval(1000)
@@ -37,4 +38,15 @@ function startMatch() {
 
 function onError() {
   console.log('Lobby not responding');
+}
+
+function exitLobby() {
+  $.ajax({
+    type: 'DELETE',
+    url: '/lobby/' + player.get().id
+  }).then(backToWait);
+}
+
+function backToWait() {
+  routie.navigate('/wait');
 }
