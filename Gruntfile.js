@@ -54,7 +54,7 @@ config.copy = {
 config.watch = {
   js: {
     files: ['assets/**/*.js', 'assets/**/*.hbs'],
-    tasks: ['browserify2:dev']
+    tasks: ['browserify2:dev', ['browserify2:game']]
   },
   css: {
     files: ['assets/**/*.styl'],
