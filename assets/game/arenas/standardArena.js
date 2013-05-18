@@ -13,5 +13,6 @@ Arena.define('Shapely', [
   { x: 11, y: 1, width: 18, height: 1, rotation: .05 },
   { x: 29, y: 1, width: 18, height: 1, rotation: -.05 },
   { x: 11, y: 29, width: 18, height: 1, rotation: -.05 },
-  { x: 29, y: 29, width: 18, height: 1, rotation: .05 }
+  { x: 29, y: 29, width: 18, height: 1, rotation: .05 },
+  { x: 20, y: 15, width: 1, height: 6 },
 ])
