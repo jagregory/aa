@@ -13,20 +13,20 @@ exports.create = function(lobby) {
   
   bridge.send('match-start', players);
   
-  match.hasPlayer = function(playerId) {
-    return indexOf(playerId) != null;
+  match.hasPlayer = function(player) {
+    return indexOf(player.id) != null;
   }
   
-  match.send = function(playerId, action) {
-    var idx = indexOf(playerId);
+  match.send = function(player, action) {
+    var idx = indexOf(player.id);
     if (idx) {
       var param = _.extend(actions[action], {pindex: idx});
       bridge.send('match-move', param);
     }
   }
   
-  match.forfeit = function(playerId) {
-    var idx = indexOf(playerId);
+  match.forfeit = function(player) {
+    var idx = indexOf(player.id);
     if (idx) {
       bridge.send('match-forfeit', {pindex: idx});
     }
