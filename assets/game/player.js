@@ -6,6 +6,13 @@ module.exports = function(stage, physics, options) {
     height: 4
   }, options)
 
+  var physicsBody = physics.createDynamicBody({
+    width: options.width,
+    height: options.height,
+    x: options.x,
+    y: options.y
+  })
+
   var texture = PIXI.Texture.fromImage('/game/paddle.png')
   var sprite = new PIXI.Sprite(texture)
   stage.addChild(sprite)
@@ -13,19 +20,10 @@ module.exports = function(stage, physics, options) {
   var boardHeight = $('#board').height()
   var boardWidth = $('#board').width()
 
-  sprite.anchor.x = 0.5
-  sprite.anchor.y = 0.5
-  sprite.width = physics.physics2world(options.width)
   sprite.height = physics.physics2world(options.height)
-  sprite.position.x = options.x
-  sprite.position.y = options.y
-
-  var physicsBody = physics.createDynamicBody({
-    width: options.width,
-    height: options.height,
-    x: options.x,
-    y: options.y
-  })
+  sprite.width = physics.physics2world(options.width)
+  sprite.anchor.x = sprite.width / 2.0
+  sprite.anchor.y = sprite.height / 2.0
 
   var update = function(delta) {
     sprite.position.x = physics.physics2world(physicsBody.GetPosition().x)
