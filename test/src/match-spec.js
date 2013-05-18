@@ -32,9 +32,7 @@ describe('Match', function() {
   
   it("can send actions to the game engine", function() {
     var m = match.create(lobby);
-    bridge.send.reset();
     m.send({id: '1'}, 'up');
-    sinon.assert.called(bridge.send);
     bridge.send.lastCall.args[0].should.eql('match-move');
   });
   
@@ -43,6 +41,14 @@ describe('Match', function() {
     bridge.send.reset();
     m.send({id: '3'}, 'up');
     sinon.assert.notCalled(bridge.send);
+  });
+
+  it("sends vectors for 'up' and 'down' actions", function() {
+    var m = match.create(lobby);
+    m.send({id: '1'}, 'up');
+    bridge.send.lastCall.args[1].should.eql({ pindex:0, vector: {x:0, y:-10} });
+    m.send({id: '1'}, 'down');
+    bridge.send.lastCall.args[1].should.eql({ pindex:0, vector: {x:0, y:+10} });
   });
   
 });
