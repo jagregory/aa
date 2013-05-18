@@ -225,7 +225,7 @@ window.requestAnimFrame = (function(){
     var board = $('#board')
 
     var stage = new PIXI.Stage()
-    var renderer = new PIXI.CanvasRenderer(600, 400, document.getElementById('canvas'), false)
+    var renderer = PIXI.autoDetectRenderer(600, 400)
 
     board[0].appendChild(renderer.view)
 
