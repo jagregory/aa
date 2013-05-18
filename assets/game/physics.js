@@ -82,7 +82,7 @@ module.exports = function() {
     world2physics: world2physics,
     debugDraw: function() {
       var debugDraw = new Box2D.Dynamics.b2DebugDraw()
-      debugDraw.SetSprite($('#canvas2')[0].getContext("2d"))
+      debugDraw.SetSprite($('#debugCanvas')[0].getContext("2d"))
       debugDraw.SetDrawScale(16.0)
       debugDraw.SetFillAlpha(0.3)
       debugDraw.SetLineThickness(1.0)
