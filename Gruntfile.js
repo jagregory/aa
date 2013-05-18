@@ -55,6 +55,10 @@ config.watch = {
   files: {
     files: ['files/**/*', 'assets/**/*.html'],
     tasks: ['copy']
+  },
+  tests: {
+    files: ['test/**/*'],
+    tasks: ['simplemocha']
   }
 };
 
