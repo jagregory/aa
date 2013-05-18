@@ -2,8 +2,8 @@ var _ = require('underscore');
 var bridge = require('./bridge');
 
 var actions = {
-  up:   { xDelta: 0, yDelta: -10 },
-  down: { xDelta: 0, yDelta: +10 }
+  up:   { vector: {x: 0, y: -10} },
+  down: { vector: {x: 0, y: +10} }
 }
 
 exports.create = function(lobby) {
