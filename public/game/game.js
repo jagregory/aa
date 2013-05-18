@@ -18,13 +18,15 @@ window.requestAnimFrame = (function(){
   }
 
   var Player = function(stage, physicsWorld) {
-    var texture = PIXI.Texture.fromImage('/game/wall.png')
-    var sprite = new PIXI.TilingSprite(texture)
+    var texture = PIXI.Texture.fromImage('/game/paddle.png')
+    var sprite = new PIXI.Sprite(texture)
     stage.addChild(sprite)
 
     var boardHeight = $('#board').height()
     var boardWidth = $('#board').width()
 
+    sprite.anchor.x = 0.5
+    sprite.anchor.y = 0.5
     sprite.position.x = 50
     sprite.position.y = 50
     sprite.width = 10
@@ -38,36 +40,22 @@ window.requestAnimFrame = (function(){
     var bodyDef = new Box2D.Dynamics.b2BodyDef
     
     bodyDef.type = Box2D.Dynamics.b2Body.b2_dynamicBody
-    bodyDef.position.x = world2box(50) + (world2box(sprite.width) / 2.0)
-    bodyDef.position.y = world2box(50) + (world2box(sprite.height) / 2.0)
+    bodyDef.position.x = world2box(sprite.position.x)
+    bodyDef.position.y = world2box(sprite.position.y)
     fixDef.shape = new Box2D.Collision.Shapes.b2PolygonShape
-    fixDef.shape.SetAsBox(world2box(sprite.width), world2box(sprite.height))
+    fixDef.shape.SetAsBox(world2box(sprite.width * 0.5), world2box(sprite.height * 0.5))
     
     var physicsBody = physicsWorld.CreateBody(bodyDef)
     physicsBody.CreateFixture(fixDef)
 
-    var target = {
-      x: 0,
-      y: 0
-    }
-
-    var animationStepX = 0
-    var animationStepY = 0
-    
     var update = function(delta) {
-      sprite.position.x = box2world(physicsBody.GetPosition().x) + (sprite.width / 2)
-      sprite.position.y = box2world(physicsBody.GetPosition().y) + (sprite.height / 2)
+      sprite.position.x = box2world(physicsBody.GetPosition().x)
+      sprite.position.y = box2world(physicsBody.GetPosition().y)
+      sprite.rotation = physicsBody.GetAngle()
     }
 
     return {
       moveBy: function(xDelta, yDelta) {
-        // target = {
-        //   x: sprite.position.x + xDelta,
-        //   y: sprite.position.y + yDelta
-        // }
-
-        // animationStepX = target.x - sprite.position.x
-        // animationStepY = target.y - sprite.position.y
         force = new Box2D.Common.Math.b2Vec2(xDelta * -1, yDelta * -1);
         physicsBody.SetAwake(true);
         physicsBody.SetLinearVelocity(force);
@@ -132,7 +120,7 @@ window.requestAnimFrame = (function(){
     bodyDef.position.x = world2box(x) + (world2box(width) / 2.0)
     bodyDef.position.y = world2box(y) + (world2box(height) / 2.0)
     fixDef.shape = new Box2D.Collision.Shapes.b2PolygonShape
-    fixDef.shape.SetAsBox(world2box(width), world2box(height))
+    fixDef.shape.SetAsBox(world2box(width * 0.5), world2box(height * 0.5))
     physicsWorld
       .CreateBody(bodyDef)
       .CreateFixture(fixDef)
@@ -161,33 +149,8 @@ window.requestAnimFrame = (function(){
     var leftWall = new Wall(stage, physicsWorld, 0, 0, 16, 400)
     var rightWall = new Wall(stage, physicsWorld, 584, 0, 16, 400)
 
-    // var fixDef = new Box2D.Dynamics.b2FixtureDef
-    // fixDef.density = 1.0
-    // fixDef.friction = 0.5
-    // fixDef.restitution = 0.2
-
-    // var bodyDef = new Box2D.Dynamics.b2BodyDef
-    // bodyDef.type = Box2D.Dynamics.b2Body.b2_dynamicBody;
-    //      for(var i = 0; i < 30; ++i) {
-    //         if(Math.random() > 0.5) {
-    //            fixDef.shape = new Box2D.Collision.Shapes.b2PolygonShape;
-    //            fixDef.shape.SetAsBox(
-    //                  Math.random() + 0.1 //half width
-    //               ,  Math.random() + 0.1 //half height
-    //            );
-    //         } else {
-    //            fixDef.shape = new Box2D.Collision.Shapes.b2CircleShape(
-    //               Math.random() + 0.1 //radius
-    //            );
-    //         }
-    //         bodyDef.position.x = Math.random() * 10;
-    //         bodyDef.position.y = Math.random() * 10;
-    //         physicsWorld.CreateBody(bodyDef).CreateFixture(fixDef);
-    //      }
-
-
     var debugDraw = new Box2D.Dynamics.b2DebugDraw()
-    debugDraw.SetSprite($('#board canvas')[0].getContext("2d"))
+    debugDraw.SetSprite($('#canvas2')[0].getContext("2d"))
     debugDraw.SetDrawScale(30.0)
     debugDraw.SetFillAlpha(0.3)
     debugDraw.SetLineThickness(1.0)
@@ -274,7 +237,7 @@ window.requestAnimFrame = (function(){
       requestAnimFrame(function animate(delta) {
         instance.tick(delta)
 
-        // renderer.render(stage)
+        renderer.render(stage)
 
         requestAnimFrame(animate)
       })
