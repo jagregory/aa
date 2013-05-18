@@ -9,7 +9,8 @@ config.stylus = {
   },
   compile: {
     files: {
-      'builtAssets/device/device.css': 'assets/device/device.styl'
+      'builtAssets/device/device.css': 'assets/device/device.styl',
+      'builtAssets/admin/admin.css':   'assets/admin/admin.styl'
     }
   }
 };
@@ -18,7 +19,15 @@ config.stylus = {
 // JS
 //
 config.browserify2 = {
-  dev: {
+  admin: {
+    entry: __dirname + '/assets/admin/admin.js',
+    beforeHook: function(bundle) {
+      bundle.transform(require('hbsfy'));
+    },
+    compile: __dirname + '/builtAssets/admin/admin.js',
+    debug: true
+  },
+  device: {
     entry: __dirname + '/assets/device/device.js',
     beforeHook: function(bundle) {
       bundle.transform(require('hbsfy'));
@@ -43,6 +52,7 @@ config.copy = {
   main: {
     files: [
       { expand: true, cwd: 'assets/device/', src: ['index.html'], dest: 'builtAssets/device/' },
+      { expand: true, cwd: 'assets/admin/',  src: ['index.html'], dest: 'builtAssets/admin/' },
       { expand: true, cwd: 'files/', src: ['**'], dest: 'builtAssets/'}
     ]
   }
@@ -93,6 +103,7 @@ module.exports = function(grunt) {
 
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
-  grunt.registerTask('default', ['stylus', 'browserify2:dev', 'browserify2:game', 'copy']);
+  grunt.registerTask('default', ['stylus', 'browserify2:admin', 'browserify2:device', 'browserify2:game', 'copy']);
   grunt.registerTask('test',    ['simplemocha']);
+
 };
