@@ -41,8 +41,8 @@ window.requestAnimFrame = (function(){
     
     var bodyDef = new Box2D.Dynamics.b2BodyDef
     bodyDef.type = Box2D.Dynamics.b2Body.b2_staticBody
-    bodyDef.position.x = world2box(options.x) + (world2box(options.width) / SCALE)
-    bodyDef.position.y = world2box(options.y) + (world2box(options.height) / SCALE)
+    bodyDef.position.x = world2box(options.x + (options.width / SCALE))
+    bodyDef.position.y = world2box(options.y + (options.height / SCALE))
 
     var physicsBody = physicsWorld.CreateBody(bodyDef)
     physicsBody.CreateFixture(fixDef)
