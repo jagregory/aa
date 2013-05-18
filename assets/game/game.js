@@ -9,11 +9,16 @@ require('./arenas/standardArena')
 module.exports = function(stage) {
   var time = new Time()
   var physics = new Physics()
+
+  physics.collision(function(a, b) {
+    console.log('something collided')
+  })
+
   var arena = Arena.random()(stage, physics)
 
   console.log('Using arena: ' + arena.name)
 
-  physics.debugDraw()
+  physics.debugDraw($('#debugCanvas')[0])
 
   var ball = new Ball(stage)
   var players = []
