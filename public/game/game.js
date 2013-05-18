@@ -137,7 +137,6 @@ window.requestAnimFrame = (function(){
 
   var Game = function(stage) {
     var time = new Time()
-    var socket = io.connect('http://localhost:8080')
 
     var physicsWorld = new Box2D.Dynamics.b2World(
       new Box2D.Common.Math.b2Vec2(0, 0),
@@ -177,42 +176,34 @@ window.requestAnimFrame = (function(){
       })
     }
 
-    var playerJoin = function(data) {
-      var player = new Player(stage, physicsWorld)
-      player.id = data.id
-      player.name = data.name
-      players.push(player)
-
-      console.log('Player ' + player.name + ' joined')
-    }
-    var playerLeave = function(data) {
-      for (var i = 0; i < players.length; i++) {
-        var player = players[i]
-        if (player && player.id === data.id) {
-          delete players[i]
-          console.log('Player ' + player.name + ' left')
-        }
-      }
-    }
-    var playerMove = function(data) {
-      var player = _.findWhere(players, { id: data.id })
-      if (player) {
-        player.moveBy(data.xDelta, data.yDelta)
-      }
-    }
-
-    socket.on('player-join', playerJoin)
-    socket.on('player-leave', playerLeave)
-    socket.on('player-move', playerMove)
-
     var g = this
     return {
       tick: function() {
         tick.call(g)
       },
-      playerJoin: playerJoin,
-      playerLeave: playerLeave,
-      playerMove: playerMove,
+      playerJoin: function(data) {
+        var player = new Player(stage, physicsWorld)
+        player.id = data.id
+        player.name = data.name
+        players.push(player)
+
+        console.log('Player ' + player.name + ' joined')
+      },
+      playerLeave: function(data) {
+        for (var i = 0; i < players.length; i++) {
+          var player = players[i]
+          if (player && player.id === data.id) {
+            delete players[i]
+            console.log('Player ' + player.name + ' left')
+          }
+        }
+      },
+      playerMove: function(data) {
+        var player = _.findWhere(players, { id: data.id })
+        if (player) {
+          player.moveBy(data.xDelta, data.yDelta)
+        }
+      },
       players: function() {
         return players
       }
@@ -233,6 +224,11 @@ window.requestAnimFrame = (function(){
     assetLoader.onComplete = function() {
       console.log('Assets loaded. Starting game.')
       var instance = window.game = new Game(stage)
+
+      var socket = io.connect('http://localhost:8080')
+      socket.on('player-join', instance.playerJoin)
+      socket.on('player-leave', instance.playerLeave)
+      socket.on('player-move', instance.playerMove)
 
       requestAnimFrame(function animate(delta) {
         instance.tick(delta)
