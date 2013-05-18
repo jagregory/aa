@@ -11,7 +11,8 @@ exports.create = function(firstName, lastName, mobile) {
     id: uuid.v4(),
     firstName: firstName,
     lastName: lastName,
-    mobile: mobile
+    mobile: mobile,
+    level: 1
   });
   players.push(p);
   return p;
