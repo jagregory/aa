@@ -25,6 +25,14 @@ config.browserify2 = {
     },
     compile: __dirname + '/builtAssets/device/device.js',
     debug: true
+  },
+  game: {
+    entry: __dirname + '/assets/game/gameview.js',
+    beforeHook: function(bundle) {
+      bundle.transform(require('hbsfy'));
+    },
+    compile: __dirname + '/builtAssets/game/gameview.js',
+    debug: true
   }
 };
 
@@ -85,7 +93,6 @@ module.exports = function(grunt) {
 
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
-  grunt.registerTask('default', ['stylus', 'browserify2:dev', 'copy']);
+  grunt.registerTask('default', ['stylus', 'browserify2:dev', 'browserify2:game', 'copy']);
   grunt.registerTask('test',    ['simplemocha']);
-
 };
