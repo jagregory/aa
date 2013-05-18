@@ -17,6 +17,8 @@ window.requestAnimFrame = (function(){
     return val / 30.0
   }
 
+  var SCALE = 2.0
+
   var Player = function(stage, physicsWorld) {
     var texture = PIXI.Texture.fromImage('/game/paddle.png')
     var sprite = new PIXI.Sprite(texture)
@@ -43,7 +45,7 @@ window.requestAnimFrame = (function(){
     bodyDef.position.x = world2box(sprite.position.x)
     bodyDef.position.y = world2box(sprite.position.y)
     fixDef.shape = new Box2D.Collision.Shapes.b2PolygonShape
-    fixDef.shape.SetAsBox(world2box(sprite.width * 0.5), world2box(sprite.height * 0.5))
+    fixDef.shape.SetAsBox(world2box(sprite.width / SCALE), world2box(sprite.height / SCALE))
     
     var physicsBody = physicsWorld.CreateBody(bodyDef)
     physicsBody.CreateFixture(fixDef)
@@ -117,10 +119,10 @@ window.requestAnimFrame = (function(){
     var bodyDef = new Box2D.Dynamics.b2BodyDef
     
     bodyDef.type = Box2D.Dynamics.b2Body.b2_staticBody
-    bodyDef.position.x = world2box(x) + (world2box(width) / 2.0)
-    bodyDef.position.y = world2box(y) + (world2box(height) / 2.0)
+    bodyDef.position.x = world2box(x) + (world2box(width) / SCALE)
+    bodyDef.position.y = world2box(y) + (world2box(height) / SCALE)
     fixDef.shape = new Box2D.Collision.Shapes.b2PolygonShape
-    fixDef.shape.SetAsBox(world2box(width * 0.5), world2box(height * 0.5))
+    fixDef.shape.SetAsBox(world2box(width / SCALE), world2box(height / SCALE))
     physicsWorld
       .CreateBody(bodyDef)
       .CreateFixture(fixDef)
