@@ -1,0 +1,18 @@
+<table id="players">
+  <tr>
+    <th>First name</th>
+    <th>Last name</th>
+    <th>Mobile</th>
+    <th>Game level</th>
+    <th>Actions</th>
+  </tr>
+  {{#each players}}
+    <tr>
+      <td>{{firstName}}</td>
+      <td>{{lastName}}</td>
+      <td>{{mobile}}</td>
+      <td>{{level}}</td>
+      <td><a href="#">delete</a></td>
+    </tr>
+  {{/each}}
+</table>

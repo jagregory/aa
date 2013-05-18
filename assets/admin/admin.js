@@ -1,22 +1,17 @@
 var _ = require('underscore');
-var player = null;
+var view = require('./views/player.hbs');
 
-exports.get = function() {
-  if (!player) {
-    load();
-  }
-  return player;
+window.Admin = function() {
+  
+  var players = [
+    { id: '1', firstName: 'John', lastName: 'Doe', mobile: '0412345678', level: 3 },
+    { id: '1', firstName: 'John', lastName: 'Doe', mobile: '0412345678', level: 3 },
+    { id: '1', firstName: 'John', lastName: 'Doe', mobile: '0412345678', level: 3 },
+    { id: '1', firstName: 'John', lastName: 'Doe', mobile: '0412345678', level: 3 },
+    { id: '1', firstName: 'John', lastName: 'Doe', mobile: '0412345678', level: 3 }
+  ];
+  $('#players').html(view({
+    players: players
+  }));
+  
 };
-
-exports.set = function(attrs) {
-  player = _.extend(player || {}, attrs);
-  save();
-};
-
-function load() {
-  player = JSON.parse(window.localStorage.getItem('player') || '{}');
-}
-
-function save() {
-  window.localStorage.setItem('player', JSON.stringify(player));
-}
