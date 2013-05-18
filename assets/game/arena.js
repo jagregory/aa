@@ -1,20 +1,24 @@
 var Wall = require('./wall')
 
-var arena = function(stage, physics) {
+var Arena = function(stage, physics, name, walls) {
   this.stage = stage
   this.physics = physics
-  this.walls.forEach(this.addWall.bind(this))
+  this.name = name
+  walls.forEach(this.addWall.bind(this))
 }
 
-arena.prototype.walls = [
-  { x: 1.5, y: 15, width: 1, height: 30 },
-  { x: 38.5, y: 15, width: 1, height: 30 },
-  { x: 20, y: .5, width: 36, height: 1 },
-  { x: 20, y: 29.5, width: 36, height: 1 },
-]
-
-arena.prototype.addWall = function(definition) {
-  new Wall(this.stage, this.physics, definition.x, definition.y, definition.width, definition.height)
+Arena.prototype.addWall = function(definition) {
+  new Wall(this.stage, this.physics, definition)
 }
 
-module.exports = arena
+Arena.registered = []
+Arena.define = function(name, walls) {
+  Arena.registered.push(function(stage, physics) {
+    return new Arena(stage, physics, name, walls)
+  })
+}
+Arena.random = function() {
+  return Arena.registered[Math.floor(Math.random()*Arena.registered.length)]
+}
+
+module.exports = Arena

@@ -4,10 +4,14 @@ var Time = require('./time'),
   Ball = require('./ball'),
   Player = require('./player')
 
+require('./arenas/standardArena')
+
 module.exports = function(stage) {
   var time = new Time()
   var physics = new Physics()
-  var arena = new Arena(stage, physics)
+  var arena = Arena.random()(stage, physics)
+
+  console.log('Using arena: ' + arena.name)
 
   physics.debugDraw()
 

@@ -38,6 +38,7 @@ module.exports = function() {
     bodyDef.type = Box2D.Dynamics.b2Body.b2_staticBody
     bodyDef.position.x = options.x
     bodyDef.position.y = options.y
+    bodyDef.angle = options.rotation
 
     var physicsBody = physicsWorld.CreateBody(bodyDef)
     physicsBody.CreateFixture(fixDef)
