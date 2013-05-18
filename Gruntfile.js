@@ -58,6 +58,20 @@ config.watch = {
   }
 };
 
+//
+// Unit tests
+//
+
+config.simplemocha = {
+  options: {
+    globals: ['should', 'sinon'],
+    timeout: 3000,
+    ignoreLeaks: true,
+    ui: 'bdd',
+    reporter: 'tap'
+  },
+  all: { src: ['test/**/*.js'] }
+};
 
 module.exports = function(grunt) {
   
@@ -65,6 +79,8 @@ module.exports = function(grunt) {
   grunt.initConfig(config);
 
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
+
   grunt.registerTask('default', ['stylus', 'browserify2:dev', 'copy']);
+  grunt.registerTask('test',    ['simplemocha']);
 
 };
