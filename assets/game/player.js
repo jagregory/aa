@@ -1,3 +1,5 @@
+var Particle = require('./particle')
+
 module.exports = function(game, physics, options) {
   options = $.extend({
     x: 5,
@@ -6,7 +8,6 @@ module.exports = function(game, physics, options) {
     height: 4
   }, options)
 
-  this.type = 'player'
   this.id = game.trackEntity(this)
   this.userId = options.userId
   this.name = options.name
@@ -42,5 +43,19 @@ module.exports = function(game, physics, options) {
     sprite.position.x = physics.physics2world(physicsBody.GetPosition().x)
     sprite.position.y = physics.physics2world(physicsBody.GetPosition().y)
     sprite.rotation = physicsBody.GetAngle()
+  }
+
+  this.collision = function(other, points) {
+    game.background.flash(0xffffff)
+    game.playSound('/game/collision-2.mp3')
+
+    for (var i = 0; i < 25; i++) {
+      game.queueNextAction(function() {
+        new Particle(game, physics, {
+          x: points[0].x,
+          y: points[0].y
+        }).moveBy((Math.random()*50) * (Math.random() < 0.5 ? -1 : 1), (Math.random()*50) * (Math.random() < 0.5 ? -1 : 1))
+      })
+    }
   }
 }

@@ -3,7 +3,6 @@ var Time = require('./time'),
   Arena = require('./arena'),
   Ball = require('./ball'),
   Player = require('./player'),
-  Particle = require('./particle'),
   Background = require('./background')
 
 require('./arenas/standardArena')
@@ -46,7 +45,7 @@ var Game = function(stage) {
   }
 
   var time = new Time()
-  var background = new Background(this)
+  this.background = new Background(this)
 
   var physics = new Physics()
   // physics.debugDraw($('#debugCanvas')[0])
@@ -54,22 +53,8 @@ var Game = function(stage) {
     var entityA = trackedEntities.find(fixtureA.GetUserData().entityId)
     var entityB = trackedEntities.find(fixtureB.GetUserData().entityId)
 
-    if ((entityA.type === 'player' && entityB.type === 'wall') || (entityA.type === 'wall' && entityB.type === 'player')) {
-      background.flash(0xffffff)
-
-      var sound = new Audio()
-      sound.setAttribute('src', '/game/collision-2.mp3')
-      sound.play()
-      for (var i = 0; i < 25; i++) {
-        nextTickActions.push(function() {
-          console.log(points[1])
-          new Particle(this, physics, {
-            x: points[0].x,
-            y: points[0].y
-          }).moveBy((Math.random()*50) * (Math.random() < 0.5 ? -1 : 1), (Math.random()*50) * (Math.random() < 0.5 ? -1 : 1))
-        })
-      }
-    }
+    entityA.collision(entityB, points)
+    entityB.collision(entityA, points)
   }.bind(this))
 
   var arena = Arena.random()(this, physics)
@@ -78,10 +63,14 @@ var Game = function(stage) {
   var ball = new Ball(this)
   var players = []
 
+  this.queueNextAction = function(action) {
+    nextTickActions.push(action)
+  }
+
   this.tick = function() {
     time.update()
     physics.update()
-    background.update(time.delta)
+    this.background.update(time.delta)
 
     trackedEntities.forEach(function(entity) {
       entity.update(time.delta)      
@@ -123,6 +112,12 @@ var Game = function(stage) {
       player.moveBy(data.xDelta, data.yDelta)
     }
   }
+}
+
+Game.prototype.playSound = function(file) {
+  var sound = new Audio()
+  sound.setAttribute('src', file)
+  sound.play()
 }
 
 module.exports = Game

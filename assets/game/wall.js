@@ -3,7 +3,6 @@ module.exports = function(game, physics, options) {
     rotation: 0
   }, options)
 
-  this.type = 'wall'
   this.id = game.trackEntity(this)
   
   var physicsBody = physics.createStaticBody({
@@ -33,5 +32,8 @@ module.exports = function(game, physics, options) {
   game.stage.addChild(sprite)
 
   this.update = function(delta) {
+  }
+  
+  this.collision = function(other, points) {
   }
 }

@@ -16,4 +16,7 @@ module.exports = function(game) {
 
   this.update = function(delta) {
   }
+
+  this.collision = function(other, points) {
+  }
 }

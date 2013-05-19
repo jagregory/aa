@@ -83,4 +83,7 @@ module.exports = function(game, physics, options) {
     physicsBody.SetAngle(angle)
     sprite.rotation = angle
   }
+
+  this.collision = function(other, points) {
+  }
 }
