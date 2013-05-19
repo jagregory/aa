@@ -43,7 +43,7 @@ var Game = function(stage) {
     var entityA = trackedEntities[a.GetUserData().entityId]
     var entityB = trackedEntities[b.GetUserData().entityId]
 
-    background.flash(Math.random()*16777215, 5000)
+    background.flash(Math.round(Math.random()*16777215))
   }.bind(this))
 
   var arena = Arena.random()(this, physics)
