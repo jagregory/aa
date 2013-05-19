@@ -1,3 +1,6 @@
+var M_PI = Math.PI
+var M_PI_2 = M_PI / 2
+
 module.exports = function(game, physics, options) {
   options = $.extend({
     timeToLive: [10.0, 150.0],
@@ -60,6 +63,24 @@ module.exports = function(game, physics, options) {
 
     sprite.position.x = physics.physics2world(physicsBody.GetPosition().x)
     sprite.position.y = physics.physics2world(physicsBody.GetPosition().y)
-    sprite.rotation = physicsBody.GetAngle()
+
+    // rotate the sprite to the direction of motion
+    var velocity = physicsBody.GetLinearVelocity()
+    var angle = 0
+
+    if (velocity.x === 0) {
+      angle = velocity.y > 0 ? 0 : M_PI
+    } else if(velocity.y === 0) {
+      angle = velocity.x > 0 ? M_PI_2 : 3 * M_PI_2
+    } else {
+      angle = Math.atan(velocity.y / velocity.x) + M_PI_2
+    }   
+
+    if (velocity.x > 0) {
+      angle += M_PI
+    }
+
+    physicsBody.SetAngle(angle)
+    sprite.rotation = angle
   }
 }

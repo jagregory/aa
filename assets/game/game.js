@@ -55,10 +55,10 @@ var Game = function(stage) {
     var entityB = trackedEntities.find(fixtureB.GetUserData().entityId)
 
     if ((entityA.type === 'player' && entityB.type === 'wall') || (entityA.type === 'wall' && entityB.type === 'player')) {
-      background.flash(Math.round(Math.random()*16777215))
+      background.flash(0xffffff)
 
       var sound = new Audio()
-      sound.setAttribute('src', '/game/collision.mp3')
+      sound.setAttribute('src', '/game/collision-2.mp3')
       sound.play()
       for (var i = 0; i < 25; i++) {
         nextTickActions.push(function() {
