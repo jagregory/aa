@@ -1,8 +1,8 @@
 var rx = require('rxjs');
 var routie = require('routie');
 var player = require('../player');
-var view = require('../views/lobby.hbs');
-require('../../3rdparty/rx.zepto');
+var view = require('../../views/lobby.hbs');
+require('../../../3rdparty/rx.zepto');
 
 module.exports = function() {
   

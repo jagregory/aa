@@ -9,7 +9,7 @@ config.stylus = {
   },
   compile: {
     files: {
-      'builtAssets/device/device.css': 'assets/device/device.styl',
+      'builtAssets/device/device.css': 'assets/device/css/device.styl',
       'builtAssets/admin/admin.css':   'assets/admin/admin.styl'
     }
   }
@@ -28,7 +28,7 @@ config.browserify2 = {
     debug: true
   },
   device: {
-    entry: __dirname + '/assets/device/device.js',
+    entry: __dirname + '/assets/device/js/device.js',
     beforeHook: function(bundle) {
       bundle.transform(require('hbsfy'));
     },
@@ -51,9 +51,7 @@ config.browserify2 = {
 config.copy = {
   main: {
     files: [
-      { expand: true, cwd: 'assets/device/', src: ['index.html'], dest: 'builtAssets/device/' },
-      { expand: true, cwd: 'assets/admin/',  src: ['index.html'], dest: 'builtAssets/admin/' },
-      { expand: true, cwd: 'files/', src: ['**'], dest: 'builtAssets/'}
+      { expand: true, cwd: 'files/', src: ['**'], dest: 'builtAssets/' }
     ]
   }
 };
@@ -71,7 +69,7 @@ config.watch = {
     tasks: ['stylus']
   },
   files: {
-    files: ['files/**/*', 'assets/**/*.html'],
+    files: ['files/**/*'],
     tasks: ['copy']
   },
   tests: {

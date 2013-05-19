@@ -1,6 +1,6 @@
 var routie = require('routie');
 var player = require('../player');
-var view = require('../views/gamepad.hbs');
+var view = require('../../views/gamepad.hbs');
 
 module.exports = function() {
 

@@ -1,5 +1,5 @@
 var routie = require('routie');
-var view = require('../views/thanks.hbs');
+var view = require('../../views/thanks.hbs');
 
 module.exports = function() {
   

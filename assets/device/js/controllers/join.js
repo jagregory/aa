@@ -1,6 +1,6 @@
 var routie = require('routie');
 var player = require('../player');
-var view = require('../views/join.hbs');
+var view = require('../../views/join.hbs');
 
 module.exports = function() {
   
