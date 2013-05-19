@@ -38,12 +38,12 @@ module.exports = function(game, physics, options) {
   var texture = PIXI.Texture.fromImage(options.image)
   var sprite = new PIXI.Sprite(texture)
 
-  sprite.position.x = physics.physics2world(physicsBody.GetPosition().x)
-  sprite.position.y = physics.physics2world(physicsBody.GetPosition().y)
-  sprite.height = physics.physics2world(options.radius)
-  sprite.width = physics.physics2world(options.radius)
-  sprite.anchor.x = 8
-  sprite.anchor.y = 8
+  sprite.position.x = physics.physics2world(physicsBody.GetPosition().x);
+  sprite.position.y = physics.physics2world(physicsBody.GetPosition().y);
+  sprite.height = physics.physics2world(options.radius);
+  sprite.width = physics.physics2world(options.radius);
+  sprite.anchor.x = 8;
+  sprite.anchor.y = 8;
 
   game.stage.addChild(sprite)
 

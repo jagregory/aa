@@ -2,11 +2,10 @@ var categories = require('./physics/categories');
 
 module.exports = function(game, physics) {
   
-  var physicsBody = physics.createDynamicBody({
+  var physicsBody = physics.createCircle({
     filterCategoryBits: categories.BALL,
     filterMaskBits: categories.ARENA | categories.PLAYER,
-    width: 1,
-    height: 1,
+    radius: 0.8,
     x: 10,
     y: 10,
     density: 0.1,
@@ -28,6 +27,8 @@ module.exports = function(game, physics) {
 
   sprite.position.x = (boardWidth / 2) - (sprite.width / 2);
   sprite.position.y = (boardHeight / 2) - (sprite.height / 2);
+  sprite.anchor.x = 13;
+  sprite.anchor.y = 13;
   
   this.start = function() {
     var force = new Box2D.Common.Math.b2Vec2(10, 0);
