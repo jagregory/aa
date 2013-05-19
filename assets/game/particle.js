@@ -1,29 +1,34 @@
 module.exports = function(game, physics, options) {
   options = $.extend({
-    x: 5,
-    y: 5,
-    width: 1,
-    height: 4
+    width: 0.5,
+    height: 0.5,
+    image: '/game/particle.png'
   }, options)
 
-  this.type = 'player'
-  this.id = game.trackEntity(this)
-  this.userId = options.userId
-  this.name = options.name
+  ;['x', 'y'].forEach(function(opt) {
+    if (typeof options[opt] === 'undefined') {
+     throw 'No ' + opt + ' specified for particle'
+    }
+  })
 
-  var physicsBody = physics.createDynamicBody({
-    filterCategoryBits: 0x0002,
+  this.id = game.trackEntity(this)
+
+  var physicsBody = physics.createCircle({
+    density: 0.1,
+    friction: 0.05,
+    restitution: 1,
+    filterGroupIndex: -1,
     filterMaskBits: 0x0001,
-    width: options.width,
-    height: options.height,
+    radius: 0.5,
     x: options.x,
     y: options.y,
     userData: {
       entityId: this.id
     }
   })
+  physicsBody.SetAngularDamping(1)
 
-  var texture = PIXI.Texture.fromImage('/game/paddle.png')
+  var texture = PIXI.Texture.fromImage(options.image)
   var sprite = new PIXI.Sprite(texture)
   game.stage.addChild(sprite)
 

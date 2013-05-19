@@ -3,9 +3,12 @@ module.exports = function(game, physics, options) {
     rotation: 0
   }, options)
 
+  this.type = 'wall'
   this.id = game.trackEntity(this)
   
   var physicsBody = physics.createStaticBody({
+    filterCategoryBits: 0x0001,
+    filterMaskBits: 0x0002,
     width: options.width,
     height: options.height,
     x: options.x,

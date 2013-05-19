@@ -17,7 +17,7 @@ $(function() {
 
   board[0].appendChild(renderer.view)
 
-  var assetLoader = new PIXI.AssetLoader(['/game/paddle.png', '/game/ball.png'])
+  var assetLoader = new PIXI.AssetLoader(['/game/paddle.png', '/game/ball.png', '/game/particle.png'])
   assetLoader.onComplete = function() {
     console.log('Assets loaded. Starting game.')
     var instance = window.game = new Game(stage)

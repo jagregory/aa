@@ -3,6 +3,7 @@ var Time = require('./time'),
   Arena = require('./arena'),
   Ball = require('./ball'),
   Player = require('./player'),
+  Particle = require('./particle'),
   Background = require('./background')
 
 require('./arenas/standardArena')
@@ -10,6 +11,10 @@ require('./arenas/standardArena')
 var EntityTracker = function() {
   var entities = {}
   var lastId = 1
+
+  this.find = function(id) {
+    return entities[id]
+  }
 
   this.track = function(entity) {
     var id = entity.id || (lastId += 1)
@@ -25,9 +30,10 @@ var EntityTracker = function() {
 var Game = function(stage) {
   this.stage = stage
 
+  var nextTickActions = []
   var trackedEntities = new EntityTracker()
   this.trackEntity = function(entity) {
-    trackedEntities.track(entity)
+    return trackedEntities.track(entity)
   }
   this.forgetEntity = function(entity) {
     trackedEntities.forget(entity)
@@ -38,16 +44,23 @@ var Game = function(stage) {
 
   var physics = new Physics()
   physics.debugDraw($('#debugCanvas')[0])
-  physics.collision(function(a, b) {
-    console.log('something collided')
-    var entityA = trackedEntities[a.GetUserData().entityId]
-    var entityB = trackedEntities[b.GetUserData().entityId]
+  physics.collision(function(fixtureA, fixtureB, points) {
+    var entityA = trackedEntities.find(fixtureA.GetUserData().entityId)
+    var entityB = trackedEntities.find(fixtureB.GetUserData().entityId)
 
-    background.flash(Math.round(Math.random()*16777215))
+    if ((entityA.type === 'player' && entityB.type === 'wall') || (entityA.type === 'wall' && entityB.type === 'player')) {
+      background.flash(Math.round(Math.random()*16777215))
 
-    var sound = new Audio()
-    sound.setAttribute('src', '/game/collision.mp3')
-    sound.play()
+      var sound = new Audio()
+      sound.setAttribute('src', '/game/collision.mp3')
+      sound.play()
+      nextTickActions.push(function() {
+        new Particle(this, physics, {
+          x: 10,
+          y: 10
+        }).moveBy(10, 10)
+      })
+    }
   }.bind(this))
 
   var arena = Arena.random()(this, physics)
@@ -64,6 +77,11 @@ var Game = function(stage) {
     players.forEach(function(player) {
       player.tick(time.delta)
     })
+
+    var nextAction = null
+    while (nextAction = nextTickActions.pop()) {
+      nextAction.call(this)
+    }
   }
 
   this.playerJoin = function(data) {
