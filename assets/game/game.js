@@ -1,4 +1,4 @@
-var _ = require('underscore');
+var _ = require('../3rdparty/underscore-min');
 var Time = require('./time'),
   Physics = require('./physics'),
   Arena = require('./arena'),

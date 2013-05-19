@@ -1,4 +1,4 @@
-var _ = require('underscore');
+var _ = require('../3rdparty/underscore-min');
 var viewPlayers = require('./views/players.hbs');
 var viewLobby   = require('./views/lobby.hbs');
 
