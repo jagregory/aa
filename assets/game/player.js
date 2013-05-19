@@ -17,6 +17,7 @@ module.exports = function(game, physics, options) {
     filterCategoryBits: categories.PLAYER,
     filterMaskBits: categories.ARENA | categories.BALL,
     density: 1000,
+    fixedRotation: true,
     width: options.width,
     height: options.height,
     x: options.x,
