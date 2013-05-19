@@ -52,7 +52,7 @@ module.exports = function(game, physics, options) {
     game.background.flash(0xffffff)
     game.playSound('/game/sounds/collision-2.mp3')
 
-    for (var i = 0; i < 25; i++) {
+    for (var i = 0; i < 50; i++) {
       game.queueNextAction(function() {
         new Particle(game, physics, {
           x: points[0].x,

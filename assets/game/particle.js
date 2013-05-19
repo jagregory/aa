@@ -5,7 +5,7 @@ var M_PI_2 = M_PI / 2;
 
 module.exports = function(game, physics, options) {
   options = $.extend({
-    timeToLive: [10.0, 150.0],
+    timeToLive: [5.0, 50.0],
     radius: 0.5,
     image: '/game/images/particle.png'
   }, options)
