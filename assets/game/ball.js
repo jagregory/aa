@@ -17,7 +17,7 @@ module.exports = function(game, physics) {
     }
   });
   
-  var texture = PIXI.Texture.fromImage('/game/ball.png');
+  var texture = PIXI.Texture.fromImage('/game/images/ball.png');
   var sprite = new PIXI.Sprite(texture);
   game.stage.addChild(sprite);
 

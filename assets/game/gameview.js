@@ -1,4 +1,4 @@
-var Game = require('./game')
+var Game = require('./game');
 
 // shim layer with setTimeout fallback
 window.requestAnimFrame = (function(){
@@ -17,7 +17,7 @@ $(function() {
 
   board[0].appendChild(renderer.view)
 
-  var assetLoader = new PIXI.AssetLoader(['/game/paddle.png', '/game/ball.png', '/game/particle.png'])
+  var assetLoader = new PIXI.AssetLoader(['/game/images/paddle.png', '/game/images/ball.png', '/game/images/particle.png'])
   assetLoader.onComplete = function() {
     
     console.log('Assets loaded. Starting game.')

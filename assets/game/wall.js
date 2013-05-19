@@ -20,7 +20,7 @@ module.exports = function(game, physics, options) {
     }
   })
 
-  var texture = PIXI.Texture.fromImage('/game/wall.png')
+  var texture = PIXI.Texture.fromImage('/game/images/wall.png')
   var sprite = new PIXI.TilingSprite(texture)
   sprite.tileScale = new PIXI.Point(1,1)
   sprite.height = physics.physics2world(options.height)

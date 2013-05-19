@@ -26,7 +26,7 @@ module.exports = function(game, physics, options) {
     }
   });
 
-  var texture = PIXI.Texture.fromImage('/game/paddle.png')
+  var texture = PIXI.Texture.fromImage('/game/images/paddle.png')
   var sprite = new PIXI.Sprite(texture)
   game.stage.addChild(sprite)
 
@@ -49,7 +49,7 @@ module.exports = function(game, physics, options) {
 
   this.collision = function(other, points) {
     game.background.flash(0xffffff)
-    game.playSound('/game/collision-2.mp3')
+    game.playSound('/game/sounds/collision-2.mp3')
 
     for (var i = 0; i < 25; i++) {
       game.queueNextAction(function() {

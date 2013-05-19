@@ -7,7 +7,7 @@ module.exports = function(game, physics, options) {
   options = $.extend({
     timeToLive: [10.0, 150.0],
     radius: 0.5,
-    image: '/game/particle.png'
+    image: '/game/images/particle.png'
   }, options)
 
   var timeToLive = Math.floor(Math.random() * options.timeToLive[1]) + options.timeToLive[0]
