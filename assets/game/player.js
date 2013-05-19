@@ -22,7 +22,7 @@ module.exports = function(game, physics, options) {
     userData: {
       entityId: this.id
     }
-  })
+  });
 
   var texture = PIXI.Texture.fromImage('/game/paddle.png')
   var sprite = new PIXI.Sprite(texture)

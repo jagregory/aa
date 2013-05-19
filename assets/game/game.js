@@ -1,3 +1,4 @@
+var _ = require('underscore');
 var Time = require('./time'),
   Physics = require('./physics'),
   Arena = require('./arena'),
@@ -5,32 +6,36 @@ var Time = require('./time'),
   Player = require('./player'),
   Background = require('./background')
 
-require('./arenas/standardArena')
+require('./arenas/standardArena');
 
 var EntityTracker = function() {
-  var entities = {}
-  var lastId = 1
+  
+  var entities = {};
+  var lastId = 1;
 
   this.forEach = function(callback) {
     for (var id in entities) {
-      callback(entities[id])
+      callback(entities[id]);
     }
-  }
+  };
 
   this.find = function(id) {
-    return entities[id]
-  }
+    return entities[id];
+  };
 
   this.track = function(entity) {
     var id = entity.id || (lastId += 1)
-    entities[id] = entity
-    return id
-  }
+    entities[id] = entity;
+    return id;
+  };
 
   this.forget = function(entity) {
-    delete entities[entity.id]
-  }
-}
+    delete entities[entity.id];
+  };
+  
+};
+
+var startingXPos = [5, 35];
 
 var Game = function(stage, playersInfo) {
   
@@ -51,25 +56,30 @@ var Game = function(stage, playersInfo) {
   var physics = new Physics()
   // physics.debugDraw($('#debugCanvas')[0])
   physics.collision(function(fixtureA, fixtureB, points) {
-    var entityA = trackedEntities.find(fixtureA.GetUserData().entityId)
-    var entityB = trackedEntities.find(fixtureB.GetUserData().entityId)
-
-    entityA.collision(entityB, points)
-    entityB.collision(entityA, points)
+    var entityA = trackedEntities.find(fixtureA.GetUserData().entityId);
+    var entityB = trackedEntities.find(fixtureB.GetUserData().entityId);
+    if (entityA && entityB) {
+      entityA.collision(entityB, points);
+      entityB.collision(entityA, points);
+    } else {
+      console.log('Could not resolve entities: ' + fixtureA.GetUserData().entityId + ' and ' + fixtureB.GetUserData().entityId);
+    }
   }.bind(this))
 
-  var arena = Arena.random()(this, physics)
-  console.log('Using arena: ' + arena.name)
+  var arena = Arena.random()(this, physics);
+  console.log('Using arena: ' + arena.name);
 
-  var ball = new Ball(this);
+  var ball = new Ball(this, physics);
+  trackedEntities[ball.id] = ball;
+  ball.start();
   
   var that = this;
-  players = playersInfo.map(function(p) {
+  players = _.map(playersInfo, function(p, i) {
     return new Player(that, physics, {
       id: p.id,
       name: p.firstName + p.lastName,
-      x: 5,
-      y: 5
+      x: startingXPos[i],
+      y: 10
     })
   });
 
@@ -86,12 +96,12 @@ var Game = function(stage, playersInfo) {
     this.background.update(time.delta)
 
     trackedEntities.forEach(function(entity) {
-      entity.update(time.delta)      
+      entity.update(time.delta);
     })
 
-    var nextAction = null
+    var nextAction = null;
     while (nextAction = nextTickActions.pop()) {
-      nextAction.call(this)
+      nextAction.call(this);
     }
   }
 
