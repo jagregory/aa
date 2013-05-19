@@ -23,7 +23,10 @@
       "should": "1.2.x",
       "sinon": "1.6.x",
       "rxjs": "1.0.x",
-      "routie": "git://github.com/rprieto/routie.git"
+      "routie": "git://github.com/rprieto/routie.git",
+      "async": "0.2.x",
+      "Faker": "0.5.x",
+      "superagent": "0.14.x"
   },
   "scripts": {
       "start": "node monitor.js"
