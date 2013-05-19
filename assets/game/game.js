@@ -54,7 +54,7 @@ var Game = function(stage, playersInfo) {
   this.background = new Background(this)
 
   var physics = new Physics()
-  physics.debugDraw($('#debugCanvas')[0]);
+  // physics.debugDraw($('#debugCanvas')[0]);
   physics.collision(function(fixtureA, fixtureB, points) {
     var entityA = trackedEntities.find(fixtureA.GetUserData().entityId);
     var entityB = trackedEntities.find(fixtureB.GetUserData().entityId);
