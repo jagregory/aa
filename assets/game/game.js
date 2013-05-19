@@ -2,7 +2,8 @@ var Time = require('./time'),
   Physics = require('./physics'),
   Arena = require('./arena'),
   Ball = require('./ball'),
-  Player = require('./player')
+  Player = require('./player'),
+  Background = require('./background')
 
 require('./arenas/standardArena')
 
@@ -31,15 +32,17 @@ var Game = function(stage) {
   this.forgetEntity = function(entity) {
     trackedEntities.forget(entity)
   }
-  
+
   var time = new Time()
+  var background = new Background(this)
+
   var physics = new Physics()
   physics.debugDraw($('#debugCanvas')[0])
   physics.collision(function(a, b) {
     console.log('something collided')
     var entityA = trackedEntities[a.GetUserData().entityId]
     var entityB = trackedEntities[b.GetUserData().entityId]
-  })
+  }.bind(this))
 
   var arena = Arena.random()(this, physics)
   console.log('Using arena: ' + arena.name)
@@ -50,6 +53,7 @@ var Game = function(stage) {
   this.tick = function() {
     time.update()
     physics.update()
+    background.update(time.delta)
     ball.tick(time.delta)
     players.forEach(function(player) {
       player.tick(time.delta)
