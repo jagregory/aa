@@ -60,7 +60,7 @@ var Game = function(stage) {
       var sound = new Audio()
       sound.setAttribute('src', '/game/collision.mp3')
       sound.play()
-      for (var i = 0; i < 50; i++) {
+      for (var i = 0; i < 25; i++) {
         nextTickActions.push(function() {
           console.log(points[1])
           new Particle(this, physics, {

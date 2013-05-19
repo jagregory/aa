@@ -1,8 +1,11 @@
 module.exports = function(game, physics, options) {
   options = $.extend({
+    timeToLive: [10.0, 150.0],
     radius: 0.5,
     image: '/game/particle.png'
   }, options)
+
+  var timeToLive = Math.floor(Math.random() * options.timeToLive[1]) + options.timeToLive[0]
 
   ;['x', 'y'].forEach(function(opt) {
     if (typeof options[opt] === 'undefined') {
@@ -46,6 +49,15 @@ module.exports = function(game, physics, options) {
   }
 
   this.update = function(delta) {
+    timeToLive -= delta
+    if (timeToLive <= 0) {
+      // irk, dead
+      sprite.visible = false
+      physics.world.DestroyBody(physicsBody)
+      game.forgetEntity(this)
+      return
+    }
+
     sprite.position.x = physics.physics2world(physicsBody.GetPosition().x)
     sprite.position.y = physics.physics2world(physicsBody.GetPosition().y)
     sprite.rotation = physicsBody.GetAngle()
