@@ -1,4 +1,5 @@
 var Game = require('./game');
+var io = require('../3rdparty/socket.io.min');
 
 // shim layer with setTimeout fallback
 window.requestAnimFrame = (function(){
