@@ -31,7 +31,7 @@ module.exports = function(game, physics) {
   sprite.anchor.y = 13;
   
   this.start = function() {
-    var force = new Box2D.Common.Math.b2Vec2(10, 0);
+    var force = new Box2D.Common.Math.b2Vec2(10, 10);
     physicsBody.SetAwake(true);
     physicsBody.SetLinearVelocity(force);
   };
