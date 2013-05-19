@@ -44,6 +44,10 @@ var Game = function(stage) {
     var entityB = trackedEntities[b.GetUserData().entityId]
 
     background.flash(Math.round(Math.random()*16777215))
+
+    var sound = new Audio()
+    sound.setAttribute('src', '/game/collision.mp3')
+    sound.play()
   }.bind(this))
 
   var arena = Arena.random()(this, physics)
