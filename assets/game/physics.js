@@ -120,9 +120,9 @@ Physics.prototype.createDynamicBody = function(options) {
     density: 1.0,
     friction: 0.5,
     restitution: 0.2
-  }, options)
+  }, options);
 
-  ;['width', 'height', 'x', 'y'].forEach(function(opt) {
+  ['width', 'height', 'x', 'y'].forEach(function(opt) {
     if (typeof options[opt] === 'undefined') {
      throw 'No ' + opt + ' specified for static body'
     }

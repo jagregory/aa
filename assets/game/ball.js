@@ -7,6 +7,8 @@ module.exports = function(game, physics) {
     height: 1,
     x: 10,
     y: 10,
+    friction: 0,
+    restitution: 1,
     userData: {
       entityId: 'ball'
     }
