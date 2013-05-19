@@ -32,8 +32,9 @@ var EntityTracker = function() {
   }
 }
 
-var Game = function(stage) {
-  this.stage = stage
+var Game = function(stage, playersInfo) {
+  
+  this.stage = stage;
 
   var nextTickActions = []
   var trackedEntities = new EntityTracker()
@@ -60,8 +61,20 @@ var Game = function(stage) {
   var arena = Arena.random()(this, physics)
   console.log('Using arena: ' + arena.name)
 
-  var ball = new Ball(this)
-  var players = []
+  var ball = new Ball(this);
+  
+  var that = this;
+  players = playersInfo.map(function(p) {
+    return new Player(that, physics, {
+      id: p.id,
+      name: p.firstName + p.lastName,
+      x: 5,
+      y: 5
+    })
+  });
+
+  trackedEntities[players[0].id] = players[0];
+  trackedEntities[players[1].id] = players[1];
 
   this.queueNextAction = function(action) {
     nextTickActions.push(action)
@@ -82,36 +95,35 @@ var Game = function(stage) {
     }
   }
 
-  this.playerJoin = function(data) {
-    var player = new Player(this, physics, {
-      userId: data.id,
-      name: data.name,
-      x: 5,
-      y: 5
-    })
-    trackedEntities[player.id] = player
-    players.push(player)
+  // this.playerJoin = function(data) {
+  //   var player = new Player(this, physics, {
+  //     userId: data.id,
+  //     name: data.name,
+  //     x: 5,
+  //     y: 5
+  //   })
+  //   trackedEntities[player.id] = player
+  //   players.push(player)
+  // 
+  //   console.log('Player ' + player.name + ' joined')
+  // }
+  // 
+  // this.playerLeave = function(data) {
+  //   for (var i = 0; i < players.length; i++) {
+  //     var player = players[i]
+  //     if (player && player.userId === data.id) {
+  //       delete players[i]
+  //       delete trackedEntities[player.id]
+  //       console.log('Player ' + player.name + ' left')
+  //     }
+  //   }
+  // }
 
-    console.log('Player ' + player.name + ' joined')
-  }
-
-  this.playerLeave = function(data) {
-    for (var i = 0; i < players.length; i++) {
-      var player = players[i]
-      if (player && player.userId === data.id) {
-        delete players[i]
-        delete trackedEntities[player.id]
-        console.log('Player ' + player.name + ' left')
-      }
-    }
-  }
-
-  this.playerMove = function(data) {
-    var player = _.findWhere(players, { userId: data.id })
-    if (player) {
-      player.moveBy(data.xDelta, data.yDelta)
-    }
-  }
+  this.playerMove = function(index, vector) {
+    console.log('Player ' + index + ' moving (' + vector.x + ',' + vector.y + ')');
+    players[index].moveBy(vector.x, vector.y)
+  };
+  
 }
 
 Game.prototype.playSound = function(file) {
