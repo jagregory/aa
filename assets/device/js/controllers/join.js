@@ -1,4 +1,4 @@
-var routie = require('routie');
+var routie = require('../../../3rdparty/routie');
 var player = require('../player');
 var view = require('../../views/join.hbs');
 

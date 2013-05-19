@@ -1,5 +1,5 @@
 var rx = require('rxjs');
-var routie = require('routie');
+var routie = require('../../../3rdparty/routie');
 var player = require('../player');
 var view = require('../../views/wait.hbs');
 require('../../../3rdparty/rx.zepto');

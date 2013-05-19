@@ -1,4 +1,4 @@
-var routie = require('routie');
+var routie = require('../../../3rdparty/routie');
 var view = require('../../views/thanks.hbs');
 
 module.exports = function() {
