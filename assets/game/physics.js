@@ -9,14 +9,14 @@ var Physics = function() {
   )
   var contactListener = new Box2D.Dynamics.b2ContactListener
   contactListener.BeginContact = function(contact) {
-    var manifold = contact.GetManifold()
+    var worldManifold = new Box2D.Collision.b2WorldManifold()
+    contact.GetWorldManifold(worldManifold)
+
     var fixtureA = contact.GetFixtureA()
     var fixtureB = contact.GetFixtureB()
 
     if (this.collisionCallback) {
-      this.collisionCallback(fixtureA, fixtureB, manifold.m_points.map(function(point) {
-        return point.m_localPoint
-      }))
+      this.collisionCallback(fixtureA, fixtureB, worldManifold.m_points)
     }
   }.bind(this)
   this.world.SetContactListener(contactListener)

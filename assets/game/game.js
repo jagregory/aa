@@ -62,9 +62,10 @@ var Game = function(stage) {
       sound.play()
       for (var i = 0; i < 50; i++) {
         nextTickActions.push(function() {
+          console.log(points[1])
           new Particle(this, physics, {
-            x: 10,
-            y: 10
+            x: points[0].x,
+            y: points[0].y
           }).moveBy((Math.random()*50) * (Math.random() < 0.5 ? -1 : 1), (Math.random()*50) * (Math.random() < 0.5 ? -1 : 1))
         })
       }
