@@ -31,4 +31,7 @@ module.exports = function(game, physics, options) {
   sprite.rotation = options.rotation
 
   game.stage.addChild(sprite)
+
+  this.update = function(delta) {
+  }
 }

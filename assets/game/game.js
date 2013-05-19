@@ -12,6 +12,12 @@ var EntityTracker = function() {
   var entities = {}
   var lastId = 1
 
+  this.forEach = function(callback) {
+    for (var id in entities) {
+      callback(entities[id])
+    }
+  }
+
   this.find = function(id) {
     return entities[id]
   }
@@ -43,7 +49,7 @@ var Game = function(stage) {
   var background = new Background(this)
 
   var physics = new Physics()
-  physics.debugDraw($('#debugCanvas')[0])
+  // physics.debugDraw($('#debugCanvas')[0])
   physics.collision(function(fixtureA, fixtureB, points) {
     var entityA = trackedEntities.find(fixtureA.GetUserData().entityId)
     var entityB = trackedEntities.find(fixtureB.GetUserData().entityId)
@@ -54,12 +60,14 @@ var Game = function(stage) {
       var sound = new Audio()
       sound.setAttribute('src', '/game/collision.mp3')
       sound.play()
-      nextTickActions.push(function() {
-        new Particle(this, physics, {
-          x: 10,
-          y: 10
-        }).moveBy(10, 10)
-      })
+      for (var i = 0; i < 50; i++) {
+        nextTickActions.push(function() {
+          new Particle(this, physics, {
+            x: 10,
+            y: 10
+          }).moveBy((Math.random()*50) * (Math.random() < 0.5 ? -1 : 1), (Math.random()*50) * (Math.random() < 0.5 ? -1 : 1))
+        })
+      }
     }
   }.bind(this))
 
@@ -73,9 +81,9 @@ var Game = function(stage) {
     time.update()
     physics.update()
     background.update(time.delta)
-    ball.tick(time.delta)
-    players.forEach(function(player) {
-      player.tick(time.delta)
+
+    trackedEntities.forEach(function(entity) {
+      entity.update(time.delta)      
     })
 
     var nextAction = null

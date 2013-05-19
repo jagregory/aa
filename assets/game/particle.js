@@ -1,7 +1,6 @@
 module.exports = function(game, physics, options) {
   options = $.extend({
-    width: 0.5,
-    height: 0.5,
+    radius: 0.5,
     image: '/game/particle.png'
   }, options)
 
@@ -19,7 +18,7 @@ module.exports = function(game, physics, options) {
     restitution: 1,
     filterGroupIndex: -1,
     filterMaskBits: 0x0001,
-    radius: 0.5,
+    radius: options.radius,
     x: options.x,
     y: options.y,
     userData: {
@@ -30,12 +29,15 @@ module.exports = function(game, physics, options) {
 
   var texture = PIXI.Texture.fromImage(options.image)
   var sprite = new PIXI.Sprite(texture)
-  game.stage.addChild(sprite)
 
-  sprite.height = physics.physics2world(options.height)
-  sprite.width = physics.physics2world(options.width)
-  sprite.anchor.x = sprite.width / 2.0
-  sprite.anchor.y = sprite.height / 2.0
+  sprite.position.x = physics.physics2world(physicsBody.GetPosition().x)
+  sprite.position.y = physics.physics2world(physicsBody.GetPosition().y)
+  sprite.height = physics.physics2world(options.radius)
+  sprite.width = physics.physics2world(options.radius)
+  sprite.anchor.x = 8
+  sprite.anchor.y = 8
+
+  game.stage.addChild(sprite)
 
   this.moveBy = function(xDelta, yDelta) {
     var force = new Box2D.Common.Math.b2Vec2(xDelta * -1, yDelta * -1)
@@ -43,7 +45,7 @@ module.exports = function(game, physics, options) {
     physicsBody.SetLinearVelocity(force)
   }
 
-  this.tick = function(delta) {
+  this.update = function(delta) {
     sprite.position.x = physics.physics2world(physicsBody.GetPosition().x)
     sprite.position.y = physics.physics2world(physicsBody.GetPosition().y)
     sprite.rotation = physicsBody.GetAngle()

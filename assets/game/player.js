@@ -38,7 +38,7 @@ module.exports = function(game, physics, options) {
     physicsBody.SetLinearVelocity(force)
   }
 
-  this.tick = function(delta) {
+  this.update = function(delta) {
     sprite.position.x = physics.physics2world(physicsBody.GetPosition().x)
     sprite.position.y = physics.physics2world(physicsBody.GetPosition().y)
     sprite.rotation = physicsBody.GetAngle()
