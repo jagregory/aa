@@ -1,5 +1,7 @@
-var M_PI = Math.PI
-var M_PI_2 = M_PI / 2
+var categories = require('./physics/categories');
+
+var M_PI = Math.PI;
+var M_PI_2 = M_PI / 2;
 
 module.exports = function(game, physics, options) {
   options = $.extend({
@@ -22,8 +24,8 @@ module.exports = function(game, physics, options) {
     density: 0.1,
     friction: 0.05,
     restitution: 1,
-    filterGroupIndex: -1,
-    filterMaskBits: 0x0001,
+    filterCategoryBits: categories.PARTICLES,
+    filterMaskBits: categories.ARENA,
     radius: options.radius,
     x: options.x,
     y: options.y,

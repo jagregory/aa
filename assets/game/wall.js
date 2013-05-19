@@ -1,3 +1,5 @@
+var categories = require('./physics/categories');
+
 module.exports = function(game, physics, options) {
   options = $.extend({
     rotation: 0
@@ -6,8 +8,8 @@ module.exports = function(game, physics, options) {
   this.id = game.trackEntity(this)
   
   var physicsBody = physics.createStaticBody({
-    filterCategoryBits: 0x0001,
-    filterMaskBits: 0x0002,
+    filterCategoryBits: categories.ARENA,
+    filterMaskBits: categories.ALL,
     width: options.width,
     height: options.height,
     x: options.x,

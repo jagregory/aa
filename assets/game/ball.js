@@ -1,8 +1,10 @@
+var categories = require('./physics/categories');
+
 module.exports = function(game, physics) {
   
   var physicsBody = physics.createDynamicBody({
-    filterCategoryBits: 0x0002,
-    filterMaskBits: 0x0001,
+    filterCategoryBits: categories.BALL,
+    filterMaskBits: categories.ARENA | categories.PLAYER,
     width: 1,
     height: 1,
     x: 10,

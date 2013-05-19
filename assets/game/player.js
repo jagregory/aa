@@ -1,4 +1,5 @@
-var Particle = require('./particle')
+var Particle = require('./particle');
+var categories = require('./physics/categories');
 
 module.exports = function(game, physics, options) {
   options = $.extend({
@@ -13,8 +14,8 @@ module.exports = function(game, physics, options) {
   this.name = options.name
 
   var physicsBody = physics.createDynamicBody({
-    filterCategoryBits: 0x0002,
-    filterMaskBits: 0x0001,
+    filterCategoryBits: categories.PLAYER,
+    filterMaskBits: categories.ARENA | categories.BALL,
     width: options.width,
     height: options.height,
     x: options.x,
