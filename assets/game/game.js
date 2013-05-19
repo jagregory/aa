@@ -42,6 +42,8 @@ var Game = function(stage) {
     console.log('something collided')
     var entityA = trackedEntities[a.GetUserData().entityId]
     var entityB = trackedEntities[b.GetUserData().entityId]
+
+    background.flash(Math.random()*16777215, 5000)
   }.bind(this))
 
   var arena = Arena.random()(this, physics)
