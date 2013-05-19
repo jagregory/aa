@@ -1,14 +1,13 @@
 var Wall = require('./wall')
 
-var Arena = function(stage, physics, name, walls) {
-  this.stage = stage
-  this.physics = physics
+var Arena = function(game, physics, name, walls) {
   this.name = name
-  walls.forEach(this.addWall.bind(this))
-}
 
-Arena.prototype.addWall = function(definition) {
-  new Wall(this.stage, this.physics, definition)
+  this.addWall = function(definition) {
+    new Wall(game, physics, definition)
+  }
+
+  walls.forEach(this.addWall.bind(this))
 }
 
 Arena.registered = []

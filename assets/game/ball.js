@@ -1,7 +1,9 @@
-module.exports = function(stage) {
+module.exports = function(game) {
   var texture = PIXI.Texture.fromImage('/game/ball.png')
   var sprite = new PIXI.Sprite(texture)
-  stage.addChild(sprite)
+  game.stage.addChild(sprite)
+
+  this.id = game.trackEntity(this)
 
   var boardHeight = $('#board').height()
   var boardWidth = $('#board').width()

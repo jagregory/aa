@@ -1,8 +1,20 @@
-module.exports = function(stage, physics, options) {
+module.exports = function(game, physics, options) {
   options = $.extend({
     rotation: 0
   }, options)
-  var physicsBody = physics.createStaticBody(options)
+
+  this.id = game.trackEntity(this)
+  
+  var physicsBody = physics.createStaticBody({
+    width: options.width,
+    height: options.height,
+    x: options.x,
+    y: options.y,
+    rotation: options.rotation,
+    userData: {
+      entityId: this.id
+    }
+  })
 
   var texture = PIXI.Texture.fromImage('/game/wall.png')
   var sprite = new PIXI.TilingSprite(texture)
@@ -15,5 +27,5 @@ module.exports = function(stage, physics, options) {
   sprite.position.y = physics.physics2world(options.y)
   sprite.rotation = options.rotation
 
-  stage.addChild(sprite)
+  game.stage.addChild(sprite)
 }

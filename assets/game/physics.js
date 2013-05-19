@@ -50,6 +50,7 @@ Physics.prototype.createStaticBody = function(options) {
   fixDef.restitution = options.restitution
   fixDef.shape = new Box2D.Collision.Shapes.b2PolygonShape
   fixDef.shape.SetAsBox(options.width / WorldScale, options.height / WorldScale)
+  fixDef.userData = options.userData
   
   var bodyDef = new Box2D.Dynamics.b2BodyDef
   bodyDef.type = Box2D.Dynamics.b2Body.b2_staticBody
@@ -81,6 +82,7 @@ Physics.prototype.createDynamicBody = function(options) {
   fixDef.restitution = options.restitution
   fixDef.shape = new Box2D.Collision.Shapes.b2PolygonShape
   fixDef.shape.SetAsBox(options.width / WorldScale, options.height / WorldScale)
+  fixDef.userData = options.userData
 
   var bodyDef = new Box2D.Dynamics.b2BodyDef
   bodyDef.type = Box2D.Dynamics.b2Body.b2_dynamicBody
