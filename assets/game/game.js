@@ -1,4 +1,6 @@
 var _ = require('../3rdparty/underscore-min');
+
+var world = require('./physics/world');
 var Time = require('./time'),
   Physics = require('./physics'),
   arena = require('./arena'),
@@ -33,7 +35,10 @@ var EntityTracker = function() {
   
 };
 
-var startingXPos = [5, 35];
+var startingXPos = [
+  world.width / 12,
+  world.width - world.width / 12
+];
 
 var Game = function(stage, playersInfo) {
   
