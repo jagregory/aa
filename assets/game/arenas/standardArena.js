@@ -1,13 +1,11 @@
-var Arena = require('../arena')
+var arena = require('../arena')
+var w = require('../physics/world');
 
-// What's the size of the arena in meters?
-// These values don't really make sense...
-
-Arena.define('Standard', [
-  { x: 0.5,  y: 15,   width:  1, height: 30 },
-  { x: 59.5, y: 15,   width:  1, height: 30 },
-  { x: 30,   y: 0.5,  width: 60, height:  1 },
-  { x: 30,   y: 29.5, width: 60, height:  1 },
+arena.define('Standard', [
+  { x:  w.width / 2, y:  w.top,        width:  w.width, height: 1        },
+  { x:  w.width / 2, y:  w.bottom,     width:  w.width, height: 1        },
+  { x:  w.left,      y:  w.height / 2, width:  1,       height: w.height },
+  { x:  w.right,     y:  w.height / 2, width:  1,       height: w.height },
 ])
 
 /*
