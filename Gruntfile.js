@@ -9,8 +9,9 @@ config.stylus = {
   },
   compile: {
     files: {
-      'builtAssets/device/device.css': 'assets/device/css/device.styl',
-      'builtAssets/admin/admin.css':   'assets/admin/admin.styl'
+      'builtAssets/device/device.css':  'assets/device/css/device.styl',
+      'builtAssets/admin/admin.css':    'assets/admin/admin.styl',
+      'builtAssets/game/game.css':      'assets/game/game.styl'
     }
   }
 };

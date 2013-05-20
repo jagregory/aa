@@ -1,19 +1,42 @@
 <!DOCTYPE html>
 <html>
+
   <head>
-    <title>Gameview</title>
+    <title>Game</title>
+    <link rel="stylesheet" href="/3rdparty/font-awesome.min.css" />
+    <link rel="stylesheet" href="/3rdparty/pressstart2p.css" />
+    <link rel="stylesheet" href="/game/game.css" />
+  </head>
+
+  <body>
+
+    <h1>Paddles</h1>
+
+    <div id="container">
+      
+      <div id="board">
+        <canvas id="debugCanvas" width="640" height="480"></canvas>
+      </div>
+      
+      <div id="dashboard">
+        <i class="icon icon-circle"></i>
+        <i class="icon icon-circle"></i>
+        <i class="icon icon-circle"></i>
+        <i class="icon icon-circle"></i>
+        <div class="player p1">John Doe</div>
+        <div class="score">2</div>
+        <div class="vs">vs</div>
+        <div class="score">0</div>
+        <div class="player p2">Bill Cosby</div>
+      </div>
+      
+    </div>
+
     <script src="/3rdparty/zepto.min.js" type="text/javascript"></script>
     <script src="/3rdparty/pixi.min.js" type="text/javascript"></script>
     <script src="/3rdparty/box2d-21a3.min.js" type="text/javascript"></script>
     <script src="/game/gameview.js" type="text/javascript"></script>
-  </head>
-  <body>
-    <div class="scores">
-        <p class="player p1"><strong class="name">P1</strong>: <span>0</span></p>
-        <p class="player p2"><span>0</span> :<strong class="name">P2</strong></p>
-      </div>
-    <div id="board">
-      <canvas id="debugCanvas" width="640" height="480" style="position:absolute"></canvas>
-    </div>
+
   </body>
+
 </html>

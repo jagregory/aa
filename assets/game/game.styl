@@ -1,0 +1,78 @@
+@import 'nib'
+
+global-reset()
+
+*
+  box-sizing: border-box
+
+body
+  background: #deb500
+  color: #000
+  font-family: 'PressStart2P'
+  -webkit-font-smoothing: antialiased
+
+h1
+  font-size: 2.1em
+  margin: 0.4em
+  text-align: center
+  -webkit-text-stroke: 1px #fff
+
+#container
+  margin: 0 auto
+  width: 60em
+
+canvas
+  background: #333
+  border: 0.5em solid #000
+  height: 30em
+  width: 60em
+
+#debugCanvas
+  position: absolute
+  display: none
+
+#dashboard
+  background: radial-gradient(ellipse at center, rgb(237,238,232) 0%, rgb(161,163,162) 100%)
+  border: 0.5em solid #000
+  border-top: none
+  color: #333
+  height: 6.5em
+  line-height: 4em
+  padding: 1em
+  position: relative
+  text-align: center
+  width: 60em
+
+  .player
+    float: left
+    width: 35%
+  
+  .score
+    float: left
+    background: #000
+    color: #fff
+    width: 10%
+
+  .vs
+    float: left
+    width: 10%
+
+  i
+    position: absolute
+    color: #000
+  
+  i:nth-child(1)
+    top: 0.5em
+    left: 0.5em
+  
+  i:nth-child(2)
+    top: 0.5em
+    right: 0.5em
+  
+  i:nth-child(3)
+    bottom: 0.5em
+    right: 0.5em
+  
+  i:nth-child(4)
+    bottom: 0.5em
+    left: 0.5em
