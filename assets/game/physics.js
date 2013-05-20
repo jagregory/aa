@@ -2,7 +2,6 @@ var staticbody = require('./physics/staticbody');
 var dynamicbody = require('./physics/dynamicbody');
 
 var WorldPerMetre = 16.0;
-var WorldScale = 2.0;
 
 var Physics = function() {
   this.collisionCallback = null

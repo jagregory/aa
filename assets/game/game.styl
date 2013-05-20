@@ -19,30 +19,33 @@ h1
   -webkit-text-stroke: 1px #fff
 
 #container
+  background: #000
+  border: .5em solid #000
+  box-sizing: content-box
+  width: 960px
   margin: 0 auto
-  width: 60em
 
+#board
+  position: relative
+  margin:0 auto
+  width: 640px
+  
 canvas
-  background: #333
-  border: 0.5em solid #000
-  height: 30em
-  width: 60em
+  height: 480px
+  width: 640px
 
-#debugCanvas
+canvas.debug
   position: absolute
-  display: none
 
 #dashboard
   background: radial-gradient(ellipse at center, rgb(237,238,232) 0%, rgb(161,163,162) 100%)
-  border: 0.5em solid #000
-  border-top: none
+  border-top: 0.5em solid #000
   color: #333
   height: 6.5em
   line-height: 4em
   padding: 1em
   position: relative
   text-align: center
-  width: 60em
 
   .player
     float: left
