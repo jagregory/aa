@@ -1,5 +1,6 @@
 var Game = require('./game');
-var io = require('../3rdparty/socket.io.min');
+var bridgeSocket = require('./bridge/socket');
+var bridgeKeyboard = require('./bridge/keyboard');
 
 // shim layer with setTimeout fallback
 window.requestAnimFrame = (function(){
@@ -11,39 +12,39 @@ window.requestAnimFrame = (function(){
           };
 })()
 
-$(function() {
+window.Pong = {};
+window.Pong.GameView = function() {
+
   var board = $('#board');
   var stage = new PIXI.Stage();
   var renderer = PIXI.autoDetectRenderer(640, 480);
+  board[0].appendChild(renderer.view);
 
-  board[0].appendChild(renderer.view)
+  var currentMatch = null;
 
-  var assetLoader = new PIXI.AssetLoader(['/game/images/paddle.png', '/game/images/ball.png', '/game/images/particle.png'])
-  assetLoader.onComplete = function() {
-    
-    console.log('Assets loaded. Starting game.')
-    var currentMatch = null
-
-    var socket = io.connect('http://localhost:8080');
-    
-    socket.on('match-start', function(players) {
-      currentMatch = window.game = new Game(stage, players);
-      requestAnimFrame(function animate(delta) {
-        currentMatch.tick(delta)
-        renderer.render(stage)
-        requestAnimFrame(animate)
-      });
+  function matchStart(players) {
+    currentMatch = window.game = new Game(stage, players);
+    requestAnimFrame(function animate(delta) {
+      currentMatch.tick(delta)
+      renderer.render(stage)
+      requestAnimFrame(animate)
     });
-    
-    socket.on('match-move', function(args) {
-      if (currentMatch) {
-        currentMatch.playerMove(args.pindex, args.vector);
-      }
-    });
-
   }
+  
+  function matchMove(args) {
+    if (currentMatch) {
+      currentMatch.playerMove(args.pindex, args.vector);
+    }
+  }
+
+  var assetLoader = new PIXI.AssetLoader(['/game/images/paddle.png', '/game/images/ball.png', '/game/images/particle.png']);
+  assetLoader.onComplete = function() {
+    console.log('Assets loaded. Starting game.')
+    bridgeSocket.connect(matchStart, matchMove);
+    bridgeKeyboard.connect(matchStart, matchMove);
+  };
 
   console.log('Loading assets');
   assetLoader.load();
   
-});
+};
