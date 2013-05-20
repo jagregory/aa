@@ -16,8 +16,8 @@ module.exports = function() {
 
   var observable = rx.Observable
     .interval(1000)
-    .select(observableLobby)
-    .switchLatest()
+    .startWith(-1)
+    .selectMany(observableLobby)
     .skipWhile(playerIsMissing)
     .take(1)
     .subscribe(startMatch, onError);

@@ -15,8 +15,8 @@ module.exports = function() {
 
   var observable = rx.Observable
     .interval(3000)
-    .select(observableLobby)
-    .switchLatest()
+    .startWith(-1)
+    .selectMany(observableLobby)
     .skipWhile(gameIsFull)
     .take(1)
     .subscribe(switchState, onError);
