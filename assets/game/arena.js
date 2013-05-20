@@ -1,23 +1,19 @@
+var _ = require('../3rdparty/underscore-min');
 var Wall = require('./wall')
 
 var Arena = function(game, physics, name, walls) {
-  this.name = name
+  console.log('Using arena: ' + name);
+  walls.forEach(function(def) {
+    new Wall(game, physics, def);
+  });
+};
 
-  this.addWall = function(definition) {
-    new Wall(game, physics, definition)
-  }
+var definitions = [
+  require('./arenas/standard'),
+  require('./arenas/angular'),
+];
 
-  walls.forEach(this.addWall.bind(this))
-}
-
-Arena.registered = []
-Arena.define = function(name, walls) {
-  Arena.registered.push(function(stage, physics) {
-    return new Arena(stage, physics, name, walls)
-  })
-}
-Arena.random = function() {
-  return Arena.registered[Math.floor(Math.random()*Arena.registered.length)]
-}
-
-module.exports = Arena
+exports.createRandom = function(game, physics) {
+  var def = definitions[_.random(definitions.length-1)];
+  return new Arena(game, physics, def.name, def.walls);
+};

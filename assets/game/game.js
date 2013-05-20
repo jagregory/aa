@@ -1,12 +1,10 @@
 var _ = require('../3rdparty/underscore-min');
 var Time = require('./time'),
   Physics = require('./physics'),
-  Arena = require('./arena'),
+  arena = require('./arena'),
   Ball = require('./ball'),
   Player = require('./player'),
   Background = require('./background')
-
-require('./arenas/standardArena');
 
 var EntityTracker = function() {
   
@@ -66,8 +64,7 @@ var Game = function(stage, playersInfo) {
     }
   }.bind(this))
 
-  var arena = Arena.random()(this, physics);
-  console.log('Using arena: ' + arena.name);
+  arena.createRandom(this, physics);
 
   var ball = new Ball(this, physics);
   trackedEntities[ball.id] = ball;
