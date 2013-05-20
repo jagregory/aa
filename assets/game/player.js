@@ -37,16 +37,21 @@ module.exports = function(game, physics, options) {
   sprite.anchor.y = sprite.height / 2.0
 
   this.moveBy = function(xDelta, yDelta) {
-    var force = new Box2D.Common.Math.b2Vec2(xDelta * -1, yDelta * -1)
-    physicsBody.SetAwake(true)
-    physicsBody.SetLinearVelocity(force)
-  }
-
+    if (xDelta || yDelta) {
+      var force = new Box2D.Common.Math.b2Vec2(xDelta * -1, yDelta * -1)
+      physicsBody.SetAwake(true)
+      physicsBody.SetLinearVelocity(force)
+    } else {
+      physicsBody.SetLinearVelocity(new Box2D.Common.Math.b2Vec2(0,0));
+      physicsBody.SetAngularVelocity(0);
+    }
+  };
+  
   this.update = function(delta) {
     sprite.position.x = physics.physics2world(physicsBody.GetPosition().x)
     sprite.position.y = physics.physics2world(physicsBody.GetPosition().y)
     sprite.rotation = physicsBody.GetAngle()
-  }
+  };
 
   this.collision = function(other, points) {
     game.background.flash(0xffffff)
