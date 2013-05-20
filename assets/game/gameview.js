@@ -17,7 +17,7 @@ window.Pong.GameView = function() {
 
   var board = $('#board');
   var stage = new PIXI.Stage();
-  var renderer = PIXI.autoDetectRenderer(640, 480);
+  var renderer = PIXI.autoDetectRenderer(960, 480);
   board[0].appendChild(renderer.view);
 
   var currentMatch = null;
