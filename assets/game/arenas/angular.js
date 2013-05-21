@@ -1,7 +1,7 @@
 var w = require('../physics/world');
 
-var PI     = 3.14;
-var CORNER = 1.35;
+var PI   = 3.14;
+var PEAK = 1.35;
 
 exports.name = 'Angular';
 
@@ -20,10 +20,10 @@ exports.walls = [
   { x:  w.width / 2, y:  w.bottom - 1, width:  w.width / 5, height: 1 },
   
   // peaks
-  { x:  w.width / 2 - CORNER, y:  CORNER,            width: CORNER * 3.5, height: 1, rotation:  PI / 4 },
-  { x:  w.width / 2 + CORNER, y:  CORNER,            width: CORNER * 3.5, height: 1, rotation: -PI / 4 },
-  { x:  w.width / 2 - CORNER, y:  w.height - CORNER, width: CORNER * 3.5, height: 1, rotation: -PI / 4 },
-  { x:  w.width / 2 + CORNER, y:  w.height - CORNER, width: CORNER * 3.5, height: 1, rotation:  PI / 4 },
+  { x:  w.width / 2 - PEAK, y:  PEAK,            width: PEAK * 3.5, height: 1, rotation:  PI / 4 },
+  { x:  w.width / 2 + PEAK, y:  PEAK,            width: PEAK * 3.5, height: 1, rotation: -PI / 4 },
+  { x:  w.width / 2 - PEAK, y:  w.height - PEAK, width: PEAK * 3.5, height: 1, rotation: -PI / 4 },
+  { x:  w.width / 2 + PEAK, y:  w.height - PEAK, width: PEAK * 3.5, height: 1, rotation:  PI / 4 },
   
   // inner diamonds
   { x:  w.width / 3,     y:  w.height / 3,     width:  2, height: 2, rotation: PI / 4 },
