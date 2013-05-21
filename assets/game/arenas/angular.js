@@ -1,9 +1,11 @@
 var w = require('../physics/world');
 
 var PI     = 3.14;
-var CORNER = 1.4;
+var CORNER = 1.35;
 
 exports.name = 'Angular';
+
+exports.background = '/game/images/bg_dots.png';
 
 exports.walls = [
   

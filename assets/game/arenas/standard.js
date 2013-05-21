@@ -2,6 +2,8 @@ var w = require('../physics/world');
 
 exports.name = 'Standard';
 
+exports.background = '/game/images/bg_triangles.png';
+
 exports.walls = [
 
   // outer box
