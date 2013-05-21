@@ -5,7 +5,7 @@ module.exports = function(game, physics, options) {
     rotation: 0
   }, options)
 
-  this.id = game.trackEntity(this)
+  this.id = game.track(this)
   
   var physicsBody = physics.createStaticBody({
     filterCategoryBits: categories.ARENA,
@@ -31,7 +31,7 @@ module.exports = function(game, physics, options) {
   sprite.position.y = physics.physics2world(options.y)
   sprite.rotation = options.rotation
 
-  game.stage.addChild(sprite)
+  game.engine.stage.addChild(sprite)
 
   this.update = function(delta) {
   }

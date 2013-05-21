@@ -1,12 +1,7 @@
-var _ = require('../3rdparty/underscore-min');
+var Arena = require('./arena');
+var Sequencer = require('./sequencer');
+var Player = require('./player');
 
-var world = require('./physics/world');
-var Time = require('./time'),
-  Physics = require('./physics'),
-  arena = require('./arena'),
-  Ball = require('./ball'),
-  Player = require('./player'),
-  Background = require('./background')
 
 var EntityTracker = function() {
   
@@ -35,113 +30,43 @@ var EntityTracker = function() {
   
 };
 
-var startingXPos = [
-  world.width / 12,
-  world.width - world.width / 12
-];
 
-var Game = function(stage, playersInfo) {
+var Game = function(engine, p1, p2) {
+    
+  // Temporary
+  // until entities get refactored to not need the engine directly
+  this.engine = engine;
   
-  this.stage = stage;
-
-  var nextTickActions = []
-  var trackedEntities = new EntityTracker()
-  this.trackEntity = function(entity) {
-    return trackedEntities.track(entity)
-  }
-  this.forgetEntity = function(entity) {
-    trackedEntities.forget(entity)
-  }
-
-  var time = new Time()
-  this.background = new Background(this)
-
-  var physics = new Physics()
-  physics.debugDraw($('canvas.debug')[0]);
-  physics.collision(function(fixtureA, fixtureB, points) {
-    var entityA = trackedEntities.find(fixtureA.GetUserData().entityId);
-    var entityB = trackedEntities.find(fixtureB.GetUserData().entityId);
-    if (entityA && entityB) {
-      entityA.collision(entityB, points);
-      entityB.collision(entityA, points);
-    } else {
-      console.log('Could not resolve entities: ' + fixtureA.GetUserData().entityId + ' and ' + fixtureB.GetUserData().entityId);
-    }
-  }.bind(this))
-
-  arena.createRandom(this, physics);
-
-  var ball = new Ball(this, physics);
-  trackedEntities[ball.id] = ball;
-  ball.start();
+  var tracker = new EntityTracker();
+  var sequencer = new Sequencer(this);
   
-  var that = this;
-  players = _.map(playersInfo, function(p, i) {
-    return new Player(that, physics, {
-      id: p.id,
-      name: p.firstName + p.lastName,
-      x: startingXPos[i],
-      y: 10
-    })
-  });
+  this.track = function(entity) {
+    tracker.track(entity);
+  };
 
-  trackedEntities[players[0].id] = players[0];
-  trackedEntities[players[1].id] = players[1];
-
-  this.queueNextAction = function(action) {
-    nextTickActions.push(action)
-  }
-
-  this.tick = function() {
-    time.update()
-    physics.update()
-    this.background.update(time.delta)
-
-    trackedEntities.forEach(function(entity) {
-      entity.update(time.delta);
-    })
-
-    var nextAction = null;
-    while (nextAction = nextTickActions.pop()) {
-      nextAction.call(this);
-    }
-  }
-
-  // this.playerJoin = function(data) {
-  //   var player = new Player(this, physics, {
-  //     userId: data.id,
-  //     name: data.name,
-  //     x: 5,
-  //     y: 5
-  //   })
-  //   trackedEntities[player.id] = player
-  //   players.push(player)
-  // 
-  //   console.log('Player ' + player.name + ' joined')
-  // }
-  // 
-  // this.playerLeave = function(data) {
-  //   for (var i = 0; i < players.length; i++) {
-  //     var player = players[i]
-  //     if (player && player.userId === data.id) {
-  //       delete players[i]
-  //       delete trackedEntities[player.id]
-  //       console.log('Player ' + player.name + ' left')
-  //     }
-  //   }
-  // }
-
-  this.playerMove = function(index, vector) {
-    console.log('Player ' + index + ' moving (' + vector.x + ',' + vector.y + ')');
-    players[index].moveBy(vector.x, vector.y)
+  this.forget = function(entity) {
+    tracker.forget(entity);
   };
   
-}
+  this.transition = function(trans) {
+    sequencer.transition(trans);
+  };
 
-Game.prototype.playSound = function(file) {
-  var sound = new Audio()
-  sound.setAttribute('src', file)
-  sound.play()
-}
+  this.tick = function(delta) {
+    activeState.tick(delta);
+    tracker.forEach(function(entity) {
+      entity.update();
+    });
+  };
 
-module.exports = Game
+  this.input = function(message, args) {
+    activeState.on(message, args);
+  };
+
+  tracker.track(Arena.random(this, engine.physics));  
+//  engine.track(new Player('p1', p1));
+//  engine.track(new Player('p2', p1));
+
+};
+
+module.exports = Game;

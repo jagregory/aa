@@ -1,26 +1,35 @@
+var Engine = require('./engine');
 var Game = require('./game');
+
 var bridgeSocket = require('./bridge/socket');
 var bridgeKeyboard = require('./bridge/keyboard');
 
-// shim layer with setTimeout fallback
-window.requestAnimFrame = (function(){
-  return  window.requestAnimationFrame       ||
-          window.webkitRequestAnimationFrame ||
-          window.mozRequestAnimationFrame    ||
-          function( callback ){
-            window.setTimeout(callback, 1000 / 60);
-          };
-})()
-
 window.Pong = {};
 window.Pong.GameView = function() {
+  
+  var board = $('#board').get(0);
+  var engine = new Engine();
+  board.appendChild(engine.renderer.view);
+  
+  // Start a game
+  // This should be done when the socket/keyboard says so
+  var game = new Game(engine, {id: '24234'}, {id: '56756'});
+  window.game = game;
+  
+};
 
-  var board = $('#board');
-  var stage = new PIXI.Stage();
-  var renderer = PIXI.autoDetectRenderer(960, 480);
-  board[0].appendChild(renderer.view);
 
-  var currentMatch = null;
+
+
+
+//
+//
+// Old code
+//
+//
+
+
+window.Pong.GameViewOld = function() {
 
   function matchStart(players) {
     currentMatch = window.game = new Game(stage, players);

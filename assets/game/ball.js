@@ -2,7 +2,7 @@ var categories = require('./physics/categories');
 
 module.exports = function(game, physics) {
   
-  var physicsBody = physics.createCircle({
+  var body = physics.createCircle({
     filterCategoryBits: categories.BALL,
     filterMaskBits: categories.ARENA | categories.PLAYER,
     radius: 0.8,
@@ -18,9 +18,9 @@ module.exports = function(game, physics) {
   
   var texture = PIXI.Texture.fromImage('/game/images/ball.png');
   var sprite = new PIXI.Sprite(texture);
-  game.stage.addChild(sprite);
+  game.engine.stage.addChild(sprite);
 
-  this.id = game.trackEntity(this);
+//  this.id = game.track(this);
 
   var boardHeight = $('#board').height();
   var boardWidth = $('#board').width();
