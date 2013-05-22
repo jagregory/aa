@@ -23,10 +23,14 @@ window.Main = function() {
   function matchStart(players) {
     // Cleanup any previous game?
     gameEngine = new GameEngine({
-      players: [{id: '24234', name: 'John'}, {id: '56756', name: 'Bill'}],
+      players: players,
       debugDraw: debugCanvas
     });
     board.appendChild(gameEngine.view);
+    scoreContainer.innerHTML = scoreView({
+      p1: { name: players[0].name, score: 0 },
+      p2: { name: players[1].name, score: 0 }
+    });
   }
 
   function matchMove(args) {
