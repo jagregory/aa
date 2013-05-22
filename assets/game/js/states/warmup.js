@@ -13,13 +13,16 @@ var startingPos = [
 function WarmUp(game) {
   
   this.enter = function() {
+    
     game.track(Arena.random(game, game.physics));
     game.track(newPlayer(game.players, 0, 'p1'));
     game.track(newPlayer(game.players, 1, 'p2'));
     getReady();
+    
     setTimeout(function() {
       game.transition('ready');
     }, 2000);
+    
   };
   
   this.exit = function() {
@@ -41,10 +44,13 @@ function WarmUp(game) {
   }
   
   function getReady() {
-    // display "get ready" message
+    var text = new PIXI.Text("GET READY", {font: "40px PressStart2P", fill: "#000", align: "center", stroke: "#fff", strokeThickness: 4});
+    text.position.x = (world.width  * world.pixelsPerMeter) / 2 - text.width  / 2;
+    text.position.y = (world.height * world.pixelsPerMeter) / 2 - text.height / 2;
+    text.anchor.x = 0.5;
+    game.stage.addChild(text);
   }
   
 }
 
 module.exports = WarmUp;
-

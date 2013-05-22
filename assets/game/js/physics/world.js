@@ -11,3 +11,5 @@ exports.left   = blockSize;
 exports.top    = blockSize;
 exports.right  = width - blockSize;
 exports.bottom = height - blockSize;
+
+exports.pixelsPerMeter = 16;
