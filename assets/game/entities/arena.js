@@ -9,8 +9,10 @@ var Arena = function(game, physics, definition) {
   var tilingSprite = new PIXI.TilingSprite(bgTexture, $('canvas').width(), $('canvas').height());
   game.stage.addChild(tilingSprite);
   
-  definition.walls.forEach(function(def) {
-    new Wall(game, physics, def);
+  _.each(definition.walls, function(def, i) {
+    def.id = 'wall' + i;
+    var wall = new Wall(game, physics, def);
+    game.track(wall);
   });
   
 };

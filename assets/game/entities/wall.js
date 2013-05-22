@@ -1,11 +1,12 @@
 var categories = require('../physics/categories');
 
 module.exports = function(game, physics, options) {
+  
   options = $.extend({
     rotation: 0
-  }, options)
+  }, options);
 
-  this.id = game.track(this)
+  this.id = options.id;
   
   var physicsBody = physics.createStaticBody({
     filterCategoryBits: categories.ARENA,
@@ -38,4 +39,5 @@ module.exports = function(game, physics, options) {
   
   this.collision = function(other, points) {
   }
+  
 }
