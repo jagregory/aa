@@ -6,8 +6,9 @@ var Ball = require('../entities/ball');
 function KickOff(game) {
   
   this.enter = function() {
-    var ball = new Ball(game, game.physics);
-    game.track(ball);
+    
+    var ball = new Ball('ball', game.physics);
+    game.addEntity(ball);
     
     // Display countdown 3....2...1....
     // Then kick the ball and transition

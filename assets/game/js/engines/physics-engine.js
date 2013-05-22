@@ -10,7 +10,8 @@ function PhysicsEngine() {
   this.world = new Box2D.Dynamics.b2World(
     new Box2D.Common.Math.b2Vec2(0, 0),
     true
-  )
+  );
+  
   var contactListener = new Box2D.Dynamics.b2ContactListener
   contactListener.BeginContact = function(contact) {
     var worldManifold = new Box2D.Collision.b2WorldManifold()
@@ -25,6 +26,16 @@ function PhysicsEngine() {
   }.bind(this)
   this.world.SetContactListener(contactListener)
 }
+
+PhysicsEngine.prototype.create = function(bodyDef, fixtureDef) {
+  var body = this.world.CreateBody(bodyDef);
+  body.CreateFixture(fixtureDef);
+  return body;
+};
+
+PhysicsEngine.prototype.destroy = function(body) {
+  world.DestroyBody(body);
+};
 
 PhysicsEngine.prototype.collision = function(callback) {
   this.collisionCallback = callback;

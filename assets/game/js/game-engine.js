@@ -46,9 +46,35 @@ var GameEngine = function(data) {
   this.track = function(entity) {
     tracker.track(entity);
   };
-
+  
   this.forget = function(entity) {
     tracker.forget(entity);
+  };
+  
+  this.addEntity = function(entity) {
+    if (entity.id) {
+      tracker.track(entity);
+      if (entity.bodyDef) {
+        entity.fixtureDef.userData = {entityId: entity.id};
+        entity.body = physics.create(entity.bodyDef, entity.fixtureDef);
+      }
+      if (entity.sprite) {
+        stage.addChild(entity.sprite);
+      }
+    } else {
+      console.log('Entity should have an ID', entity);
+    }
+  };
+
+  this.deleteEntity = function(id) {
+    var entity = tracker.find(id);
+    if (entity) {
+      if (entity.body)   { physics.destroy(entity.body);     }
+      if (entity.sprite) { stage.removeChild(entity.sprite); }
+      tracker.forget(entity);
+    } else {
+      console.log('Entity not found', entity);
+    }
   };
 
   this.getEntity = function(id) {
@@ -82,7 +108,14 @@ var GameEngine = function(data) {
     renderer.render(stage);
     states.active().tick();
     tracker.forEach(function(entity) {
-      if (entity.update) { entity.update(time.delta); }
+      if (entity.body && entity.sprite) {
+        entity.sprite.position.x = physics.physics2world(entity.body.GetPosition().x);
+        entity.sprite.position.y = physics.physics2world(entity.body.GetPosition().y);
+        entity.sprite.rotation = entity.body.GetAngle();
+      }
+      if (entity.update) {
+        entity.update(time.delta);
+      }
     });
     var nextAction = null;
     while (nextAction = nextTickActions.pop()) {

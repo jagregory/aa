@@ -13,3 +13,4 @@ exports.right  = width - blockSize;
 exports.bottom = height - blockSize;
 
 exports.pixelsPerMeter = 16;
+exports.physicsScale = 2.0;   // what is this for?
