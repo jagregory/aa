@@ -1,13 +1,13 @@
-var Particle = require('../particle');
 var categories = require('../physics/categories');
 
-module.exports = function(game, physics, options) {
+function Player(game, physics, options) {
+  
   options = $.extend({
     x: 5,
     y: 5,
     width: 1,
     height: 4
-  }, options)
+  }, options);
 
 //  this.id = game.track(this);
   this.id = options.id;
@@ -57,17 +57,16 @@ module.exports = function(game, physics, options) {
     sprite.rotation = physicsBody.GetAngle();
   };
 
-  this.collision = function(other, points) {
-    game.background.flash(0xffffff)
-    game.playSound('/game/sounds/collision-2.mp3')
-
-    for (var i = 0; i < 50; i++) {
-      game.queueNextAction(function() {
-        new Particle(game, physics, {
-          x: points[0].x,
-          y: points[0].y
-        }).moveBy((Math.random()*50) * (Math.random() < 0.5 ? -1 : 1), (Math.random()*50) * (Math.random() < 0.5 ? -1 : 1))
-      })
-    }
-  }
+  this.collision = function(other, points) {    
+    // soon we shouldn't have access to the game engine
+    // these should jsut be broadcasted to the event hub
+    game.broadcast('sound:play', '/game/sounds/collision-2.mp3');
+    game.broadcast('particles:explosion', {
+      source: points[0],
+      intensity: 30
+    });
+  };
+  
 }
+
+module.exports = Player;

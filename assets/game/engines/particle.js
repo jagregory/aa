@@ -1,24 +1,27 @@
-var categories = require('./physics/categories');
+var categories = require('../physics/categories');
 
 var M_PI = Math.PI;
 var M_PI_2 = M_PI / 2;
 
-module.exports = function(game, physics, options) {
+var particleIndex = 0;
+
+function Particle(game, physics, options) {
+  
   options = $.extend({
-    timeToLive: [5.0, 50.0],
+    timeToLive: [2.0, 30.0],
     radius: 0.5,
     image: '/game/images/particle.png'
-  }, options)
+  }, options);
 
-  var timeToLive = Math.floor(Math.random() * options.timeToLive[1]) + options.timeToLive[0]
+  var timeToLive = Math.floor(Math.random() * options.timeToLive[1]) + options.timeToLive[0];
 
-  ;['x', 'y'].forEach(function(opt) {
+  ['x', 'y'].forEach(function(opt) {
     if (typeof options[opt] === 'undefined') {
      throw 'No ' + opt + ' specified for particle'
     }
   })
 
-  this.id = game.trackEntity(this)
+  this.id = 'particle' + (++particleIndex);
 
   var physicsBody = physics.createCircle({
     density: 0.1,
@@ -54,13 +57,14 @@ module.exports = function(game, physics, options) {
   }
 
   this.update = function(delta) {
-    timeToLive -= delta
+    timeToLive -= delta;
     if (timeToLive <= 0) {
       // irk, dead
+      // TODO: the game engine should be responsible for cleaning up everything when we say "forget"
       sprite.visible = false
-      physics.world.DestroyBody(physicsBody)
-      game.forgetEntity(this)
-      return
+      physics.world.DestroyBody(physicsBody);
+      game.forget(this);
+      return;
     }
 
     sprite.position.x = physics.physics2world(physicsBody.GetPosition().x)
@@ -88,4 +92,7 @@ module.exports = function(game, physics, options) {
 
   this.collision = function(other, points) {
   }
+  
 }
+
+module.exports = Particle;

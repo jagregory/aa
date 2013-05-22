@@ -4,7 +4,8 @@ var dynamicbody = require('../physics/dynamicbody');
 // size of a block in pixels (see image assets)
 var WorldPerMetre = 16.0;
 
-var Physics = function() {
+function PhysicsEngine() {
+  
   this.collisionCallback = null
   this.world = new Box2D.Dynamics.b2World(
     new Box2D.Common.Math.b2Vec2(0, 0),
@@ -25,31 +26,31 @@ var Physics = function() {
   this.world.SetContactListener(contactListener)
 }
 
-Physics.prototype.collision = function(callback) {
+PhysicsEngine.prototype.collision = function(callback) {
   this.collisionCallback = callback;
 }
 
-Physics.prototype.physics2world = function(val) {
+PhysicsEngine.prototype.physics2world = function(val) {
   return val * WorldPerMetre;
 }
 
-Physics.prototype.world2physics = function(val) {
+PhysicsEngine.prototype.world2physics = function(val) {
   return val / WorldPerMetre;
 }
 
-Physics.prototype.createStaticBody = function(options) {
+PhysicsEngine.prototype.createStaticBody = function(options) {
   return staticbody.createPolygon(this.world, options);
 }
 
-Physics.prototype.createCircle = function(options) {
+PhysicsEngine.prototype.createCircle = function(options) {
   return dynamicbody.createCircle(this.world, options);
 }
 
-Physics.prototype.createDynamicBody = function(options) {
+PhysicsEngine.prototype.createDynamicBody = function(options) {
   return dynamicbody.createPolygon(this.world, options);
 }
 
-Physics.prototype.debugDraw = function(canvas) {
+PhysicsEngine.prototype.debugDraw = function(canvas) {
   var debugDraw = new Box2D.Dynamics.b2DebugDraw();
   debugDraw.SetSprite(canvas.getContext("2d"));
   debugDraw.SetDrawScale(WorldPerMetre);
@@ -59,7 +60,7 @@ Physics.prototype.debugDraw = function(canvas) {
   this.world.SetDebugDraw(debugDraw);
 }
 
-Physics.prototype.update = function() {
+PhysicsEngine.prototype.update = function() {
   this.world.Step(
     1 / 60, // frame-rate
     10,     // velocity iterations
@@ -69,4 +70,4 @@ Physics.prototype.update = function() {
   this.world.ClearForces();
 }
 
-module.exports = Physics;
+module.exports = PhysicsEngine;

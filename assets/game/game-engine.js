@@ -1,6 +1,7 @@
 var _               = require('../3rdparty/underscore-min');
 var PhysicsEngine   = require('./engines/physics-engine');
 var SoundEngine     = require('./engines/sound-engine');
+var ParticleEngine  = require('./engines/particle-engine');
 var ticker          = require('./engines/ticker');
 var EntityTracker   = require('./entitytracker');
 var GameStates      = require('./game-states');
@@ -13,9 +14,12 @@ var GameEngine = function(data) {
   var stage     = new PIXI.Stage();
   var physics   = new PhysicsEngine();
   var sound     = new SoundEngine();
+  var particles = new ParticleEngine(this);
   var states    = new GameStates(this);
   var tracker   = new EntityTracker();
   var time      = new Time();
+  
+  var nextTickActions = [];
   
   physics.debugDraw(data.debugDraw);
   
@@ -26,6 +30,18 @@ var GameEngine = function(data) {
   this.stage    = stage;
   this.physics  = physics;
   // -----
+  
+  physics.collision(function(fixtureA, fixtureB, points) {
+    var entityA = tracker.find(fixtureA.GetUserData().entityId);
+    var entityB = tracker.find(fixtureB.GetUserData().entityId);
+    //console.log('[collision] ' + fixtureA.GetUserData().entityId + ' / ' + fixtureB.GetUserData().entityId);
+    if (entityA && entityA.collision) {
+      entityA.collision(entityB, points);
+    }
+    if (entityB && entityB.collision) {
+      entityB.collision(entityA, points);      
+    }
+  });
   
   this.track = function(entity) {
     tracker.track(entity);
@@ -47,14 +63,31 @@ var GameEngine = function(data) {
     states.active().on(message, args);
   };
 
+  this.broadcast = function(message, args) {
+    console.log('[engine] received ', message, args )
+    if (message === 'sound:play') {
+      sound.play(args);
+    } else if (message === 'particles:explosion') {
+      queueNext(function() { particles.explosion(args); });
+    }
+  };
+
+  function queueNext(action) {
+    nextTickActions.push(action);
+  }
+
   function tick() {
     time.update();
     physics.update();
     renderer.render(stage);
     states.active().tick();
     tracker.forEach(function(entity) {
-      if (entity.update) { entity.update(); }
+      if (entity.update) { entity.update(time.delta); }
     });
+    var nextAction = null;
+    while (nextAction = nextTickActions.pop()) {
+      nextAction.call(this);
+    }
   };
 
   // Go!
