@@ -6,13 +6,14 @@
 function Scored(game) {
   
   this.enter = function() {
-    ga.e
     game.removeEntity('ball');
     game.addEntity(new Text('JOHN SCORED'));
   };
   
   this.exit = function() {
-    
+  };
+  
+  this.tick = function() {
   };
   
 }

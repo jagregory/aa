@@ -10,6 +10,9 @@ function Play(game) {
   this.exit = function() {
   };
   
+  this.tick = function() {
+  };
+  
   this.on = function(name, args) {
     if (name === 'move') {
     } else if (name === 'score') {

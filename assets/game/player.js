@@ -9,9 +9,9 @@ module.exports = function(game, physics, options) {
     height: 4
   }, options)
 
-  this.id = game.trackEntity(this)
-  this.userId = options.userId
-  this.name = options.name
+//  this.id = game.track(this);
+  this.userId = options.userId;
+  this.name = options.name;
 
   var physicsBody = physics.createDynamicBody({
     filterCategoryBits: categories.PLAYER,
@@ -26,15 +26,18 @@ module.exports = function(game, physics, options) {
       entityId: this.id
     }
   });
+  
+  var texture = PIXI.Texture.fromImage('/game/images/paddle.png');
+  var sprite = new PIXI.Sprite(texture);
+  sprite.height = physics.physics2world(options.height);
+  sprite.width = physics.physics2world(options.width);
+  sprite.anchor.x = sprite.width / 2.0;
+  sprite.anchor.y = sprite.height / 2.0;
 
-  var texture = PIXI.Texture.fromImage('/game/images/paddle.png')
-  var sprite = new PIXI.Sprite(texture)
-  game.stage.addChild(sprite)
+  game.engine.stage.addChild(sprite);
 
-  sprite.height = physics.physics2world(options.height)
-  sprite.width = physics.physics2world(options.width)
-  sprite.anchor.x = sprite.width / 2.0
-  sprite.anchor.y = sprite.height / 2.0
+  this.body = physicsBody;
+  this.sprite = sprite;  
 
   this.moveBy = function(xDelta, yDelta) {
     if (xDelta || yDelta) {
@@ -48,9 +51,9 @@ module.exports = function(game, physics, options) {
   };
   
   this.update = function(delta) {
-    sprite.position.x = physics.physics2world(physicsBody.GetPosition().x)
-    sprite.position.y = physics.physics2world(physicsBody.GetPosition().y)
-    sprite.rotation = physicsBody.GetAngle()
+    sprite.position.x = physics.physics2world(physicsBody.GetPosition().x);
+    sprite.position.y = physics.physics2world(physicsBody.GetPosition().y);
+    sprite.rotation = physicsBody.GetAngle();
   };
 
   this.collision = function(other, points) {

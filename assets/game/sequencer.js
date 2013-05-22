@@ -14,6 +14,8 @@ function Sequencer(game) {
     'endofmatch': new EndOfMatch(game)
   };
 
+  var activeState = null;
+  
   var fsm = StateMachine.create({
   
     initial: 'warmup',
@@ -26,10 +28,11 @@ function Sequencer(game) {
     ],
   
     callbacks: {
-      onenterstate: function(start, transition, end) {
-        console.log('[sequencer] ' + start + ' -> ' + end);
+      onenterstate: function(transition, start, end) {
+        console.log('[sequencer] ' + start + ' + ' + transition + ' = ' + end);
         states[start] && states[start].exit();
         states[end]   && states[end].enter();
+        activeState = states[end];
       }
     }
   
@@ -37,6 +40,10 @@ function Sequencer(game) {
   
   this.transition = function(trans) {
     fsm[trans]();
+  };
+  
+  this.active = function() {
+    return activeState;
   };
   
 }

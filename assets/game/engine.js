@@ -1,6 +1,6 @@
 var _ = require('../3rdparty/underscore-min');
 var Physics = require('./physics');
-
+var ticker = require('./ticker');
 
 
 
@@ -12,46 +12,32 @@ function Sound() {
   }
 }
 
-
-
-function animationFrameShim(){
-    return  window.requestAnimationFrame       ||
-            window.webkitRequestAnimationFrame ||
-            window.mozRequestAnimationFrame    ||
-            function( callback ){
-              window.setTimeout(callback, 1000 / 60);
-            };
-};
-
-
 function Engine() {
 
   var that = this;
-  window.requestAnimFrame = animationFrameShim();
+  var currentGame = null;
   
   // Graphics
   this.stage = new PIXI.Stage();
   this.renderer = PIXI.autoDetectRenderer(960, 480);
-
-  // Physics
   this.physics = new Physics();
-
-  // Sound
   this.sound = new Sound();
-  
-  // Time
   this.time = new Time()
   
-  this.tick = function(delta) {
-    that.time.update(delta);
-    that.physics.update(delta);
-    that.renderer.render(that.stage);
+  this.setGame = function(game) {
+    currentGame = game;
   };
-  
-  requestAnimFrame(function animate(delta) {
-    that.tick(delta);
-    requestAnimFrame(animate);
-  });
+
+  function tick() {
+    that.time.update();
+    that.physics.update();
+    if (currentGame) {
+      currentGame.tick();
+    }
+    that.renderer.render(that.stage);
+  }
+
+  ticker.run(tick);
   
 }
 

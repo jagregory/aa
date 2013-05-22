@@ -9,6 +9,9 @@ function EndOfMatch(game) {
   
   this.exit = function() {
   };
+  
+  this.tick = function() {
+  };
 
 }
 

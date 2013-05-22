@@ -10,12 +10,30 @@ window.Pong.GameView = function() {
   var board = $('#board').get(0);
   var engine = new Engine();
   board.appendChild(engine.renderer.view);
+  engine.physics.debugDraw($('canvas.debug')[0]);
+  
   
   // Start a game
   // This should be done when the socket/keyboard says so
-  var game = new Game(engine, {id: '24234'}, {id: '56756'});
-  window.game = game;
+  var currentGame = null;
+//  var game = new Game(engine, {id: '24234'}, {id: '56756'});
   
+  bridgeKeyboard.connect(matchStart, matchMove);
+  bridgeSocket.connect(matchStart, matchMove);
+  
+  
+  function matchStart(players) {
+    // Cleanup any previous game?
+    currentGame = new Game(engine, {id: '24234'}, {id: '56756'});
+    engine.setGame(currentGame);
+  }
+
+  function matchMove(args) {
+    if (currentGame) {
+      currentGame.input('move', args);
+    }
+  }
+
 };
 
 

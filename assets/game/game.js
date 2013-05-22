@@ -1,7 +1,6 @@
 var Arena = require('./arena');
-var Sequencer = require('./sequencer');
 var Player = require('./player');
-
+var Sequencer = require('./sequencer');
 
 var EntityTracker = function() {
   
@@ -36,10 +35,11 @@ var Game = function(engine, p1, p2) {
   // Temporary
   // until entities get refactored to not need the engine directly
   this.engine = engine;
-  
-  var tracker = new EntityTracker();
-  var sequencer = new Sequencer(this);
-  
+  this.players = {
+    p1: p1,
+    p2: p2
+  };
+      
   this.track = function(entity) {
     tracker.track(entity);
   };
@@ -52,10 +52,10 @@ var Game = function(engine, p1, p2) {
     sequencer.transition(trans);
   };
 
-  this.tick = function(delta) {
-    activeState.tick(delta);
+  this.tick = function() {
+    sequencer.active().tick();
     tracker.forEach(function(entity) {
-      entity.update();
+      if (entity.update) { entity.update(); }
     });
   };
 
@@ -63,9 +63,12 @@ var Game = function(engine, p1, p2) {
     activeState.on(message, args);
   };
 
-  tracker.track(Arena.random(this, engine.physics));  
-//  engine.track(new Player('p1', p1));
-//  engine.track(new Player('p2', p1));
+  var tracker = new EntityTracker();
+  var sequencer = new Sequencer(this);
+
+//  tracker.track(Arena.random(this, engine.physics));
+//  tracker.track(new Player(this, engine.physics, {id: 12, name: 'bob', x: 20, y: 10 }));
+//  tracker.track(new Player(this, engine.physics, {id: 34, name: 'bob', x: 40, y: 15 }));
 
 };
 

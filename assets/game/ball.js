@@ -1,5 +1,7 @@
 var categories = require('./physics/categories');
 
+var BALL_SPRITE_SIZE = 26;
+
 module.exports = function(game, physics) {
   
   var body = physics.createCircle({
@@ -15,34 +17,31 @@ module.exports = function(game, physics) {
       entityId: 'ball'
     }
   });
+
+  this.body = body;
   
   var texture = PIXI.Texture.fromImage('/game/images/ball.png');
   var sprite = new PIXI.Sprite(texture);
+  sprite.anchor.x = BALL_SPRITE_SIZE / 2;
+  sprite.anchor.y = BALL_SPRITE_SIZE / 2;
   game.engine.stage.addChild(sprite);
 
 //  this.id = game.track(this);
-
-  var boardHeight = $('#board').height();
-  var boardWidth = $('#board').width();
-
-  sprite.position.x = (boardWidth / 2) - (sprite.width / 2);
-  sprite.position.y = (boardHeight / 2) - (sprite.height / 2);
-  sprite.anchor.x = 13;
-  sprite.anchor.y = 13;
+  
   
   this.start = function() {
     var force = new Box2D.Common.Math.b2Vec2(10, 10);
-    physicsBody.SetAwake(true);
-    physicsBody.SetLinearVelocity(force);
+    body.SetAwake(true);
+    body.SetLinearVelocity(force);
   };
   
   this.moveTo = function(xDelta, yDelta) {
   }
 
   this.update = function(delta) {
-    sprite.position.x = physics.physics2world(physicsBody.GetPosition().x)
-    sprite.position.y = physics.physics2world(physicsBody.GetPosition().y)
-    sprite.rotation = physicsBody.GetAngle()
+    sprite.position.x = physics.physics2world(body.GetPosition().x)
+    sprite.position.y = physics.physics2world(body.GetPosition().y)
+    sprite.rotation = body.GetAngle()
   }
 
   this.collision = function(other, points) {
