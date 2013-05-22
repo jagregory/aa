@@ -35,7 +35,7 @@ module.exports = function(game, physics, options) {
   sprite.anchor.x = sprite.width / 2.0;
   sprite.anchor.y = sprite.height / 2.0;
 
-  game.engine.stage.addChild(sprite);
+  game.stage.addChild(sprite);
 
   this.body = physicsBody;
   this.sprite = sprite;  

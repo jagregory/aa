@@ -4,7 +4,7 @@ var Play = require('./states/play');
 var Scored = require('./states/scored');
 var EndOfMatch = require('./states/endofmatch');
 
-function Sequencer(game) {
+function GameStates(game) {
   
   var states = {
     'warmup':     new WarmUp(game),
@@ -18,13 +18,12 @@ function Sequencer(game) {
   
   var fsm = StateMachine.create({
   
-    initial: 'warmup',
-  
     events: [
-      {   name: 'ready',  from: 'warmup',                                 to: 'kickoff'      },
-      {   name: 'go',     from: ['scored', 'kickoff'],                    to: 'play'         },
-      {   name: 'score',  from: 'play',                                   to: 'scored'       },
-      {   name: 'end',    from: ['warmup', 'kickoff', 'play', 'scored'],  to: 'endofmatch'   },
+      {   name: 'startup',  from: 'none',                                   to: 'warmup'       },
+      {   name: 'ready',    from: 'warmup',                                 to: 'kickoff'      },
+      {   name: 'go',       from: ['scored', 'kickoff'],                    to: 'play'         },
+      {   name: 'score',    from: 'play',                                   to: 'scored'       },
+      {   name: 'end',      from: ['warmup', 'kickoff', 'play', 'scored'],  to: 'endofmatch'   },
     ],
   
     callbacks: {
@@ -38,6 +37,10 @@ function Sequencer(game) {
   
   });
   
+  this.start = function() {
+    fsm.startup();
+  };
+  
   this.transition = function(trans) {
     fsm[trans]();
   };
@@ -48,4 +51,4 @@ function Sequencer(game) {
   
 }
 
-module.exports = Sequencer;
+module.exports = GameStates;

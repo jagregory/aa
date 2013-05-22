@@ -6,7 +6,7 @@ var Ball = require('../entities/ball');
 function KickOff(game) {
   
   this.enter = function() {
-    var ball = new Ball(game, game.engine.physics);
+    var ball = new Ball(game, game.physics);
     game.track(ball);
     
     ball.body.SetAwake(true);

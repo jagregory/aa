@@ -31,7 +31,7 @@ module.exports = function(game, physics, options) {
   sprite.position.y = physics.physics2world(options.y)
   sprite.rotation = options.rotation
 
-  game.engine.stage.addChild(sprite)
+  game.stage.addChild(sprite)
 
   this.update = function(delta) {
   }

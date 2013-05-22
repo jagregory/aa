@@ -7,7 +7,7 @@ var Arena = function(game, physics, definition) {
 
   var bgTexture = PIXI.Texture.fromImage(definition.background);
   var tilingSprite = new PIXI.TilingSprite(bgTexture, $('canvas').width(), $('canvas').height());
-  game.engine.stage.addChild(tilingSprite);
+  game.stage.addChild(tilingSprite);
   
   definition.walls.forEach(function(def) {
     new Wall(game, physics, def);

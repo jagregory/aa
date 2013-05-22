@@ -37,11 +37,11 @@ config.browserify2 = {
     debug: true
   },
   game: {
-    entry: __dirname + '/assets/game/gameview.js',
+    entry: __dirname + '/assets/game/view.js',
     beforeHook: function(bundle) {
       bundle.transform(require('hbsfy'));
     },
-    compile: __dirname + '/builtAssets/game/gameview.js',
+    compile: __dirname + '/builtAssets/game/view.js',
     debug: true
   }
 };

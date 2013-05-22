@@ -6,9 +6,18 @@ var raf =  window.requestAnimationFrame       ||
              window.setTimeout(callback, 1000 / 60);
            };
 
+var running = false;
+
 exports.run = function(fn) {
+  running = true;
   raf(function animate() {
     fn();
-    raf(animate);
+    if (running) {
+      raf(animate);
+    }
   });
+};
+
+exports.stop = function() {
+  running = false;
 };

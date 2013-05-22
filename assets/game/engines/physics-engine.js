@@ -1,5 +1,5 @@
-var staticbody = require('./physics/staticbody');
-var dynamicbody = require('./physics/dynamicbody');
+var staticbody = require('../physics/staticbody');
+var dynamicbody = require('../physics/dynamicbody');
 
 // size of a block in pixels (see image assets)
 var WorldPerMetre = 16.0;

@@ -13,9 +13,9 @@ var startingPos = [
 function WarmUp(game) {
   
   this.enter = function() {
-    game.track(Arena.random(game, game.engine.physics));
-    game.track(newPlayer(0, 'p1', game.players.p1));
-    game.track(newPlayer(1, 'p2', game.players.p2));
+    game.track(Arena.random(game, game.physics));
+    game.track(newPlayer(game.players, 0, 'p1'));
+    game.track(newPlayer(game.players, 1, 'p2'));
     getReady();
     setTimeout(function() {
       game.transition('ready');
@@ -31,10 +31,10 @@ function WarmUp(game) {
   this.on = function(message, args) {
   };
   
-  function newPlayer(index, id, player) {
-    return new Player(game, game.engine.physics, {
+  function newPlayer(players, index, id) {
+    return new Player(game, game.physics, {
       id: id,
-      name: player.firstName + player.lastName,
+      name: players[index].firstName + players[index].lastName,
       x: startingPos[index],
       y: world.height / 2 
     });

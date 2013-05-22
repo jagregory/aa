@@ -25,7 +25,7 @@ module.exports = function(game, physics) {
   var sprite = new PIXI.Sprite(texture);
   sprite.anchor.x = BALL_SPRITE_SIZE / 2;
   sprite.anchor.y = BALL_SPRITE_SIZE / 2;
-  game.engine.stage.addChild(sprite);
+  game.stage.addChild(sprite);
 
 //  this.id = game.track(this);
   
