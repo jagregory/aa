@@ -16,6 +16,9 @@ function Scored(game) {
   this.tick = function() {
   };
   
+  this.on = function(message, args) {
+  };
+  
 }
 
 module.exports = Scored;

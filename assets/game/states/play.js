@@ -13,9 +13,10 @@ function Play(game) {
   this.tick = function() {
   };
   
-  this.on = function(name, args) {
-    if (name === 'move') {
-    } else if (name === 'score') {
+  this.on = function(message, args) {
+    if (message === 'move') {
+      movePlayer(args.pindex, args.vector);
+    } else if (message === 'score') {
       explode(ball);
       game.removeEntity(ball);
       game.transition('score');
@@ -23,8 +24,10 @@ function Play(game) {
   }
   
   function movePlayer(index, vector) {
-    var entityId = (args.pindex === 0) ? 'p1' : 'p2';
-    game.getEntity(entityId).move(args.vector); 
+    var entityId = (index === 0) ? 'p1' : 'p2';
+    var player = game.getEntity(entityId);
+    player.body.SetAwake(true);
+    player.body.SetLinearVelocity(new Box2D.Common.Math.b2Vec2(vector.x, vector.y));
   }
   
   function explode(ball) {

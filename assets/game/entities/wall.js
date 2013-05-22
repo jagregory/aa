@@ -1,4 +1,4 @@
-var categories = require('./physics/categories');
+var categories = require('../physics/categories');
 
 module.exports = function(game, physics, options) {
   options = $.extend({

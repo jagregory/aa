@@ -1,8 +1,8 @@
 // reset players pos
 // can move, but no ball
 
-var Arena = require('../arena');
-var Player = require('../player');
+var Arena = require('../entities/arena');
+var Player = require('../entities/player');
 var world = require('../physics/world');
 
 var startingPos = [
@@ -14,8 +14,8 @@ function WarmUp(game) {
   
   this.enter = function() {
     game.track(Arena.random(game, game.engine.physics));
-    game.track(newPlayer(0, game.players.p1));
-    game.track(newPlayer(1, game.players.p2));
+    game.track(newPlayer(0, 'p1', game.players.p1));
+    game.track(newPlayer(1, 'p2', game.players.p2));
     getReady();
     setTimeout(function() {
       game.transition('ready');
@@ -28,9 +28,12 @@ function WarmUp(game) {
   this.tick = function() {
   };
   
-  function newPlayer(index, player) {
+  this.on = function(message, args) {
+  };
+  
+  function newPlayer(index, id, player) {
     return new Player(game, game.engine.physics, {
-      id: player.id,
+      id: id,
       name: player.firstName + player.lastName,
       x: startingPos[index],
       y: world.height / 2 

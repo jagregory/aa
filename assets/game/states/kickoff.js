@@ -1,7 +1,7 @@
 // add the ball
 // countdown 3...2...1...
 
-var Ball = require('../ball');
+var Ball = require('../entities/ball');
 
 function KickOff(game) {
   
@@ -23,6 +23,9 @@ function KickOff(game) {
   };
   
   this.tick = function() {
+  };
+  
+  this.on = function(message, args) {
   };
   
 }

@@ -1,5 +1,5 @@
-var Particle = require('./particle');
-var categories = require('./physics/categories');
+var Particle = require('../particle');
+var categories = require('../physics/categories');
 
 module.exports = function(game, physics, options) {
   options = $.extend({
@@ -10,6 +10,7 @@ module.exports = function(game, physics, options) {
   }, options)
 
 //  this.id = game.track(this);
+  this.id = options.id;
   this.userId = options.userId;
   this.name = options.name;
 

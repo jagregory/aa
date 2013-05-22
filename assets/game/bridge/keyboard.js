@@ -40,7 +40,7 @@ exports.connect = function(matchStart, matchMove) {
         pindex: index,
         vector: {
           x: 0,
-          y: (dir === 'up') ? 25 : -25
+          y: (dir === 'up') ? -25 : 25
         }
       });
     };

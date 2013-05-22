@@ -13,6 +13,9 @@ function EndOfMatch(game) {
   this.tick = function() {
   };
 
+  this.on = function(message, args) {
+  };
+  
 }
 
 module.exports = EndOfMatch;

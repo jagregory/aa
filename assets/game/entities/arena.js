@@ -1,4 +1,4 @@
-var _ = require('../3rdparty/underscore-min');
+var _ = require('../../3rdparty/underscore-min');
 var Wall = require('./wall')
 
 var Arena = function(game, physics, definition) {
@@ -16,8 +16,8 @@ var Arena = function(game, physics, definition) {
 };
 
 var definitions = [
-  require('./arenas/standard'),
-  require('./arenas/angular'),
+  require('../arenas/standard'),
+  require('../arenas/angular'),
 ];
 
 exports.random = function(game, physics) {

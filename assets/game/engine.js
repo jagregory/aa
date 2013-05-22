@@ -1,5 +1,6 @@
 var _ = require('../3rdparty/underscore-min');
 var Physics = require('./physics');
+var Time = require('./time');
 var ticker = require('./ticker');
 
 
@@ -55,7 +56,7 @@ module.exports = Engine;
 //
 //
 
-
+/*
 
 
 
@@ -167,30 +168,6 @@ var Game = function(stage, playersInfo) {
     }
   }
 
-  // this.playerJoin = function(data) {
-  //   var player = new Player(this, physics, {
-  //     userId: data.id,
-  //     name: data.name,
-  //     x: 5,
-  //     y: 5
-  //   })
-  //   trackedEntities[player.id] = player
-  //   players.push(player)
-  // 
-  //   console.log('Player ' + player.name + ' joined')
-  // }
-  // 
-  // this.playerLeave = function(data) {
-  //   for (var i = 0; i < players.length; i++) {
-  //     var player = players[i]
-  //     if (player && player.userId === data.id) {
-  //       delete players[i]
-  //       delete trackedEntities[player.id]
-  //       console.log('Player ' + player.name + ' left')
-  //     }
-  //   }
-  // }
-
   this.playerMove = function(index, vector) {
     console.log('Player ' + index + ' moving (' + vector.x + ',' + vector.y + ')');
     players[index].moveBy(vector.x, vector.y)
@@ -204,4 +181,4 @@ Game.prototype.playSound = function(file) {
   sound.play()
 }
 
-
+*/
