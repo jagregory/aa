@@ -1,8 +1,7 @@
 var world = require('../world');
 
-exports.sprite = function(image, width, height) {
-  var texture = PIXI.Texture.fromImage(image);
-  var sprite = new PIXI.Sprite(texture);
+exports.sprite = function(image, width, height, rotation) {
+  var sprite = PIXI.Sprite.fromImage(image);
   sprite.width = world.toPixels(width);  
   sprite.height = world.toPixels(height);
   sprite.anchor.x = sprite.width  / 2;
@@ -10,5 +9,21 @@ exports.sprite = function(image, width, height) {
   console.log('anchor = ', sprite.anchor)
   sprite.position.x = 0;
   sprite.position.y = 0;
+  sprite.rotation = rotation || 0;
+  return sprite;
+};
+
+exports.tile = function(image, width, height, rotation) {
+  var texture = PIXI.Texture.fromImage(image);
+  var sprite = new PIXI.TilingSprite(texture);
+  sprite.tileScale = new PIXI.Point(1,1);
+  sprite.width = world.toPixels(width);  
+  sprite.height = world.toPixels(height);
+  sprite.anchor.x = sprite.width  / 2;
+  sprite.anchor.y = sprite.height / 2;
+  console.log('anchor = ', sprite.anchor)
+  sprite.position.x = 0;
+  sprite.position.y = 0;
+  sprite.rotation = rotation || 0;
   return sprite;
 };
