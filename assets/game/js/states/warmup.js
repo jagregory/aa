@@ -12,6 +12,10 @@ var startingPos = [
 
 function WarmUp(game) {
   
+  // ideally, the game can track it by ID
+  // and we can remove it without holding a reference to it
+  var text = null;
+  
   this.enter = function() {
     
     game.track(Arena.random(game, game.physics));
@@ -26,6 +30,9 @@ function WarmUp(game) {
   };
   
   this.exit = function() {
+    // Would be better with:
+    // game.deleteEntity('get-ready');
+    game.stage.removeChild(text);
   };
   
   this.tick = function() {
@@ -44,7 +51,7 @@ function WarmUp(game) {
   }
   
   function getReady() {
-    var text = new PIXI.Text("GET READY", {font: "40px PressStart2P", fill: "#000", align: "center", stroke: "#fff", strokeThickness: 4});
+    text = new PIXI.Text("GET READY", {font: "40px PressStart2P", fill: "#000", align: "center", stroke: "#fff", strokeThickness: 4});
     text.position.x = (world.width  * world.pixelsPerMeter) / 2 - text.width  / 2;
     text.position.y = (world.height * world.pixelsPerMeter) / 2 - text.height / 2;
     text.anchor.x = 0.5;
