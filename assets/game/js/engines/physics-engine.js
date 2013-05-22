@@ -1,8 +1,6 @@
 var staticbody = require('../physics/staticbody');
 var dynamicbody = require('../physics/dynamicbody');
-
-// size of a block in pixels (see image assets)
-var WorldPerMetre = 16.0;
+var world = require('../world');
 
 function PhysicsEngine() {
   
@@ -56,7 +54,7 @@ PhysicsEngine.prototype.createDynamicBody = function(options) {
 PhysicsEngine.prototype.debugDraw = function(canvas) {
   var debugDraw = new Box2D.Dynamics.b2DebugDraw();
   debugDraw.SetSprite(canvas.getContext("2d"));
-  debugDraw.SetDrawScale(WorldPerMetre);
+  debugDraw.SetDrawScale(world.pixelsPerMeter);
   debugDraw.SetFillAlpha(0.3);
   debugDraw.SetLineThickness(1.0);
   debugDraw.SetFlags(Box2D.Dynamics.b2DebugDraw.e_shapeBit | Box2D.Dynamics.b2DebugDraw.e_jointBit);
