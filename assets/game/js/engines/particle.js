@@ -1,4 +1,5 @@
 var categories = require('../physics/categories');
+var world      = require('../world');
 
 var M_PI = Math.PI;
 var M_PI_2 = M_PI / 2;
@@ -41,10 +42,10 @@ function Particle(game, physics, options) {
   var texture = PIXI.Texture.fromImage(options.image)
   var sprite = new PIXI.Sprite(texture)
 
-  sprite.position.x = physics.physics2world(physicsBody.GetPosition().x);
-  sprite.position.y = physics.physics2world(physicsBody.GetPosition().y);
-  sprite.height = physics.physics2world(options.radius);
-  sprite.width = physics.physics2world(options.radius);
+  sprite.position.x = world.toPixels(physicsBody.GetPosition().x);
+  sprite.position.y = world.toPixels(physicsBody.GetPosition().y);
+  sprite.height = world.toPixels(options.radius);
+  sprite.width = world.toPixels(options.radius);
   sprite.anchor.x = 8;
   sprite.anchor.y = 8;
 
@@ -67,8 +68,8 @@ function Particle(game, physics, options) {
       return;
     }
 
-    sprite.position.x = physics.physics2world(physicsBody.GetPosition().x)
-    sprite.position.y = physics.physics2world(physicsBody.GetPosition().y)
+    sprite.position.x = world.toPixels(physicsBody.GetPosition().x)
+    sprite.position.y = world.toPixels(physicsBody.GetPosition().y)
 
     // rotate the sprite to the direction of motion
     var velocity = physicsBody.GetLinearVelocity()

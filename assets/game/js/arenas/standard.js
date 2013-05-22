@@ -1,4 +1,4 @@
-var w = require('../physics/world');
+var w = require('../world');
 
 exports.name = 'Standard';
 

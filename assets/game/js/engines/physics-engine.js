@@ -41,14 +41,6 @@ PhysicsEngine.prototype.collision = function(callback) {
   this.collisionCallback = callback;
 }
 
-PhysicsEngine.prototype.physics2world = function(val) {
-  return val * WorldPerMetre;
-}
-
-PhysicsEngine.prototype.world2physics = function(val) {
-  return val / WorldPerMetre;
-}
-
 PhysicsEngine.prototype.createStaticBody = function(options) {
   return staticbody.createPolygon(this.world, options);
 }

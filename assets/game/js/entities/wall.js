@@ -1,4 +1,5 @@
 var categories = require('../physics/categories');
+var world      = require('../world');
 
 module.exports = function(game, physics, options) {
   
@@ -24,12 +25,12 @@ module.exports = function(game, physics, options) {
   var texture = PIXI.Texture.fromImage('/game/images/wall.png')
   var sprite = new PIXI.TilingSprite(texture)
   sprite.tileScale = new PIXI.Point(1,1)
-  sprite.height = physics.physics2world(options.height)
-  sprite.width = physics.physics2world(options.width)
+  sprite.height = world.toPixels(options.height)
+  sprite.width = world.toPixels(options.width)
   sprite.anchor.x = sprite.width / 2.0
   sprite.anchor.y = sprite.height / 2.0
-  sprite.position.x = physics.physics2world(options.x)
-  sprite.position.y = physics.physics2world(options.y)
+  sprite.position.x = world.toPixels(options.x)
+  sprite.position.y = world.toPixels(options.y)
   sprite.rotation = options.rotation
 
   game.stage.addChild(sprite)

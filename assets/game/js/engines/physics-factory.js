@@ -1,5 +1,5 @@
 var _ = require('../../../3rdparty/underscore-min');
-var world = require('../physics/world');
+var world = require('../world');
 
 
 exports.static = function(options) {

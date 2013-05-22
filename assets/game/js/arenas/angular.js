@@ -1,4 +1,4 @@
-var w = require('../physics/world');
+var w = require('../world');
 
 var PI   = 3.14;
 var PEAK = 1.35;

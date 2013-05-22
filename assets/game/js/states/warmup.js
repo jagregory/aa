@@ -3,7 +3,7 @@
 
 var Arena = require('../entities/arena');
 var Player = require('../entities/player');
-var world = require('../physics/world');
+var world = require('../world');
 
 var startingPos = [
   world.width / 12,

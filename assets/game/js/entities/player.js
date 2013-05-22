@@ -1,4 +1,5 @@
 var categories = require('../physics/categories');
+var world      = require('../world');
 
 function Player(game, physics, options) {
   
@@ -30,8 +31,8 @@ function Player(game, physics, options) {
   
   var texture = PIXI.Texture.fromImage('/game/images/paddle.png');
   var sprite = new PIXI.Sprite(texture);
-  sprite.height = physics.physics2world(options.height);
-  sprite.width = physics.physics2world(options.width);
+  sprite.height = world.toPixels(options.height);
+  sprite.width = world.toPixels(options.width);
   sprite.anchor.x = sprite.width / 2.0;
   sprite.anchor.y = sprite.height / 2.0;
 
@@ -52,8 +53,8 @@ function Player(game, physics, options) {
   };
   
   this.update = function(delta) {
-    sprite.position.x = physics.physics2world(physicsBody.GetPosition().x);
-    sprite.position.y = physics.physics2world(physicsBody.GetPosition().y);
+    sprite.position.x = world.toPixels(physicsBody.GetPosition().x);
+    sprite.position.y = world.toPixels(physicsBody.GetPosition().y);
     sprite.rotation = physicsBody.GetAngle();
   };
 

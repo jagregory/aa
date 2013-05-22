@@ -6,6 +6,7 @@ var ticker          = require('./engines/ticker');
 var EntityTracker   = require('./entitytracker');
 var GameStates      = require('./game-states');
 var Time            = require('./time');
+var world           = require('./world');
 
 
 var GameEngine = function(data) {
@@ -109,8 +110,8 @@ var GameEngine = function(data) {
     states.active().tick();
     tracker.forEach(function(entity) {
       if (entity.body && entity.sprite) {
-        entity.sprite.position.x = physics.physics2world(entity.body.GetPosition().x);
-        entity.sprite.position.y = physics.physics2world(entity.body.GetPosition().y);
+        entity.sprite.position.x = world.toPixels(entity.body.GetPosition().x);
+        entity.sprite.position.y = world.toPixels(entity.body.GetPosition().y);
         entity.sprite.rotation = entity.body.GetAngle();
       }
       if (entity.update) {

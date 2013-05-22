@@ -1,6 +1,7 @@
 
 // in meters
 
+var pixelsPerMeter = 16;
 var blockSize = 0.5;
 var width     = 60;
 var height    = 30;
@@ -12,5 +13,13 @@ exports.top    = blockSize;
 exports.right  = width - blockSize;
 exports.bottom = height - blockSize;
 
-exports.pixelsPerMeter = 16;
+exports.pixelsPerMeter = pixelsPerMeter;
 exports.physicsScale = 2.0;   // what is this for?
+
+exports.toPixels = function(meters) {
+  return meters * pixelsPerMeter;
+};
+
+exports.fromPixels = function(pixels) {
+  return pixels / pixelsPerMeter;
+};
