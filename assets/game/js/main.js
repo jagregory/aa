@@ -1,13 +1,20 @@
 var GameEngine      = require('./game-engine');
 var bridgeSocket    = require('./bridge/socket');
 var bridgeKeyboard  = require('./bridge/keyboard');
+var scoreView       = require('../views/scores.hbs');
 
 window.Main = function() {
   
   var gameEngine  = null;
 
-  var board       = document.querySelector('#board');
-  var debugCanvas = document.querySelector('canvas.debug');
+  var board           = document.querySelector('#board');
+  var debugCanvas     = document.querySelector('#debugDraw');
+  var scoreContainer  = document.querySelector('#scores');
+  
+  scoreContainer.innerHTML = scoreView({
+    p1: { name: '-', score: 0 },
+    p2: { name: '-', score: 0 }
+  });
   
   // Wire external events
   bridgeKeyboard.connect(matchStart, matchMove);
