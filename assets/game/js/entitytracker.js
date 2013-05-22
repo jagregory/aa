@@ -15,7 +15,7 @@ var EntityTracker = function() {
   };
 
   this.track = function(entity) {
-    console.log('Tracking entity: ' + entity.id);
+    //console.log('Tracking entity: ' + entity.id);
     var id = entity.id || (lastId += 1);
     entities[id] = entity;
     return id;

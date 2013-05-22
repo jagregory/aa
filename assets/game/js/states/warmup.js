@@ -18,9 +18,10 @@ function WarmUp(game) {
   
   this.enter = function() {
     
-    game.track(Arena.random(game, game.physics));
-    game.track(newPlayer(game.players, 0, 'p1'));
-    game.track(newPlayer(game.players, 1, 'p2'));
+    game.addEntity(Arena.random(game, game.physics));
+    game.addEntity(newPlayer(game.players, 0, 'p1'));
+    game.addEntity(newPlayer(game.players, 1, 'p2'));
+    
     getReady();
     
     setTimeout(function() {

@@ -44,10 +44,6 @@ var GameEngine = function(data) {
     }
   });
   
-  this.track = function(entity) {
-    tracker.track(entity);
-  };
-  
   this.forget = function(entity) {
     tracker.forget(entity);
   };

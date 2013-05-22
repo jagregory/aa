@@ -12,7 +12,7 @@ var Arena = function(game, physics, definition) {
   _.each(definition.walls, function(def, i) {
     def.id = 'wall' + i;
     var wall = new Wall(game, physics, def);
-    game.track(wall);
+    game.addEntity(wall);
   });
   
 };

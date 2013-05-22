@@ -13,7 +13,7 @@ var ParticleEngine = function(game) {
       var ydir = (Math.random() * 50) * (Math.random() < 0.5 ? -1 : 1);
       var particle = new Particle(game, game.physics, source);
       particle.moveBy(xdir, ydir);
-      game.track(particle);
+      game.addEntity(particle);
     }
   };
   
