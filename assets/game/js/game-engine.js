@@ -102,7 +102,6 @@ var GameEngine = function(data) {
   function tick() {
     time.update();
     physics.update();
-    renderer.render(stage);
     states.active().tick();
     tracker.forEach(function(entity) {
       if (entity.body && entity.sprite) {
@@ -114,6 +113,8 @@ var GameEngine = function(data) {
         entity.update(time.delta);
       }
     });
+    renderer.render(stage);
+    
     var nextAction = null;
     while (nextAction = nextTickActions.pop()) {
       nextAction.call(this);
