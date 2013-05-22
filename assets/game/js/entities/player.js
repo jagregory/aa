@@ -32,13 +32,12 @@ function Player(game, physics, options) {
     }
   });
   
+  // Anchor is always reset! But not if the sprite is a PIXI.TilingSprite :/
   this.sprite = GF.sprite('/game/images/paddle.png', PADDLE_WIDTH, PADDLE_HEIGHT);
-  this.sprite.position.x = world.toPixels(this.body.GetPosition().x);
-  this.sprite.position.y = world.toPixels(this.body.GetPosition().y);
   
   this.update = function(delta) {
-    this.sprite.anchor.x = this.sprite.width  / 2;
-    this.sprite.anchor.y = this.sprite.height / 2;
+    //this.sprite.anchor.x = this.sprite.width  / 2;
+    //this.sprite.anchor.y = this.sprite.height / 2;
   };
 
   this.collision = function(other, points) {    
