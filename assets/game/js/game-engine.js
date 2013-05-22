@@ -1,4 +1,4 @@
-var _               = require('../3rdparty/underscore-min');
+var _               = require('../../3rdparty/underscore-min');
 var PhysicsEngine   = require('./engines/physics-engine');
 var SoundEngine     = require('./engines/sound-engine');
 var ParticleEngine  = require('./engines/particle-engine');

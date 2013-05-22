@@ -1,13 +1,12 @@
-var GameEngine = require('./game-engine');
+var GameEngine      = require('./game-engine');
+var bridgeSocket    = require('./bridge/socket');
+var bridgeKeyboard  = require('./bridge/keyboard');
 
-var bridgeSocket = require('./bridge/socket');
-var bridgeKeyboard = require('./bridge/keyboard');
-
-window.View = function() {
+window.Main = function() {
   
-  var gameEngine = null;
+  var gameEngine  = null;
 
-  var board = document.querySelector('#board');
+  var board       = document.querySelector('#board');
   var debugCanvas = document.querySelector('canvas.debug');
   
   // Wire external events
@@ -37,7 +36,7 @@ window.View = function() {
 
 //
 //
-// Old code
+// Old code, where do we put this?
 //
 //
 

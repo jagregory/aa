@@ -10,8 +10,8 @@ config.stylus = {
   compile: {
     files: {
       'builtAssets/device/device.css':  'assets/device/css/device.styl',
-      'builtAssets/admin/admin.css':    'assets/admin/admin.styl',
-      'builtAssets/game/game.css':      'assets/game/game.styl'
+      'builtAssets/admin/admin.css':    'assets/admin/css/admin.styl',
+      'builtAssets/game/game.css':      'assets/game/css/game.styl'
     }
   }
 };
@@ -21,7 +21,7 @@ config.stylus = {
 //
 config.browserify2 = {
   admin: {
-    entry: __dirname + '/assets/admin/admin.js',
+    entry: __dirname + '/assets/admin/js/admin.js',
     beforeHook: function(bundle) {
       bundle.transform(require('hbsfy'));
     },
@@ -37,11 +37,11 @@ config.browserify2 = {
     debug: true
   },
   game: {
-    entry: __dirname + '/assets/game/view.js',
+    entry: __dirname + '/assets/game/js/main.js',
     beforeHook: function(bundle) {
       bundle.transform(require('hbsfy'));
     },
-    compile: __dirname + '/builtAssets/game/view.js',
+    compile: __dirname + '/builtAssets/game/main.js',
     debug: true
   }
 };

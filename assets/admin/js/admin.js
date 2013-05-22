@@ -1,6 +1,6 @@
-var _ = require('../3rdparty/underscore-min');
-var viewPlayers = require('./views/players.hbs');
-var viewLobby   = require('./views/lobby.hbs');
+var _ = require('../../3rdparty/underscore-min');
+var viewPlayers = require('../views/players.hbs');
+var viewLobby   = require('../views/lobby.hbs');
 
 window.Admin = function() {
   $('#players').on('click', '.delete', deletePlayer);

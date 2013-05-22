@@ -1,4 +1,4 @@
-var _ = require('../../3rdparty/underscore-min');
+var _ = require('../../../3rdparty/underscore-min');
 var Wall = require('./wall')
 
 var Arena = function(game, physics, definition) {
