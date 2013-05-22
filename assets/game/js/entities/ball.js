@@ -25,8 +25,8 @@ function Ball(id, physicsEngine) {
   this.sprite = GF.sprite('/game/images/ball.png', BALL_SIZE, BALL_SIZE);
     
   this.update = function(delta) {
-    this.sprite.anchor.x = this.sprite.width  / 2;
-    this.sprite.anchor.y = this.sprite.height / 2;
+    //this.sprite.anchor.x = this.sprite.width  / 2;
+    //this.sprite.anchor.y = this.sprite.height / 2;
   }
 
   this.collision = function(other, points) {

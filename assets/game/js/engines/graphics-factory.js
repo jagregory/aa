@@ -1,5 +1,14 @@
 var world = require('../world');
 
+//
+// Anchor always seems reset for "normal" sprites
+// But OK for tiling... maybe due to this?
+//
+// 1f3dee9c4a1c71bed9cd10c4a2e86fbbb35f1bbf
+// 18 May 2013 11:56:39 PM
+// Patch Pixi to allow specifying a central anchor for tiling sprites
+// 
+
 exports.sprite = function(image, width, height, rotation) {
   var sprite = PIXI.Sprite.fromImage(image);
   init(sprite, width, height, rotation);
