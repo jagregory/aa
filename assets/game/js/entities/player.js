@@ -1,21 +1,24 @@
-var categories = require('../physics/categories');
-var world      = require('../world');
+var GF          = require('../engines/graphics-factory');
+var categories  = require('../physics/categories');
+var world       = require('../world');
+
+var PADDLE_WIDTH  = 1;
+var PADDLE_HEIGHT = 4;
 
 function Player(game, physics, options) {
   
   options = $.extend({
     x: 5,
     y: 5,
-    width: 1,
-    height: 4
+    width: PADDLE_WIDTH,
+    height: PADDLE_HEIGHT
   }, options);
 
-//  this.id = game.track(this);
   this.id = options.id;
   this.userId = options.userId;
   this.name = options.name;
 
-  var physicsBody = physics.createDynamicBody({
+  this.body = physics.createDynamicBody({
     filterCategoryBits: categories.PLAYER,
     filterMaskBits: categories.ARENA | categories.BALL,
     density: 1000,
@@ -29,33 +32,13 @@ function Player(game, physics, options) {
     }
   });
   
-  var texture = PIXI.Texture.fromImage('/game/images/paddle.png');
-  var sprite = new PIXI.Sprite(texture);
-  sprite.height = world.toPixels(options.height);
-  sprite.width = world.toPixels(options.width);
-  sprite.anchor.x = sprite.width / 2.0;
-  sprite.anchor.y = sprite.height / 2.0;
-
-  game.stage.addChild(sprite);
-
-  this.body = physicsBody;
-  this.sprite = sprite;  
-
-  this.moveBy = function(xDelta, yDelta) {
-    if (xDelta || yDelta) {
-      var force = new Box2D.Common.Math.b2Vec2(xDelta * -1, yDelta * -1)
-      physicsBody.SetAwake(true)
-      physicsBody.SetLinearVelocity(force)
-    } else {
-      physicsBody.SetLinearVelocity(new Box2D.Common.Math.b2Vec2(0,0));
-      physicsBody.SetAngularVelocity(0);
-    }
-  };
+  this.sprite = GF.sprite('/game/images/paddle.png', PADDLE_WIDTH, PADDLE_HEIGHT);
+  this.sprite.position.x = world.toPixels(this.body.GetPosition().x);
+  this.sprite.position.y = world.toPixels(this.body.GetPosition().y);
   
   this.update = function(delta) {
-    sprite.position.x = world.toPixels(physicsBody.GetPosition().x);
-    sprite.position.y = world.toPixels(physicsBody.GetPosition().y);
-    sprite.rotation = physicsBody.GetAngle();
+    this.sprite.anchor.x = this.sprite.width  / 2;
+    this.sprite.anchor.y = this.sprite.height / 2;
   };
 
   this.collision = function(other, points) {    
