@@ -13,17 +13,14 @@ npm install
 
 ## Build time!
 
-We use [grunt](http://gruntjs.com):
+We use [grunt](http://gruntjs.com).
+This builds all assets into `build`, and watches for any changes:
+
 ```
 grunt
 ```
 
-In watch mode, it continuously rebuilds assets & runs tests when needed:
-```
-grunt watch
-```
-
-To run the tests on their own:
+To run the unit tests:
 ```
 grunt test
 ```
