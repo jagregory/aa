@@ -22,7 +22,7 @@ var server = http.createServer(app);
 var io = socketio.listen(server);
 
 server.listen(app.get('port'), function() {
-  console.log('Server started on port ' + app.get('port'));
+  console.log('Server started: http://' + server.address().address + ':' + server.address().port);
 });
 
 io.sockets.on('connection', function(socket) {
