@@ -1,4 +1,3 @@
-var PF    = require('../engines/physics-factory');
 var world = require('../world');
 
 function PhysicsEngine() {
@@ -36,19 +35,6 @@ PhysicsEngine.prototype.destroy = function(body) {
 
 PhysicsEngine.prototype.collision = function(callback) {
   this.collisionCallback = callback;
-}
-
-PhysicsEngine.prototype.createCircle = function(options) {
-  // Deprecated
-  // Please create an Entity / CompoundEntity instead
-  var fixtureDef = PF.fixture({
-    shape:      PF.shape.circle(options.radius),
-    dynamics:   {density: options.density, friction: options.friction, restitution: options.restitution},
-    category:   options.filterCategoryBits,
-    collision:  options.filterMaskBits
-  });
-  fixtureDef.userData = options.userData;
-  return fixtureDef;
 }
 
 PhysicsEngine.prototype.debugDraw = function(canvas) {

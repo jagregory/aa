@@ -25,7 +25,7 @@ function Particle(game, physics, options) {
 
   this.id = 'particle' + (++particleIndex);
 
-   var fixtureDef = physics.createCircle({
+   var phyOptions = {
     density: 0.1,
     friction: 0.05,
     restitution: 1,
@@ -37,11 +37,21 @@ function Particle(game, physics, options) {
     userData: {
       entityId: this.id
     }
-  })
+  };
+  
   var bodyDef = PF.dynamic({
-    x: options.x,
-    y: options.y
+    x: phyOptions.x,
+    y: phyOptions.y
   });
+  
+  var fixtureDef = PF.fixture({
+    shape:      PF.shape.circle(phyOptions.radius),
+    dynamics:   {density: phyOptions.density, friction: phyOptions.friction, restitution: phyOptions.restitution},
+    category:   phyOptions.filterCategoryBits,
+    collision:  phyOptions.filterMaskBits
+  });
+  
+  fixtureDef.userData = phyOptions.userData;
   
   var physicsBody = physics.create(bodyDef, fixtureDef);
   physicsBody.SetAngularDamping(1)
