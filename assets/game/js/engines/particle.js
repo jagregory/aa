@@ -1,5 +1,6 @@
-var categories = require('../physics/categories');
+var PF         = require('../engines/physics-factory');
 var world      = require('../world');
+var categories = PF.categories;
 
 var M_PI = Math.PI;
 var M_PI_2 = M_PI / 2;
@@ -63,7 +64,7 @@ function Particle(game, physics, options) {
       // irk, dead
       // TODO: the game engine should be responsible for cleaning up everything when we say "forget"
       sprite.visible = false
-      physics.world.DestroyBody(physicsBody);
+      physics.b2world.DestroyBody(physicsBody);
       game.forget(this);
       return;
     }

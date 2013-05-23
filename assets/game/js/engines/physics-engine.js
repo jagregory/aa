@@ -1,11 +1,10 @@
-var staticbody = require('../physics/staticbody');
-var dynamicbody = require('../physics/dynamicbody');
+var PF    = require('../engines/physics-factory');
 var world = require('../world');
 
 function PhysicsEngine() {
   
   this.collisionCallback = null
-  this.world = new Box2D.Dynamics.b2World(
+  this.b2world = new Box2D.Dynamics.b2World(
     new Box2D.Common.Math.b2Vec2(0, 0),
     true
   );
@@ -22,33 +21,38 @@ function PhysicsEngine() {
       this.collisionCallback(fixtureA, fixtureB, worldManifold.m_points)
     }
   }.bind(this)
-  this.world.SetContactListener(contactListener)
+  this.b2world.SetContactListener(contactListener)
 }
 
 PhysicsEngine.prototype.create = function(bodyDef, fixtureDef) {
-  var body = this.world.CreateBody(bodyDef);
+  var body = this.b2world.CreateBody(bodyDef);
   body.CreateFixture(fixtureDef);
   return body;
 };
 
 PhysicsEngine.prototype.destroy = function(body) {
-  world.DestroyBody(body);
+  this.b2world.DestroyBody(body);
 };
 
 PhysicsEngine.prototype.collision = function(callback) {
   this.collisionCallback = callback;
 }
 
-PhysicsEngine.prototype.createStaticBody = function(options) {
-  return staticbody.createPolygon(this.world, options);
-}
-
 PhysicsEngine.prototype.createCircle = function(options) {
-  return dynamicbody.createCircle(this.world, options);
-}
-
-PhysicsEngine.prototype.createDynamicBody = function(options) {
-  return dynamicbody.createPolygon(this.world, options);
+  // Deprecated
+  // Please create an Entity / CompoundEntity instead
+  var bodyDef = PF.dynamic({
+    x: options.x,
+    y: options.y
+  });
+  var fixtureDef = PF.fixture({
+    shape:      PF.shape.circle(options.radius),
+    dynamics:   {density: options.density, friction: options.friction, restitution: options.restitution},
+    category:   options.filterCategoryBits,
+    collision:  options.filterMaskBits
+  });
+  fixtureDef.userData = options.userData;
+  return this.create(bodyDef, fixtureDef);  
 }
 
 PhysicsEngine.prototype.debugDraw = function(canvas) {
@@ -58,17 +62,17 @@ PhysicsEngine.prototype.debugDraw = function(canvas) {
   debugDraw.SetFillAlpha(0.3);
   debugDraw.SetLineThickness(1.0);
   debugDraw.SetFlags(Box2D.Dynamics.b2DebugDraw.e_shapeBit | Box2D.Dynamics.b2DebugDraw.e_jointBit);
-  this.world.SetDebugDraw(debugDraw);
+  this.b2world.SetDebugDraw(debugDraw);
 }
 
 PhysicsEngine.prototype.update = function() {
-  this.world.Step(
+  this.b2world.Step(
     1 / 60, // frame-rate
     10,     // velocity iterations
     10      // position iterations
   );
-  this.world.DrawDebugData();
-  this.world.ClearForces();
+  this.b2world.DrawDebugData();
+  this.b2world.ClearForces();
 }
 
 module.exports = PhysicsEngine;
