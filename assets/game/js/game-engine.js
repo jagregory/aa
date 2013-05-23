@@ -52,8 +52,9 @@ var GameEngine = function(data) {
   this.addEntity = function(entity) {
     if (entity.id) {
       tracker.track(entity);
-      if (entity.bodySpec) { entity.create(physics);        }
-      if (entity.sprite)   { stage.addChild(entity.sprite); }
+      if (entity.create) {
+        entity.create(physics, stage);
+      }
     } else {
       console.log('Entity should have an ID', entity);
     }
@@ -62,8 +63,9 @@ var GameEngine = function(data) {
   this.deleteEntity = function(id) {
     var entity = tracker.find(id);
     if (entity) {
-      if (entity.body)   { physics.destroy(entity.body);     }
-      if (entity.sprite) { stage.removeChild(entity.sprite); }
+      if (entity.destroy) {
+        entity.destroy(physics, stage);
+      }
       tracker.forget(entity);
     } else {
       console.log('Entity not found', entity);
