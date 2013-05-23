@@ -51,13 +51,8 @@ var GameEngine = function(data) {
   this.addEntity = function(entity) {
     if (entity.id) {
       tracker.track(entity);
-      if (entity.bodyDef) {
-        entity.fixtureDef.userData = {entityId: entity.id};
-        entity.body = physics.create(entity.bodyDef, entity.fixtureDef);
-      }
-      if (entity.sprite) {
-        stage.addChild(entity.sprite);
-      }
+      if (entity.create) { entity.create(physics); }
+      if (entity.sprite) { stage.addChild(entity.sprite); }
     } else {
       console.log('Entity should have an ID', entity);
     }
@@ -104,14 +99,7 @@ var GameEngine = function(data) {
     physics.update();
     states.active().tick();
     tracker.forEach(function(entity) {
-      if (entity.body && entity.sprite) {
-        entity.sprite.position.x = world.toPixels(entity.body.GetPosition().x);
-        entity.sprite.position.y = world.toPixels(entity.body.GetPosition().y);
-        entity.sprite.rotation = entity.body.GetAngle();
-      }
-      if (entity.update) {
-        entity.update(time.delta);
-      }
+      if (entity.update) { entity.update(time.delta); }
     });
     renderer.render(stage);
     

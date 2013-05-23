@@ -1,16 +1,18 @@
-// add the ball
-// countdown 3...2...1...
-
 var _ = require('../../../3rdparty/underscore-min');
 var GF = require('../engines/graphics-factory');
 var Ball = require('../entities/ball');
+var world = require('../world');
+
+var ballStartX = world.width / 3;
+var ballStartY = world.height / 3;
 
 function KickOff(game) {
   
   var text = null;
   
   this.enter = function() {
-    game.addEntity(new Ball('ball', game.physics));
+    ball = new Ball('ball', ballStartX, ballStartY);
+    game.addEntity(ball);
     text = GF.text('', 80);
     game.stage.addChild(text);
     countdown(3);

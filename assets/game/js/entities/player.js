@@ -1,57 +1,46 @@
+var PF          = require('../engines/physics-factory');
 var GF          = require('../engines/graphics-factory');
-var categories  = require('../physics/categories');
+var Entity = require('../entity');
 var world       = require('../world');
 
-var PADDLE_WIDTH  = 1;
-var PADDLE_HEIGHT = 4;
+var paddleWidth  = 1;
+var paddleHeight = 4;
 
-function Player(game, physics, options) {
-  
-  options = $.extend({
-    x: 5,
-    y: 5,
-    width: PADDLE_WIDTH,
-    height: PADDLE_HEIGHT
-  }, options);
+var fixture = PF.fixture({
+  shape:      PF.shape.box(paddleWidth, paddleHeight),
+  dynamics:   {density: 1000, friction: 0, restitution: 1},
+  category:   PF.categories.PLAYER,
+  collision:  PF.categories.ARENA | PF.categories.BALL
+});
 
-  this.id = options.id;
-  this.userId = options.userId;
-  this.name = options.name;
+function Player(id, x, y, game) {
 
-  this.body = physics.createDynamicBody({
-    filterCategoryBits: categories.PLAYER,
-    filterMaskBits: categories.ARENA | categories.BALL,
-    density: 1000,
-    fixedRotation: true,
-    width: options.width,
-    height: options.height,
-    x: options.x,
-    y: options.y,
-    userData: {
-      entityId: this.id
-    }
-  });
+  this.id       = id;
   
-  // Anchor is always reset! But not if the sprite is a PIXI.TilingSprite :/
-  this.sprite = GF.sprite('/game/images/paddle.png', PADDLE_WIDTH, PADDLE_HEIGHT);
-  
-  this.update = function(delta) {
-    //this.sprite.anchor.x = this.sprite.width  / 2;
-    //this.sprite.anchor.y = this.sprite.height / 2;
+  this.bodySpec = {
+    body: PF.dynamic({ x: x, y: y, fixedRotation: true }),
+    fixture: fixture
   };
-
-  this.collision = function(other, points) {    
-    // soon we shouldn't have access to the game engine
-    // these should jsut be broadcasted to the event hub
-    if (other.id === 'ball') {
-      game.broadcast('sound:play', '/game/sounds/collision-2.mp3');
-      game.broadcast('particles:explosion', {
-        source: points[0],
-        intensity: 30
-      });
-    }
-  };
+  
+  this.sprite = GF.sprite('/game/images/paddle.png', paddleWidth, paddleHeight);  
+  this.game = game;
   
 }
+
+Player.prototype = new Entity();
+
+Player.prototype.collision = function(other, points) {    
+  // soon we shouldn't have access to the game engine
+  // these should jsut be broadcasted to the event hub
+  if (other.id === 'ball') {
+    console.log('BOOOOM');
+    this.game.broadcast('sound:play', '/game/sounds/collision-2.mp3');
+    this.game.broadcast('particles:explosion', {
+      source: points[0],
+      intensity: 30
+    });
+  }
+};
+
 
 module.exports = Player;

@@ -44,12 +44,9 @@ function WarmUp(game) {
   };
   
   function newPlayer(players, index, id) {
-    return new Player(game, game.physics, {
-      id: id,
-      name: players[index].firstName + players[index].lastName,
-      x: startingPos[index],
-      y: world.height / 2 
-    });
+    var x = startingPos[index];
+    var y = world.height / 2;
+    return new Player(id, x, y, game);
   }
   
   function getReady() {
