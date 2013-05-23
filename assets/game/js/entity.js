@@ -16,7 +16,7 @@ Entity.prototype.create = function(physicsEngine, graphicsEngine) {
     this.body = physicsEngine.create(this.bodySpec.body, this.bodySpec.fixture);  
   }
   if (this.sprite) {
-    graphicsEngine.stage.addChild(this.sprite);
+    graphicsEngine.addChild(this.sprite);
   }
 };
 
