@@ -25,33 +25,19 @@ function Particle(game, physics, options) {
 
   this.id = 'particle' + (++particleIndex);
 
-   var phyOptions = {
-    density: 0.1,
-    friction: 0.05,
-    restitution: 1,
-    filterCategoryBits: categories.PARTICLES,
-    filterMaskBits: categories.ARENA,
-    radius: options.radius,
-    x: options.x,
-    y: options.y,
-    userData: {
-      entityId: this.id
-    }
-  };
-  
   var bodyDef = PF.dynamic({
-    x: phyOptions.x,
-    y: phyOptions.y
+    x: options.x,
+    y: options.y
   });
   
   var fixtureDef = PF.fixture({
-    shape:      PF.shape.circle(phyOptions.radius),
-    dynamics:   {density: phyOptions.density, friction: phyOptions.friction, restitution: phyOptions.restitution},
-    category:   phyOptions.filterCategoryBits,
-    collision:  phyOptions.filterMaskBits
+    shape:      PF.shape.circle(options.radius),
+    dynamics:   {density: 0.1, friction: 0.05, restitution: 1},
+    category:   PF.categories.PARTICLES,
+    collision:  PF.categories.ARENA
   });
   
-  fixtureDef.userData = phyOptions.userData;
+  fixtureDef.userData = { entityId: this.id };
   
   var physicsBody = physics.create(bodyDef, fixtureDef);
   physicsBody.SetAngularDamping(1)
