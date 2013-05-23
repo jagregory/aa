@@ -11,7 +11,7 @@ function KickOff(game) {
   
   this.enter = function() {
     game.addEntity(new Ball('ball', game.physics));
-    text = GF.text('', 70);
+    text = GF.text('', 80);
     game.stage.addChild(text);
     countdown(3);
   };

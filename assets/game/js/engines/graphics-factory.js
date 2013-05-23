@@ -32,7 +32,7 @@ exports.tile = function(image, width, height, rotation) {
 
 exports.text = function(text, size, opts) {
   opts = _.extend({
-      font: '' + (size || 40) + 'px PressStart2P',
+      font: '' + (size || 50) + 'px PressStart2P',
       fill: '#000',
       align: 'center',
       stroke: '#fff',
