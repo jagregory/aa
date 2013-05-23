@@ -1,26 +1,26 @@
 var world = require('../world');
 
+var frameRate   = 1 / 60;
+var iterations  = 10;
+
 function PhysicsEngine() {
   
-  this.collisionCallback = null
-  this.b2world = new Box2D.Dynamics.b2World(
-    new Box2D.Common.Math.b2Vec2(0, 0),
-    true
-  );
+  this.collisionCallback = null;
+  this.b2world = new Box2D.Dynamics.b2World(new Box2D.Common.Math.b2Vec2(0, 0), true);
   
-  var contactListener = new Box2D.Dynamics.b2ContactListener
+  var contactListener = new Box2D.Dynamics.b2ContactListener;
+  
   contactListener.BeginContact = function(contact) {
-    var worldManifold = new Box2D.Collision.b2WorldManifold()
-    contact.GetWorldManifold(worldManifold)
-
-    var fixtureA = contact.GetFixtureA()
-    var fixtureB = contact.GetFixtureB()
-
+    var worldManifold = new Box2D.Collision.b2WorldManifold();
+    contact.GetWorldManifold(worldManifold);
+    var fixtureA = contact.GetFixtureA();
+    var fixtureB = contact.GetFixtureB();
     if (this.collisionCallback) {
-      this.collisionCallback(fixtureA, fixtureB, worldManifold.m_points)
+      this.collisionCallback(fixtureA, fixtureB, worldManifold.m_points);
     }
-  }.bind(this)
-  this.b2world.SetContactListener(contactListener)
+  }.bind(this);
+  
+  this.b2world.SetContactListener(contactListener);
 }
 
 PhysicsEngine.prototype.create = function(bodyDef, fixtureDef) {
@@ -48,13 +48,9 @@ PhysicsEngine.prototype.debugDraw = function(canvas) {
 }
 
 PhysicsEngine.prototype.update = function() {
-  this.b2world.Step(
-    1 / 60, // frame-rate
-    10,     // velocity iterations
-    10      // position iterations
-  );
+  this.b2world.Step(frameRate, iterations, iterations);
   this.b2world.DrawDebugData();
   this.b2world.ClearForces();
-}
+};
 
 module.exports = PhysicsEngine;
