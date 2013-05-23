@@ -14,21 +14,17 @@ var startingPos = [
 
 function WarmUp(game) {
   
-  // ideally, the game can track it by ID
-  // and we can remove it without holding a reference to it
-  var text = null;
-  
   this.enter = function() {
-    
-    game.addEntity(Arena.random(game, game.physics));
-    game.addEntity(newPlayer(game.players, 0, 'p1'));
-    game.addEntity(newPlayer(game.players, 1, 'p2'));
+
+    game.addEntity(new Arena());
+    game.addEntity(new Player('p1', startingPos[0], world.height / 2));
+    game.addEntity(new Player('p2', startingPos[1], world.height / 2));
     game.addEntity(new Text('get-ready', 'GET READY!'));
-    
+
     setTimeout(function() {
       game.transition('ready');
-    }, 2000);
-    
+    }, 2000);    
+
   };
   
   this.exit = function() {
@@ -40,12 +36,6 @@ function WarmUp(game) {
   
   this.on = function(message, args) {
   };
-  
-  function newPlayer(players, index, id) {
-    var x = startingPos[index];
-    var y = world.height / 2;
-    return new Player(id, x, y, game);
-  }
   
 }
 

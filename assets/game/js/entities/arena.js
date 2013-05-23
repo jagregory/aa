@@ -1,28 +1,24 @@
-var _ = require('../../../3rdparty/underscore-min');
-var Wall = require('./wall')
-
-var Arena = function(game, physics, definition) {
-  
-  console.log('Using arena: ' + definition.name);
-
-  var bgTexture = PIXI.Texture.fromImage(definition.background);
-  var tilingSprite = new PIXI.TilingSprite(bgTexture, $('canvas').width(), $('canvas').height());
-  game.stage.addChild(tilingSprite);
-  
-  _.each(definition.walls, function(def, i) {
-    def.id = 'wall' + i;
-    var wall = new Wall(game, physics, def);
-    game.addEntity(wall);
-  });
-  
-};
+var _               = require('../../../3rdparty/underscore-min');
+var CompoundEntity  = require('../compound-entity');
+var Wall            = require('./wall');
+var Background      = require('./background');
 
 var definitions = [
   require('../arenas/standard'),
   require('../arenas/angular'),
 ];
 
-exports.random = function(game, physics) {
-  var def = definitions[_.random(definitions.length-1)];
-  return new Arena(game, physics, def);
-};
+function Arena() {
+  var picked = definitions[_.random(definitions.length-1)];  
+  this.id = 'arena';
+  this.entities.push(new Background(picked.background));
+  var that = this;
+  var walls = _.map(picked.walls, function(w, i) {
+      var wall = new Wall('wall' + i, w.x, w.y, w.width, w.height, w.rotation || 0);
+      that.entities.push(wall);
+  });
+}
+
+Arena.prototype = new CompoundEntity();
+
+module.exports = Arena;

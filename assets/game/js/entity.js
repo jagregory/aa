@@ -10,7 +10,6 @@ var Entity = function() {
 };
 
 Entity.prototype.create = function(physicsEngine, graphicsEngine) {
-  // console.log('[entity] creating ' + this.id);
   if (this.bodySpec) {
     this.bodySpec.fixture.userData = { entityId: this.id };
     this.body = physicsEngine.create(this.bodySpec.body, this.bodySpec.fixture);  
