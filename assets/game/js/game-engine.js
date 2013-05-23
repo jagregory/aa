@@ -7,6 +7,7 @@ var EntityTracker   = require('./entitytracker');
 var GameStates      = require('./game-states');
 var Time            = require('./time');
 var world           = require('./world');
+var hub             = require('./hub');
 
 
 var GameEngine = function(data) {
@@ -80,20 +81,11 @@ var GameEngine = function(data) {
   this.input = function(message, args) {
     states.active().on(message, args);
   };
-
-  this.broadcast = function(message, args) {
-    console.log('[engine] received ', message, args )
-    if (message === 'sound:play') {
-      sound.play(args);
-    } else if (message === 'particles:explosion') {
-      queueNext(function() { particles.explosion(args); });
-    }
-  };
-
-  function queueNext(action) {
+  
+  this.queueNext = function(action) {
     nextTickActions.push(action);
-  }
-
+  };
+  
   function tick() {
     time.update();
     physics.update();
@@ -110,6 +102,7 @@ var GameEngine = function(data) {
   };
 
   // Go!
+  hub.interceptor = this.queueNext;
   states.start();
   ticker.run(tick);
 

@@ -1,12 +1,14 @@
+var _        = require('../../../3rdparty/underscore-min');
+var hub      = require('../hub');
 var Particle = require('./Particle');
 
 var ParticleEngine = function(game) {
   
-  this.waterfall = function(xMin, xMax, height, duration) {
+  function waterfall(xMin, xMax, height, duration) {
     
   };
   
-  this.explosion = function(args) {
+  function explosion(args) {
     var source = { x: args.source.x, y: args.source.y };
     for (var i = 0; i < args.intensity; i++) {
       var xdir = (Math.random() * 50) * (Math.random() < 0.5 ? -1 : 1);
@@ -16,6 +18,8 @@ var ParticleEngine = function(game) {
       game.addEntity(particle);
     }
   };
+  
+  hub.on('particles:explosion', explosion);
   
 };
 

@@ -1,11 +1,14 @@
+var hub = require('../hub');
 
 function Sound() {
   
-  this.play = function(file) {
+  function play(file) {
     var sound = new Audio();
     sound.setAttribute('src', file);
     sound.play();
   };
+ 
+  hub.on('sound:play', play);
   
 }
 

@@ -1,7 +1,8 @@
 var PF          = require('../engines/physics-factory');
 var GF          = require('../engines/graphics-factory');
-var Entity = require('../entity');
+var Entity      = require('../entity');
 var world       = require('../world');
+var hub         = require('../hub');
 
 var paddleWidth  = 1;
 var paddleHeight = 4;
@@ -13,18 +14,13 @@ var fixture = PF.fixture({
   collision:  PF.categories.ARENA | PF.categories.BALL
 });
 
-function Player(id, x, y, game) {
-
-  this.id       = id;
-  
+function Player(id, x, y) {
+  this.id = id;
   this.bodySpec = {
     body: PF.dynamic({ x: x, y: y, fixedRotation: true }),
     fixture: fixture
   };
-  
-  this.sprite = GF.sprite('/game/images/paddle.png', paddleWidth, paddleHeight);  
-  this.game = game;
-  
+  this.sprite = GF.sprite('/game/images/paddle.png', paddleWidth, paddleHeight);
 }
 
 Player.prototype = new Entity();
@@ -39,8 +35,8 @@ Player.prototype.collision = function(other, points) {
   // soon we shouldn't have access to the game engine
   // these should jsut be broadcasted to the event hub
   if (other.id === 'ball') {
-    this.game.broadcast('sound:play', '/game/sounds/collision-2.mp3');
-    this.game.broadcast('particles:explosion', {
+    hub.send('sound:play', '/game/sounds/collision-2.mp3');
+    hub.send('particles:explosion', {
       source: points[0],
       intensity: 30
     });
