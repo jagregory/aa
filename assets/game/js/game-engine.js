@@ -51,6 +51,7 @@ var GameEngine = function(data) {
   
   this.addEntity = function(entity) {
     if (entity.id) {
+      //console.log('Adding entity: ', entity.id);
       tracker.track(entity);
       if (entity.create) {
         entity.create(physics, stage);

@@ -15,7 +15,7 @@ exports.sprite = function(image, width, height, rotation) {
   init(sprite, width, height, rotation);
   sprite.anchor.x = 0.5;
   sprite.anchor.y = 0.5;
-  console.log('anchor = ', sprite.anchor)
+  //console.log('anchor = ', sprite.anchor)
   return sprite;
 };
 
@@ -26,7 +26,7 @@ exports.tile = function(image, width, height, rotation) {
   init(sprite, width, height, rotation);
   sprite.anchor.x = sprite.width  / 2;
   sprite.anchor.y = sprite.height / 2;
-  console.log('anchor = ', sprite.anchor)
+  //console.log('anchor = ', sprite.anchor)
   return sprite;
 };
 
