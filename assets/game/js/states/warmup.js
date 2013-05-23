@@ -3,6 +3,7 @@
 
 var Arena = require('../entities/arena');
 var Player = require('../entities/player');
+var Text = require('../entities/text');
 var GF = require('../engines/graphics-factory');
 var world = require('../world');
 
@@ -22,8 +23,7 @@ function WarmUp(game) {
     game.addEntity(Arena.random(game, game.physics));
     game.addEntity(newPlayer(game.players, 0, 'p1'));
     game.addEntity(newPlayer(game.players, 1, 'p2'));
-    
-    getReady();
+    game.addEntity(new Text('get-ready', 'GET READY!'));
     
     setTimeout(function() {
       game.transition('ready');
@@ -32,9 +32,7 @@ function WarmUp(game) {
   };
   
   this.exit = function() {
-    // Would be better with:
-    // game.deleteEntity('get-ready');
-    game.stage.removeChild(text);
+    game.deleteEntity('get-ready');
   };
   
   this.tick = function() {
@@ -47,11 +45,6 @@ function WarmUp(game) {
     var x = startingPos[index];
     var y = world.height / 2;
     return new Player(id, x, y, game);
-  }
-  
-  function getReady() {
-    text = GF.text('GET READY');
-    game.stage.addChild(text);
   }
   
 }

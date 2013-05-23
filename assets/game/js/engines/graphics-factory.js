@@ -39,8 +39,6 @@ exports.text = function(text, size, opts) {
       strokeThickness: 4
   }, opts);
   var text = new PIXI.Text(text, opts);
-  text.position.x = (world.width  * world.pixelsPerMeter) / 2 - text.width  / 2;
-  text.position.y = (world.height * world.pixelsPerMeter) / 2 - text.height / 2;
   text.anchor.x = 0.5;
   return text;
 };
