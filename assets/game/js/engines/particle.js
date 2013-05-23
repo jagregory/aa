@@ -25,7 +25,7 @@ function Particle(game, physics, options) {
 
   this.id = 'particle' + (++particleIndex);
 
-  var physicsBody = physics.createCircle({
+   var fixtureDef = physics.createCircle({
     density: 0.1,
     friction: 0.05,
     restitution: 1,
@@ -38,6 +38,12 @@ function Particle(game, physics, options) {
       entityId: this.id
     }
   })
+  var bodyDef = PF.dynamic({
+    x: options.x,
+    y: options.y
+  });
+  
+  var physicsBody = physics.create(bodyDef, fixtureDef);
   physicsBody.SetAngularDamping(1)
 
   var texture = PIXI.Texture.fromImage(options.image)

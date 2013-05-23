@@ -41,10 +41,6 @@ PhysicsEngine.prototype.collision = function(callback) {
 PhysicsEngine.prototype.createCircle = function(options) {
   // Deprecated
   // Please create an Entity / CompoundEntity instead
-  var bodyDef = PF.dynamic({
-    x: options.x,
-    y: options.y
-  });
   var fixtureDef = PF.fixture({
     shape:      PF.shape.circle(options.radius),
     dynamics:   {density: options.density, friction: options.friction, restitution: options.restitution},
@@ -52,7 +48,7 @@ PhysicsEngine.prototype.createCircle = function(options) {
     collision:  options.filterMaskBits
   });
   fixtureDef.userData = options.userData;
-  return this.create(bodyDef, fixtureDef);  
+  return fixtureDef;
 }
 
 PhysicsEngine.prototype.debugDraw = function(canvas) {
