@@ -3,6 +3,7 @@
 
 var Arena = require('../entities/arena');
 var Player = require('../entities/player');
+var GF = require('../engines/graphics-factory');
 var world = require('../world');
 
 var startingPos = [
@@ -52,10 +53,7 @@ function WarmUp(game) {
   }
   
   function getReady() {
-    text = new PIXI.Text("GET READY", {font: "40px PressStart2P", fill: "#000", align: "center", stroke: "#fff", strokeThickness: 4});
-    text.position.x = (world.width  * world.pixelsPerMeter) / 2 - text.width  / 2;
-    text.position.y = (world.height * world.pixelsPerMeter) / 2 - text.height / 2;
-    text.anchor.x = 0.5;
+    text = GF.text('GET READY');
     game.stage.addChild(text);
   }
   
