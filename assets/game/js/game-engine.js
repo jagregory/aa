@@ -23,7 +23,7 @@ var GameEngine = function(data) {
   
   var nextTickActions = [];
   
-  physics.debugDraw(data.debugDraw);
+  //physics.debugDraw(data.debugDraw);
   
   this.players  = data.players;  
   this.view     = renderer.view;
