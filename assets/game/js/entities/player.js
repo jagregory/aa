@@ -33,7 +33,6 @@ Player.prototype.collision = function(other, points) {
   // soon we shouldn't have access to the game engine
   // these should jsut be broadcasted to the event hub
   if (other.id === 'ball') {
-    console.log('BOOOOM');
     this.game.broadcast('sound:play', '/game/sounds/collision-2.mp3');
     this.game.broadcast('particles:explosion', {
       source: points[0],

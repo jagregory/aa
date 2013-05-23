@@ -51,8 +51,8 @@ var GameEngine = function(data) {
   this.addEntity = function(entity) {
     if (entity.id) {
       tracker.track(entity);
-      if (entity.create) { entity.create(physics); }
-      if (entity.sprite) { stage.addChild(entity.sprite); }
+      if (entity.bodySpec) { entity.create(physics);        }
+      if (entity.sprite)   { stage.addChild(entity.sprite); }
     } else {
       console.log('Entity should have an ID', entity);
     }
