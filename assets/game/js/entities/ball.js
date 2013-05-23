@@ -11,8 +11,8 @@ function Ball(id, physicsEngine) {
   this.body = null;
   
   this.bodyDef = PF.dynamic({
-    x: world.width / 2,
-    y: world.height / 2
+    x: world.width / 3,
+    y: world.height / 3
   });
   
   this.fixtureDef = PF.fixture({
