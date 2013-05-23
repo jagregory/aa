@@ -27,8 +27,10 @@ function Ball(id, x, y) {
 
 Ball.prototype = new Entity();
 
-//Ball.prototype.update = function(delta) {
-//  Entity.prototype.update.call(this, delta);
-//};
+Ball.prototype.update = function(delta) {
+  Entity.prototype.update.call(this, delta);
+  this.sprite.anchor.x = this.sprite.width  / 2;
+  this.sprite.anchor.y = this.sprite.height / 2;
+};
 
 module.exports = Ball;

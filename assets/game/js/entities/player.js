@@ -29,6 +29,12 @@ function Player(id, x, y, game) {
 
 Player.prototype = new Entity();
 
+Player.prototype.update = function(delta) {
+  Entity.prototype.update.call(this, delta);
+  this.sprite.anchor.x = this.sprite.width  / 2;
+  this.sprite.anchor.y = this.sprite.height / 2;
+};
+
 Player.prototype.collision = function(other, points) {    
   // soon we shouldn't have access to the game engine
   // these should jsut be broadcasted to the event hub
