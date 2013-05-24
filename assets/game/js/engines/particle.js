@@ -37,7 +37,8 @@ function Particle(game, physics, options) {
     collision:  PF.categories.ARENA
   });
   
-  fixtureDef.userData = { entityId: this.id };
+  // This is not a real entity yet
+  // fixtureDef.userData = { entityId: this.id };
   
   var physicsBody = physics.create(bodyDef, fixtureDef);
   physicsBody.SetAngularDamping(1)

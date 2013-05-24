@@ -50,10 +50,10 @@ Player.prototype.update = function(delta) {
 Player.prototype.collision = function(other, points) {    
   if (other.id === 'ball') {
     hub.send('sound:play', '/game/sounds/collision-2.mp3');
-    hub.send('particles:explosion', {
-      source: points[0],
-      intensity: 30
-    });
+    // hub.send('particles:explosion', {
+    //   source: points[0],
+    //   intensity: 30
+    // });
   }
 };
 

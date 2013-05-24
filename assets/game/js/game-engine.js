@@ -34,14 +34,12 @@ var GameEngine = function(data) {
   // -----
   
   physics.collision(function(fixtureA, fixtureB, points) {
-    //console.log('[collision] ' + fixtureA.GetUserData().entityId + ' / ' + fixtureB.GetUserData().entityId);
-    if (fixtureA.GetUserData() && fixtureB.GetUserData()) {
-      var entityA = tracker.find(fixtureA.GetUserData().entityId);
-      var entityB = tracker.find(fixtureB.GetUserData().entityId);
-      if (entityA && entityB) {
-        entityA.collision(entityB, points);
-        entityB.collision(entityA, points);      
-      }
+    var entityA = fixtureA.GetUserData();
+    var entityB = fixtureB.GetUserData();
+    if (entityA && entityB) {
+      console.log('[collision] ' + entityA.id + ' / ' + entityB.id);
+      entityA.collision(entityB, points);
+      entityB.collision(entityA, points);      
     }
   });
   

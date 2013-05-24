@@ -2,6 +2,7 @@ var PF          = require('../engines/physics-factory');
 var GF          = require('../engines/graphics-factory');
 var Entity      = require('../entity');
 var world       = require('../world');
+var hub         = require('../hub');
 
 function Goal(id, x, y, width, height, rotation) {
   this.id = id;

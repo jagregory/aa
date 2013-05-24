@@ -11,7 +11,7 @@ var Entity = function() {
 
 Entity.prototype.create = function(physicsEngine, graphicsEngine) {
   if (this.bodySpec) {
-    this.bodySpec.fixture.userData = { entityId: this.id };
+    this.bodySpec.fixture.userData = this;
     this.body = physicsEngine.create(this.bodySpec.body, this.bodySpec.fixture);  
   }
   if (this.sprite) {
