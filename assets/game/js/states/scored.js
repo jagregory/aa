@@ -1,13 +1,11 @@
-// what about using your particle explosion for when the ball touches the scoring area, and pretty much explodes?
-// update the score
-// maybe a nice fighting game-like banner on screen
-// and back to kick-off
+var Text = require('../entities/text');
 
 function Scored(game) {
   
   this.enter = function() {
-    game.removeEntity('ball');
-    game.addEntity(new Text('JOHN SCORED'));
+    game.deleteEntity('ball');
+    game.addEntity(new Text('player-scored', 'P1 SCORED'));
+    setTimeout(backToKickoff, 1500);
   };
   
   this.exit = function() {
@@ -18,6 +16,11 @@ function Scored(game) {
   
   this.on = function(message, args) {
   };
+  
+  function backToKickoff() {
+    game.deleteEntity('player-scored');
+    game.transition('ready');
+  }
   
 }
 

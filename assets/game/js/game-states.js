@@ -1,11 +1,12 @@
-var WarmUp = require('./states/warmup');
-var KickOff = require('./states/kickoff');
-var Play = require('./states/play');
-var Scored = require('./states/scored');
-var EndOfMatch = require('./states/endofmatch');
+var WarmUp      = require('./states/warmup');
+var KickOff     = require('./states/kickoff');
+var Play        = require('./states/play');
+var Scored      = require('./states/scored');
+var EndOfMatch  = require('./states/endofmatch');
+var hub         = require('./hub');
 
 function GameStates(game) {
-  
+    
   var states = {
     'warmup':     new WarmUp(game),
     'kickoff':    new KickOff(game),
@@ -20,9 +21,9 @@ function GameStates(game) {
   
     events: [
       {   name: 'startup',  from: 'none',                                   to: 'warmup'       },
-      {   name: 'ready',    from: 'warmup',                                 to: 'kickoff'      },
-      {   name: 'go',       from: ['scored', 'kickoff'],                    to: 'play'         },
-      {   name: 'score',    from: 'play',                                   to: 'scored'       },
+      {   name: 'ready',    from: ['warmup', 'scored'],                     to: 'kickoff'      },
+      {   name: 'go',       from: 'kickoff',                                to: 'play'         },
+      {   name: 'scored',   from: 'play',                                   to: 'scored'       },
       {   name: 'end',      from: ['warmup', 'kickoff', 'play', 'scored'],  to: 'endofmatch'   },
     ],
   
@@ -48,6 +49,8 @@ function GameStates(game) {
   this.active = function() {
     return activeState;
   };
+  
+  hub.on('game:transition', this.transition);
   
 }
 
