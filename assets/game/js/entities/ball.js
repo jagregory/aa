@@ -7,7 +7,7 @@ var ballSize = 1.5;
 
 var fixture = PF.fixture({
   shape:      PF.shape.circle(ballSize / 2),
-  dynamics:   {density: 0.1, friction: 0, restitution: 1},
+  dynamics:   {density: 1, friction: 0, restitution: 1},
   category:   PF.categories.BALL,
   collision:  PF.categories.ARENA | PF.categories.PLAYER
 });
