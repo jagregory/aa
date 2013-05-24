@@ -37,7 +37,7 @@ var GameEngine = function(data) {
     var entityA = fixtureA.GetUserData();
     var entityB = fixtureB.GetUserData();
     if (entityA && entityB) {
-      console.log('[collision] ' + entityA.id + ' / ' + entityB.id);
+      //console.log('[collision] ' + entityA.id + ' / ' + entityB.id);
       entityA.collision(entityB, points);
       entityB.collision(entityA, points);      
     }
