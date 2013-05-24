@@ -9,13 +9,17 @@ var CompoundEntity = function() {
   this.entities = [];
 };
 
+//
+// TODO
+//
+// Collisions should register on both the compound entity and the child entity
+// Maybe the user data can store both the entity ID and compound ID
+// this.entites[0].body.GetFixtureList().GetUserData().entityId = 'parent';
+//
+
 CompoundEntity.prototype.create = function(physicsEngine, graphicsEngine) {
-  var compound = this;
   this.entities.forEach(function(entity) {
     entity.create(physicsEngine, graphicsEngine);
-    if (entity.body) {
-      entity.body.GetFixtureList().GetUserData().entityId = compound.id;
-    }
   });
 };
 
@@ -32,7 +36,6 @@ CompoundEntity.prototype.update = function(physicsEngine, graphicsEngine) {
 };
 
 CompoundEntity.prototype.collision = function(other, points) {
-  // nothing
 };
 
 module.exports = CompoundEntity;
