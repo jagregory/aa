@@ -29,8 +29,8 @@ exports.walls = [
 
 exports.spinners = [
 
-  { id: 'spinner1', x:  w.width / 3,     y:  w.height / 3,     width:  2, height: 2, rotation: PI / 4 },
-  { id: 'spinner2', x:  w.width / 3 * 2, y:  w.height / 3 * 2, width:  2, height: 2, rotation: PI / 4 },
+  { id: 'spinner1', x:  w.width / 12 * 5,   y:  w.height / 3,     width:  2, height: 2, rotation: PI / 4 },
+  { id: 'spinner2', x:  w.width / 12 * 7,   y:  w.height / 3 * 2, width:  2, height: 2, rotation: PI / 4 },
   
 ];
 
