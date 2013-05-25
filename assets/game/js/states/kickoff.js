@@ -4,8 +4,8 @@ var Ball = require('../entities/ball');
 var Text = require('../entities/text');
 var world = require('../world');
 
-var ballStartX = world.width / 3;
-var ballStartY = world.height / 3;
+var ballStartX = world.width / 5;
+var ballStartY = world.height / 2;
 
 function KickOff(game) {
   
