@@ -25,22 +25,27 @@ exports.walls = [
   { x:  w.width / 2 - PEAK, y:  w.height - PEAK, width: PEAK * 3.5, height: 1, rotation: -PI / 4 },
   { x:  w.width / 2 + PEAK, y:  w.height - PEAK, width: PEAK * 3.5, height: 1, rotation:  PI / 4 },
   
-  // inner diamonds
-  { x:  w.width / 3,     y:  w.height / 3,     width:  2, height: 2, rotation: PI / 4 },
-  { x:  w.width / 3 * 2, y:  w.height / 3 * 2, width:  2, height: 2, rotation: PI / 4 },
+];
+
+exports.spinners = [
+
+  { id: 'spinner1', x:  w.width / 3,     y:  w.height / 3,     width:  2, height: 2, rotation: PI / 4 },
+  { id: 'spinner2', x:  w.width / 3 * 2, y:  w.height / 3 * 2, width:  2, height: 2, rotation: PI / 4 },
   
 ];
 
 exports.goals = {
+  
   p1: [
     { x:  w.left + 2,    y:  w.top    + 2,    width:  2,   height: 2 },
     { x:  w.left + 2,    y:  w.bottom - 2,    width:  2,   height: 2 },
     { x:  w.left + 2,    y:  w.height / 2,    width:  2,   height: 2 },
   ],
+  
   p2: [
     { x:  w.right - 2,   y:  w.top    + 2,    width:  2,   height: 2 },
     { x:  w.right - 2,   y:  w.bottom - 2,    width:  2,   height: 2 },
     { x:  w.right - 2,   y:  w.height / 2,    width:  2,   height: 2 },
   ]
+  
 };
-
