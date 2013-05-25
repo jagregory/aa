@@ -25,7 +25,9 @@ function PhysicsEngine() {
 
 PhysicsEngine.prototype.create = function(bodyDef, fixtureDef) {
   var body = this.b2world.CreateBody(bodyDef);
-  body.CreateFixture(fixtureDef);
+  if (fixtureDef) {
+    body.CreateFixture(fixtureDef);    
+  }
   return body;
 };
 
