@@ -1,7 +1,8 @@
-var PF = require('../engines/physics-factory');
-var GF = require('../engines/graphics-factory');
-var Entity = require('../entity');
-var world = require('../world');
+var PF          = require('../engines/physics-factory');
+var GF          = require('../engines/graphics-factory');
+var Entity      = require('../entity');
+var world       = require('../world');
+var mathUtils   = require('../math-utils');
 
 var ballSize = 1.5;
 
@@ -27,8 +28,9 @@ function Ball(id, x, y) {
 
 Ball.prototype = new Entity();
 
-Ball.prototype.update = function(delta) {
+Ball.prototype.update = function(delta) {  
   Entity.prototype.update.call(this, delta);
+  mathUtils.clampVelocity(this.body, 15, 35);
   this.sprite.anchor.x = this.sprite.width  / 2;
   this.sprite.anchor.y = this.sprite.height / 2;
 };
