@@ -30,7 +30,7 @@ Ball.prototype = new Entity();
 
 Ball.prototype.update = function(delta) {  
   Entity.prototype.update.call(this, delta);
-  mathUtils.clampVelocity(this.body, 15, 35);
+  mathUtils.clampVelocity(this.body, 15, 30);
   this.sprite.anchor.x = this.sprite.width  / 2;
   this.sprite.anchor.y = this.sprite.height / 2;
 };
