@@ -57,5 +57,10 @@ Player.prototype.collision = function(other, points) {
   }
 };
 
+Player.prototype.move = function(vector) {
+  this.body.SetAwake(true);
+  this.body.SetLinearVelocity(new Box2D.Common.Math.b2Vec2(vector.x, vector.y));
+};
+
 
 module.exports = Player;
