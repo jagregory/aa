@@ -17,17 +17,9 @@ function Play(game) {
     if (message === 'move') {
       var player = game.getEntity(args.pindex === 0 ? 'p1' : 'p2');
       player.move(args.vector);
-    } else if (message === 'score') {
-      explode(ball);
-      game.removeEntity(ball);
-      game.transition('score');
     }
   };
   
-  function explode(ball) {
-    hub.send('particles:explosion', ball.body.GetPosition());
-  }
-
 }
 
 module.exports = Play;
