@@ -23,6 +23,7 @@ Partical.constructor = Partical
 Partical.prototype = Object.create(PIXI.Sprite.prototype)
 
 var resetParticle = function(particle) {
+  particle.blendMode = PIXI.blendModes.SCREEN
   particle.alpha = 1
   particle.speed.x = (0.5 + Math.random()) * randomSign()
   particle.speed.y = (0.5 + Math.random()) * randomSign()
@@ -33,13 +34,49 @@ var resetParticle = function(particle) {
   particle.visible = true
 }
 
-var particlePool = []
-for (var i = 0; i <= 10000; i++) {
-  var particle = new Partical()
-  particle.blendMode = PIXI.blendModes.SCREEN
-  particlePool.push(particle)
-  resetParticle(particle)
+var ParticlePool = function(size) {
+  this.pool = []
+
+  for (var i = 0; i <= size; i++) {
+    var particle = new Partical()
+    this.pool.push({
+      particle: particle,
+      free: true
+    })
+  }
 }
+
+ParticlePool.prototype.claim = function(amount) {
+  var particles = []
+
+  for (var i = 0; i < this.pool.length; i++) {
+    var entry = this.pool[i]
+
+    if (entry.free) {
+      entry.free = false
+      particles.push(entry.particle)
+    }
+
+    if (particles.length == amount) {
+      break
+    }
+  }
+
+  if (particles.length < amount) {
+    console.log('Not enough particles to satisfy request')
+  }
+
+  return particles
+}
+
+ParticlePool.prototype.release = function(particles) {
+  _.each(particles, function(particle) {
+    var entry = _.find(this.pool, { p: particle })
+    entry.free = true
+  })
+}
+
+var particlePool = new ParticlePool(5000)
 
 var Explosion = function(origin) {
   this.sprite = new PIXI.DisplayObjectContainer()
@@ -48,12 +85,11 @@ var Explosion = function(origin) {
   this.particles = []
   this.ttl = 0
 
-  for (var i = 0; i <= 1000; i++) {
-    var particle = particlePool[i]
+  particlePool.claim(1000).forEach(function(particle) {
+    resetParticle(particle)
     this.sprite.addChild(particle)
     this.particles.push(particle)
-    resetParticle(particle)
-  }
+  }.bind(this))
 }
 
 Explosion.prototype = new Entity()
