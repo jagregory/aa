@@ -2,6 +2,9 @@ var _ = require('../../../3rdparty/underscore-min'),
   Entity = require('../entity'),
   World = require('../world')
 
+var M_PI = Math.PI
+var M_PI_2 = M_PI / 2
+
 var randomBetween = function(min, max) {
   return Math.floor(Math.random() * max) + min
 }
@@ -20,8 +23,8 @@ var Partical = function() {
   this.anchor.y = 0.5
   this.speed = new PIXI.Point
   this.acceleration = new PIXI.Point
-  this.width = 32
-  this.height = 32
+  this.width = 8
+  this.height = 8
 }
 Partical.constructor = Partical
 Partical.prototype = Object.create(PIXI.Sprite.prototype)
@@ -36,6 +39,9 @@ var resetParticle = function(particle) {
   particle.position.x = 0
   particle.position.y = 0
   particle.visible = true
+  particle.width = 8
+  particle.height = 8
+  particle.rotation = 0
 }
 
 var ParticlePool = function(size) {
@@ -111,7 +117,26 @@ Explosion.prototype.update = function(delta) {
     particle.speed.x += 0.05 * particle.acceleration.x
     particle.speed.y += 0.05 * particle.acceleration.y
 
-    if (distance({ x: 0, y: 0 }, particle.position) >= randomBetween(100, 175)) {
+    var velocity = particle.speed
+    var angle = 0
+
+    if (velocity.x === 0) {
+      angle = velocity.y > 0 ? 0 : M_PI
+    } else if(velocity.y === 0) {
+      angle = velocity.x > 0 ? M_PI_2 : 3 * M_PI_2
+    } else {
+      angle = Math.atan(velocity.y / velocity.x) + M_PI_2
+    }   
+
+    if (velocity.x > 0) {
+      angle += M_PI
+    }
+
+    particle.rotation = angle
+
+    particle.height = 8 * particle.speed.y
+
+    if (distance({ x: 0, y: 0 }, particle.position) >= randomBetween(200, 375)) {
       particle.alpha *= 0.92
     }
 
