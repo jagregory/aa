@@ -70,10 +70,10 @@ ParticlePool.prototype.claim = function(amount) {
 }
 
 ParticlePool.prototype.release = function(particles) {
-  _.each(particles, function(particle) {
-    var entry = _.find(this.pool, { p: particle })
+  particles.forEach(function(particle) {
+    var entry = _.findWhere(this.pool, { particle: particle })
     entry.free = true
-  })
+  }.bind(this))
 }
 
 var particlePool = new ParticlePool(5000)
@@ -125,6 +125,9 @@ Explosion.prototype.update = function(delta) {
     // TODO: I don't know how this is supposed to work. Destroy expects
     // the game and physics engines to be passed to it.
     // this.destroy()
+    particlePool.release(this.particles)
+    this.particles = []
+    this.sprite = null
   }
 }
 
