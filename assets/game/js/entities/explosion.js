@@ -2,6 +2,10 @@ var _ = require('../../../3rdparty/underscore-min'),
   Entity = require('../entity'),
   World = require('../world')
 
+var randomBetween = function(min, max) {
+  return Math.floor(Math.random() * max) + min
+}
+
 var randomSign = function() {
   return Math.random() < 0.5 ? -1 : 1
 }
@@ -85,7 +89,7 @@ var Explosion = function(origin) {
   this.particles = []
   this.ttl = 0
 
-  particlePool.claim(1000).forEach(function(particle) {
+  particlePool.claim(randomBetween(750, 1250)).forEach(function(particle) {
     resetParticle(particle)
     this.sprite.addChild(particle)
     this.particles.push(particle)
@@ -107,7 +111,7 @@ Explosion.prototype.update = function(delta) {
     particle.speed.x += 0.05 * particle.acceleration.x
     particle.speed.y += 0.05 * particle.acceleration.y
 
-    if (distance({ x: 0, y: 0 }, particle.position) >= 100) {
+    if (distance({ x: 0, y: 0 }, particle.position) >= randomBetween(100, 175)) {
       particle.alpha *= 0.92
     }
 
