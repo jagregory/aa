@@ -13,10 +13,15 @@ module.exports = function() {
   
   $('#page').html(view());
   
-  $('#up').on('click', goUp);
-  $('#down').on('click', goDown);
-  $('#exit').on('click', forfeit);
-  
+  if ('ontouchstart' in window) {
+    tappable('#up', goUp);
+    tappable('#down', goDown);
+    tappable('#exit', forfeit);
+  } else {
+    $('#up').on('click', goUp);
+    $('#down').on('click', goDown);
+    $('#exit').on('click', forfeit);
+  }
 };
 
 function goUp(e) {

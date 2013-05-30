@@ -1,4 +1,5 @@
 var routie = require('../../3rdparty/routie');
+var tappable = require('../../3rdparty/tappable');
 
 window.Pong = {}
 Pong.Device = function() {
