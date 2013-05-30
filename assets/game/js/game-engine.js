@@ -102,6 +102,10 @@ var GameEngine = function(data) {
     }
   };
 
+  hub.on('entity:destroy', function(params) {
+    this.deleteEntity(params.entity.id)
+  }.bind(this))
+
   // Go!
   hub.interceptor = this.queueNext;
   states.start();

@@ -31,7 +31,7 @@ Goal.prototype.collision = function(other, points) {
     hub.send('sound:play', '/game/sounds/explosion.mp3');
     hub.send('particles:explosion', {
       source: points[0],
-      intensity: 30
+      size: 'large'
     });
     hub.send('game:transition', 'scored');
   }

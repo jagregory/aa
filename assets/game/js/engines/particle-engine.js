@@ -5,8 +5,8 @@ var Explosion = require('../entities/explosion')
 var ParticleEngine = function(game) {
   
   hub.on('particles:explosion', function(params) {
-    game.addEntity(new Explosion(params.source))
-  });
+    game.addEntity(Explosion[params.size || 'small'](params.source))
+  })
   
 };
 

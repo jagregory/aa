@@ -3,6 +3,7 @@ var GF          = require('../engines/graphics-factory');
 var Entity      = require('../entity');
 var world       = require('../world');
 var mathUtils   = require('../math-utils');
+var hub         = require('../hub');
 
 var ballSize = 1.5;
 
@@ -34,5 +35,12 @@ Ball.prototype.update = function(delta) {
   this.sprite.anchor.x = this.sprite.width  / 2;
   this.sprite.anchor.y = this.sprite.height / 2;
 };
+
+Ball.prototype.collision = function(other, points) {    
+  hub.send('particles:explosion', {
+    source: points[0],
+    size: 'small'
+  })
+}
 
 module.exports = Ball;

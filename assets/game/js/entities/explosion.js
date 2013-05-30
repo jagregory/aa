@@ -1,6 +1,7 @@
 var _ = require('../../../3rdparty/underscore-min'),
   Entity = require('../entity'),
-  World = require('../world')
+  World = require('../world'),
+  hub = require('../hub')
 
 var M_PI = Math.PI
 var M_PI_2 = M_PI / 2
@@ -81,6 +82,9 @@ ParticlePool.prototype.claim = function(amount) {
 
 ParticlePool.prototype.release = function(particles) {
   particles.forEach(function(particle) {
+    if (particle.parent) {
+      particle.parent.removeChild(particle)
+    }
     var entry = _.findWhere(this.pool, { particle: particle })
     entry.free = true
   }.bind(this))
@@ -88,18 +92,25 @@ ParticlePool.prototype.release = function(particles) {
 
 var particlePool = new ParticlePool(5000)
 
-var Explosion = function(origin) {
+var Explosion = function(origin, particleCount) {
+  Entity.call(this)
   this.sprite = new PIXI.DisplayObjectContainer()
   this.sprite.position.x = World.toPixels(origin.x)
   this.sprite.position.y = World.toPixels(origin.y)
   this.particles = []
   this.ttl = 0
 
-  particlePool.claim(randomBetween(750, 1250)).forEach(function(particle) {
+  particlePool.claim(particleCount).forEach(function(particle) {
     resetParticle(particle)
     this.sprite.addChild(particle)
     this.particles.push(particle)
   }.bind(this))
+}
+Explosion.large = function(origin) {
+  return new Explosion(origin, randomBetween(750, 1250))
+}
+Explosion.small = function(origin) {
+  return new Explosion(origin, randomBetween(100, 300))
 }
 
 Explosion.prototype = new Entity()
@@ -108,10 +119,10 @@ Explosion.prototype.update = function(delta) {
   this.ttl -= delta
 
   this.particles.forEach(function(particle) {
-    if (!particle) {
+    if (!particle.parent) {
+      // dead particle
       return
     }
-
     particle.position.x += (0.5 * particle.speed.x)
     particle.position.y += (0.5 * particle.speed.y)
     particle.speed.x += 0.05 * particle.acceleration.x
@@ -141,22 +152,16 @@ Explosion.prototype.update = function(delta) {
     }
 
     if (particle.alpha <= (Math.random() * 5) / 50) {
-      if (this.ttl > 0) {
-        // only reuse particle if we're still alive
-        resetParticle(particle)
-      } else {
-        particle.visible = false
-      }
+      particle.visible = false
     }
   }.bind(this))
 
-  if (this.ttl <= 0 && !_.findWhere(this.particles, { visible: true })) {
-    // TODO: I don't know how this is supposed to work. Destroy expects
-    // the game and physics engines to be passed to it.
-    // this.destroy()
+  if (!_.findWhere(this.particles, { visible: true })) {
     particlePool.release(this.particles)
     this.particles = []
-    this.sprite = null
+    hub.send('entity:destroy', {
+      entity: this
+    })
   }
 }
 
