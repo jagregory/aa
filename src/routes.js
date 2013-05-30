@@ -8,16 +8,22 @@ exports.register = function(app) {
 
   // mobile landing page
   app.get('/', function(req, res) {
+    res.header('Cache-Control', 'no-cache')
+
     res.redirect('/device')
   })
 
   // get all players (for debugging)
   app.get('/player', function(req, res) {
+    res.header('Cache-Control', 'no-cache')
+
     res.send(player.all());
   });
 
   // create a player
   app.post('/player', function(req, res) {
+    res.header('Cache-Control', 'no-cache')
+
     var p = player.create(
       req.body.firstName,
       req.body.lastName,
@@ -28,6 +34,8 @@ exports.register = function(app) {
 
   // delete a player
   app.delete('/player/:playerId', function(req, res) {
+    res.header('Cache-Control', 'no-cache')
+
     var p = player.withId(req.params.playerId);
     if (!p) {
       res.status(404).send('Player unknown');
@@ -39,11 +47,15 @@ exports.register = function(app) {
 
   // get the lobby state
   app.get('/lobby', function(req, res) {
+    res.header('Cache-Control', 'no-cache')
+
     res.send(lobby.state());
   });
 
   // try to join the lobby
   app.post('/lobby/:playerId', function(req, res) {
+    res.header('Cache-Control', 'no-cache')
+
     var p = player.withId(req.params.playerId);
     if (!p) {
       res.status(404).send('Player unknown');
@@ -60,6 +72,8 @@ exports.register = function(app) {
 
   // leave the lobby
   app.delete('/lobby/:playerId', function(req, res) {
+    res.header('Cache-Control', 'no-cache')
+
     var p = player.withId(req.params.playerId);
     if (!p) {
       res.status(404).send('Player unknown');
@@ -71,6 +85,9 @@ exports.register = function(app) {
 
   // send an action to the game
   app.post('/game/:playerId', function(req, res) {
+    res.header('Cache-Control', 'no-cache')
+
+    console.log('POSTed')
     var p = player.withId(req.params.playerId);
     if (!p) {
       res.status(404).send('Player unknown');
@@ -81,12 +98,14 @@ exports.register = function(app) {
     } else {
       var action = req.body.action;
       matchInProgress.send(p, action);
-      res.send({processed: true});
+      res.send({ processed: true })
     }
   });
 
   // forfeit the game
   app.delete('/game/:playerId', function(req, res) {
+    res.header('Cache-Control', 'no-cache')
+    
     var p = player.withId(req.params.playerId);
     if (!p) {
       res.status(404).send('Player unknown');
