@@ -110,7 +110,7 @@ Explosion.large = function(origin) {
   return new Explosion(origin, randomBetween(750, 1250))
 }
 Explosion.small = function(origin) {
-  return new Explosion(origin, randomBetween(5, 25))
+  return new Explosion(origin, randomBetween(9, 51))
 }
 
 Explosion.prototype = new Entity()
