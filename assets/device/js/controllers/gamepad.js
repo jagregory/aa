@@ -31,7 +31,7 @@ function goDown(e) {
 
 function sendAction(actionName) {
   $.ajax({
-    type: 'PUT',
+    type: 'POST',
     url: '/game/' + player.get().id,
     data: JSON.stringify({action: actionName}),
     contentType: 'application/json'
