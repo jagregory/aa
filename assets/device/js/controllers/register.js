@@ -40,5 +40,5 @@ function go(data) {
     id: data.id,
     name: data.name
   });
-  routie.navigate('/lobby');
+  routie.navigate('/wait');
 }
