@@ -33,7 +33,7 @@ describe('Match', function() {
   it("can send actions to the game engine", function() {
     var m = match.create(lobby);
     m.send({id: '1'}, 'up');
-    bridge.send.lastCall.args[0].should.eql('match-move');
+    bridge.send.lastCall.args[0].should.eql('player-action');
   });
   
   it("ignores actions from invalid players", function() {
@@ -46,9 +46,9 @@ describe('Match', function() {
   it("sends vectors for 'up' and 'down' actions", function() {
     var m = match.create(lobby);
     m.send({id: '1'}, 'up');
-    bridge.send.lastCall.args[1].should.eql({ pindex:0, vector: {x:0, y:-10} });
+    bridge.send.lastCall.args[1].should.eql({ pindex:0, action: 'up' });
     m.send({id: '1'}, 'down');
-    bridge.send.lastCall.args[1].should.eql({ pindex:0, vector: {x:0, y:+10} });
+    bridge.send.lastCall.args[1].should.eql({ pindex:0, action: 'down' });
   });
   
 });

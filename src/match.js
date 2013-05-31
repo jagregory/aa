@@ -1,11 +1,6 @@
 var _ = require('underscore');
 var bridge = require('./bridge');
 
-var actions = {
-  up:   { vector: {x: 0, y: -10} },
-  down: { vector: {x: 0, y: +10} }
-}
-
 exports.create = function(lobby) {
   
   var match = {};
