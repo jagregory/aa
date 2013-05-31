@@ -3,46 +3,72 @@ P2COLOR = #d65100
 
 #page.gamepad
 
-  background-image: url('/device/images/stripes.png')
+  border: 0
   padding: 0
 
-  #exit
-    color: #fff
-    font-size: 1.1em
-    margin: 0 auto
-    padding: 0.5em
-    text-align: center
-    width: 5em
-    text-shadow: 0 0 5px #333
+  .player, .portrait, .landscape
+    display: table
+    height: 100%
+    width: 100%
 
-  .icon
-    bottom: 0.3em
-    display: block
+  .row
+    display: table-row
+
+  .button
+    display: table-cell
+    vertical-align: middle
+  
+  .portrait
+    .row
+      height: 50%
+    .button
+      width: 100%
+    .button.up
+      border-bottom-width: 10px
+    .button.down
+      border-top-width: 10px
+
+  .landscape
+    .row
+      height: 100%
+    .button
+      width: 50%
+    .button.up
+      border-right-width: 10px
+    .button.down
+      border-left-width: 10px
+  
+  .button
+    background-image: url('/device/images/stripes.png')
+    border: 20px solid #000
+    display: table-cell
     font-size: 9em
-    position: absolute
+    text-align: center
+
+  .icon
     text-shadow: 0 0 2px rgba(0,0,0,0.5), 0 0 31px rgba(255,255,255,0.7)
+
+  .p1
+    .button
+      border-color: P1COLOR
+      background-color: lighten(P1COLOR, 30%)
+    .icon
+      color: P1COLOR
+
+  .p2
+    .button
+      border-color: P2COLOR
+      background-color: lighten(P2COLOR, 30%)
+    .icon
+      color: P2COLOR
+
+
+@media (orientation: landscape)
+  #page.gamepad
+    .portrait
+      display: none
   
-  .icon.pressed
-      transform:scale(1.2)
-  
-  #down
-    left: 15%
-
-  #up
-    right: 15%
-
-#page.gamepad.p1
-  background-color: lighten(P1COLOR, 30%)
-  border: 1em solid P1COLOR
-  #exit
-    background: P1COLOR
-  .icon
-    color: P1COLOR
-
-#page.gamepad.p2
-  background-color: lighten(P2COLOR, 30%)
-  border: 1em solid P2COLOR
-  #exit
-    background: P2COLOR
-  .icon
-    color: P2COLOR
+@media (orientation: portrait)
+  #page.gamepad
+    .landscape
+      display: none

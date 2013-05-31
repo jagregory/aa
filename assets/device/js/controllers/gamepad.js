@@ -9,23 +9,22 @@ module.exports = function() {
   }
   
   $('#page').attr('class', 'gamepad');
-  $('#page').addClass('p' + player.get().pos);
   
-  $('#page').html(view());
+  $('#page').html(view({
+    index: player.get().pos || 1
+  }));
 
   if ('ontouchstart' in window) {
-    $('#up').on('touchstart', goUp);
-    $('#up').on('touchend', stop);
-    $('#down').on('touchstart', goDown);
-    $('#down').on('touchend', stop);
+    $('button.up').on('touchstart', goUp);
+    $('button.up').on('touchend', stop);
+    $('button.down').on('touchstart', goDown);
+    $('button.down').on('touchend', stop);
   } else {
-    $('#up').on('mousedown', goUp);
-    $('#up').on('mouseup', stop);
-    $('#down').on('mousedown', goDown);
-    $('#down').on('mouseup', stop);
+    $('button.up').on('mousedown', goUp);
+    $('button.up').on('mouseup', stop);
+    $('button.down').on('mousedown', goDown);
+    $('button.down').on('mouseup', stop);
   }
-
-  $('#exit').on('click', forfeit);
   
 };
 
@@ -53,7 +52,3 @@ function sendAction(actionName) {
   });
 }
 
-function forfeit(e) {
-  e.preventDefault();
-  routie.navigate('/thanks');
-}
