@@ -1,30 +1,35 @@
 
 exports.connect = function(matchStart, playerMove, playerStop) {
 
-  var keydown = $(document).keydownAsObservable();
-  var keyup = $(document).keyupAsObservable();
+  var keydown       = $(document).keydownAsObservable().select(keyCode);
+  var keyup         = $(document).keyupAsObservable();
+  var singledown    = keydown.merge(keyup).distinctUntilChanged();
   
-  keydown.where(key(13)).take(1).subscribe(start);
+  singledown.where(key(13)).take(1).subscribe(start);
   
-  keydown.where(letter('Q')).throttle(10).subscribe(move(0, 'up'));
-  keydown.where(letter('S')).throttle(10).subscribe(move(0, 'down'));
-  keydown.where(letter('P')).throttle(10).subscribe(move(1, 'up'));
-  keydown.where(letter('L')).throttle(10).subscribe(move(1, 'down'));
+  singledown.where(letter('Q')).subscribe(move(0, 'up'));
+  singledown.where(letter('S')).subscribe(move(0, 'down'));
+  singledown.where(letter('P')).subscribe(move(1, 'up'));
+  singledown.where(letter('L')).subscribe(move(1, 'down'));
 
-  keyup.where(letter('Q')).subscribe(stop(0));
-  keyup.where(letter('S')).subscribe(stop(0));
-  keyup.where(letter('P')).subscribe(stop(1));
-  keyup.where(letter('L')).subscribe(stop(1));
+  keyup.select(keyCode).where(letter('Q')).subscribe(stop(0));
+  keyup.select(keyCode).where(letter('S')).subscribe(stop(0));
+  keyup.select(keyCode).where(letter('P')).subscribe(stop(1));
+  keyup.select(keyCode).where(letter('L')).subscribe(stop(1));
 
-  function key(code) {
-    return function(e) {
-      return e.keyCode === code;
+  function keyCode(e) {
+    return e.keyCode;
+  }
+
+  function key(c) {
+    return function(code) {
+      return code === c;
     };
   }
   
   function letter(l) {
-    return function(e) {
-      return e.keyCode === l.charCodeAt(0);
+    return function(code) {
+      return code === l.charCodeAt(0);
     };
   }
   
@@ -37,6 +42,7 @@ exports.connect = function(matchStart, playerMove, playerStop) {
   
   function move(index, dir) {
     return function() { 
+      console.log('[keyboard] move ' + index + ' ' + dir);
       playerMove({
         pindex: index,
         dir: dir
@@ -46,6 +52,7 @@ exports.connect = function(matchStart, playerMove, playerStop) {
   
   function stop(index) {
     return function(e) {
+      console.log('[keyboard] stop ' + index);
       playerStop({
         pindex: index,
       });
