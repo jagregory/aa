@@ -17,8 +17,8 @@ window.Main = function() {
   });
   
   // Wire external events
-  bridgeKeyboard.connect(matchStart, matchMove);
-  bridgeSocket.connect(matchStart, matchMove);
+  bridgeKeyboard.connect(matchStart, playerMove, playerStop);
+  bridgeSocket.connect(matchStart, playerMove, playerStop);
   
   function matchStart(players) {
     // Cleanup any previous game?
@@ -33,9 +33,15 @@ window.Main = function() {
     });
   }
 
-  function matchMove(args) {
+  function playerMove(args) {
     if (gameEngine) {
       gameEngine.input('move', args);
+    }
+  }
+  
+  function playerStop(args) {
+    if (gameEngine) {
+      gameEngine.input('stop', args);
     }
   }
 

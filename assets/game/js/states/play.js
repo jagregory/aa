@@ -16,7 +16,10 @@ function Play(game) {
   this.on = function(message, args) {
     if (message === 'move') {
       var player = game.getEntity(args.pindex === 0 ? 'p1' : 'p2');
-      player.move(args.vector);
+      player.move(args.dir);
+    } else if (message === 'stop') {
+      var player = game.getEntity(args.pindex === 0 ? 'p1' : 'p2');
+      player.stop();
     }
   };
   

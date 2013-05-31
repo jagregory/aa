@@ -1,10 +1,11 @@
 
-exports.connect = function(matchStart, matchMove) {
+exports.connect = function(matchStart, playerMove, playerStop) {
 
   var keydown = $(document).keydownAsObservable();
   var keyup = $(document).keyupAsObservable();
   
   keydown.where(key(13)).take(1).subscribe(start);
+  
   keydown.where(letter('Q')).throttle(10).subscribe(move(0, 'up'));
   keydown.where(letter('S')).throttle(10).subscribe(move(0, 'down'));
   keydown.where(letter('P')).throttle(10).subscribe(move(1, 'up'));
@@ -36,24 +37,17 @@ exports.connect = function(matchStart, matchMove) {
   
   function move(index, dir) {
     return function() { 
-      matchMove({
+      playerMove({
         pindex: index,
-        vector: {
-          x: 0,
-          y: (dir === 'up') ? -35 : 35
-        }
+        dir: dir
       });
     };
   }
   
   function stop(index) {
     return function(e) {
-      matchMove({
+      playerStop({
         pindex: index,
-        vector: {
-          x: 0,
-          y: 0
-        }
       });
     };
   }
