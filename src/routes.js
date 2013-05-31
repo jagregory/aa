@@ -9,7 +9,6 @@ exports.register = function(app) {
   // mobile landing page
   app.get('/', function(req, res) {
     res.header('Cache-Control', 'no-cache')
-
     res.redirect('/device')
   })
 
