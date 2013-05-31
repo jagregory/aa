@@ -12,16 +12,21 @@ module.exports = function() {
   $('#page').addClass('p' + player.get().pos);
   
   $('#page').html(view());
-  
+
   if ('ontouchstart' in window) {
-    tappable('#up', goUp);
-    tappable('#down', goDown);
-    tappable('#exit', forfeit);
+    $('#up').on('touchstart', goUp);
+    $('#up').on('touchend', stop);
+    $('#down').on('touchstart', goDown);
+    $('#down').on('touchend', stop);
   } else {
-    $('#up').on('click', goUp);
-    $('#down').on('click', goDown);
-    $('#exit').on('click', forfeit);
+    $('#up').on('mousedown', goUp);
+    $('#up').on('mouseup', stop);
+    $('#down').on('mousedown', goDown);
+    $('#down').on('mouseup', stop);
   }
+
+  $('#exit').on('click', forfeit);
+  
 };
 
 function goUp(e) {
@@ -32,6 +37,11 @@ function goUp(e) {
 function goDown(e) {
   e.preventDefault();
   sendAction('down');
+}
+
+function stop(e) {
+  e.preventDefault();
+  sendAction('stop');
 }
 
 function sendAction(actionName) {

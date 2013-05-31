@@ -20,8 +20,7 @@ exports.create = function(lobby) {
   match.send = function(player, action) {
     var idx = indexOf(player.id);
     if (idx != null) {
-      var param = _.extend(actions[action], {pindex: idx});
-      bridge.send('match-move', param);
+      bridge.send('player-action', {pindex: idx, action: action});
     }
   }
   
