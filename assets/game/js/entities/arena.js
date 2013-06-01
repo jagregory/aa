@@ -29,9 +29,9 @@ function Arena() {
       that.entities.push(spinner);
   });
 
-  _.each(picked.goals, function(goals, playerId) {
+  _.each(picked.goals, function(goals, playerIndex) {
     _.each(goals, function(g, i) {
-        var goal = new Goal('goal' + playerId + i, g.x, g.y, g.width, g.height, g.rotation || 0);
+        var goal = new Goal('p' + (playerIndex + 1) + 'goal' + i, playerIndex, g.x, g.y, g.width, g.height, g.rotation || 0);
         that.entities.push(goal);
     });
   });

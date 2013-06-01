@@ -29,20 +29,20 @@ exports.walls = [
 
 exports.spinners = [
 
-  { id: 'spinner1', x:  w.width / 12 * 5,   y:  w.height / 3,     width:  2, height: 2, rotation: PI / 4 },
-  { id: 'spinner2', x:  w.width / 12 * 7,   y:  w.height / 3 * 2, width:  2, height: 2, rotation: PI / 4 },
+  { x:  w.width / 12 * 5,   y:  w.height / 3,     width:  2, height: 2, rotation: PI / 4 },
+  { x:  w.width / 12 * 7,   y:  w.height / 3 * 2, width:  2, height: 2, rotation: PI / 4 },
   
 ];
 
 exports.goals = {
   
-  p1: [
+  0: [
     { x:  w.left + 2,    y:  w.top    + 2,    width:  2,   height: 2 },
     { x:  w.left + 2,    y:  w.bottom - 2,    width:  2,   height: 2 },
     { x:  w.left + 2,    y:  w.height / 2,    width:  2,   height: 2 },
   ],
   
-  p2: [
+  1: [
     { x:  w.right - 2,   y:  w.top    + 2,    width:  2,   height: 2 },
     { x:  w.right - 2,   y:  w.bottom - 2,    width:  2,   height: 2 },
     { x:  w.right - 2,   y:  w.height / 2,    width:  2,   height: 2 },

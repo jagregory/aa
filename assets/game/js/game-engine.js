@@ -107,8 +107,9 @@ var GameEngine = function(data) {
   }.bind(this))
 
   hub.on('score', function(params) {
-    states.transition('scored');
-    this.players[params.playerIndex].score += 1;
+    var playerIndex = 1 - params.against;
+    states.transition('scored', playerIndex);
+    this.players[playerIndex].score += 1;
   }.bind(this))
 
   // Go!

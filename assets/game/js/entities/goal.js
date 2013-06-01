@@ -4,8 +4,9 @@ var Entity      = require('../entity');
 var world       = require('../world');
 var hub         = require('../hub');
 
-function Goal(id, x, y, width, height, rotation) {
+function Goal(id, playerIndex, x, y, width, height, rotation) {
   this.id = id;
+  this.playerIndex = playerIndex;
   this.bodySpec = {
     body: PF.static({
       x: x,
@@ -33,7 +34,7 @@ Goal.prototype.collision = function(other, points) {
       source: points[0],
       size: 'large'
     });
-    hub.send('score', {playerIndex: 0});
+    hub.send('score', {against: this.playerIndex});
   }
 };
 

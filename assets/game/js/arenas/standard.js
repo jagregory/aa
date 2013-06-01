@@ -16,10 +16,13 @@ exports.walls = [
 ];
 
 exports.goals = {
-  p1: [
+  
+  0: [
     { x:  w.left,    y:  w.height / 2,    width:  1,       height: w.height / 3 },
   ],
-  p2: [
+  
+  1: [
     { x:  w.right,   y:  w.height / 2,    width:  1,       height: w.height / 3 },
   ]
+  
 };
