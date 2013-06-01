@@ -106,6 +106,11 @@ var GameEngine = function(data) {
     this.deleteEntity(params.entity.id)
   }.bind(this))
 
+  hub.on('score', function(params) {
+    states.transition('scored');
+    this.players[params.playerIndex].score += 1;
+  }.bind(this))
+
   // Go!
   hub.interceptor = this.queueNext;
   states.start();

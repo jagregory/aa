@@ -33,7 +33,7 @@ Goal.prototype.collision = function(other, points) {
       source: points[0],
       size: 'large'
     });
-    hub.send('game:transition', 'scored');
+    hub.send('score', {playerIndex: 0});
   }
 };
 

@@ -2,6 +2,7 @@ var GameEngine      = require('./game-engine');
 var bridgeSocket    = require('./bridge/socket');
 var bridgeKeyboard  = require('./bridge/keyboard');
 var scoreView       = require('../views/scores.hbs');
+var hub             = require('./hub');
 
 window.Main = function() {
   
@@ -22,15 +23,19 @@ window.Main = function() {
   
   function matchStart(players) {
     // Cleanup any previous game?
+    var players = players.map(function(p) {
+      return {
+        id: p.id,
+        name: p.firstName + ' ' + p.lastName,
+        score: 0
+      }
+    });
     gameEngine = new GameEngine({
       players: players,
       debugDraw: debugCanvas
     });
     board.appendChild(gameEngine.view);
-    scoreContainer.innerHTML = scoreView({
-      p1: { name: players[0].name, score: 0 },
-      p2: { name: players[1].name, score: 0 }
-    });
+    updateScore();
   }
 
   function playerMove(args) {
@@ -44,7 +49,21 @@ window.Main = function() {
       gameEngine.input('stop', args);
     }
   }
-
+  
+  function updateScore() {
+    scoreContainer.innerHTML = scoreView({
+      p1: gameEngine.players[0],
+      p2: gameEngine.players[1]
+    });
+  }
+  
+  hub.on('score', function() {
+    // We don't control the order of event handlers
+    // Ideally, this will just react to the "players" model changing
+    // With some sort of MVVM framework
+    setTimeout(updateScore, 100);
+  });
+  
 };
 
 
