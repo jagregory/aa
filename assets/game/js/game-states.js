@@ -28,10 +28,10 @@ function GameStates(game) {
     ],
   
     callbacks: {
-      onenterstate: function(transition, start, end) {
+      onenterstate: function(transition, start, end, args) {
         console.log('[sequencer] ' + start + ' + ' + transition + ' = ' + end);
         states[start] && states[start].exit();
-        states[end]   && states[end].enter();
+        states[end]   && states[end].enter(args);
         activeState = states[end];
       }
     }
@@ -42,8 +42,8 @@ function GameStates(game) {
     fsm.startup();
   };
   
-  this.transition = function(trans) {
-    fsm[trans]();
+  this.transition = function(trans, args) {
+    fsm[trans](args);
   };
   
   this.active = function() {
