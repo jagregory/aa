@@ -35,8 +35,8 @@ exports.connect = function(matchStart, playerMove, playerStop) {
   
   function start() {
     matchStart([
-      {id: '1', name: 'John'},
-      {id: '2', name: 'Bill'}
+      { id: '1', firstName: 'John', lastName: 'Doe'   },
+      { id: '2', firstName: 'Bill', lastName: 'Cosby' }
     ]);
   }
   
