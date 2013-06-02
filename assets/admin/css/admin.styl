@@ -43,12 +43,14 @@ a
 
 
 table
-  background: #f9f9f9
   border: 1px solid #333
 
-thead
-  background-color: #333
-  color: #eee
+thead tr
+    background-color: #333
+    color: #eee
+
+tbody tr
+  background: #fbfbfb
 
 th, td
   padding: 0.5em
@@ -73,6 +75,8 @@ td.empty
     float: left
   .dataTables_paginate
     float: right
+    a
+      margin-left: 0.5em
   table
     clear: both
     margin-bottom: 1em
