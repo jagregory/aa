@@ -1,26 +1,35 @@
 
 <table>
-  <tr>
-    <th>First name</th>
-    <th>Last name</th>
-    <th>Mobile</th>
-    <th>Game level</th>
-    <th>Actions</th>
-  </tr>
+  
+  <thead>
     <tr>
-      <td>John</td>
-      <td>Doe</td>
-      <td>0412345678</td>
-      <td>1</td>
-      <td><a class="forfeit" href="#">forfeit</a></td>
+      <th>First name</th>
+      <th>Last name</th>
+      <th>Phone</th>
+      <th>Top score</th>
+      <th>Actions</th>
     </tr>
-    <tr>
-      <td>Bill</td>
-      <td>Cosby</td>
-      <td>0412345678</td>
-      <td>3</td>
-      <td><a class="forfeit" href="#">forfeit</a></td>
-    </tr>
+  </thead>
+  
+  <tbody>
+    {{#each players}}
+      {{#if id}}
+        <tr>
+          <td>{{firstName}}</td>
+          <td>{{lastName}}</td>
+          <td>{{phoneNumber}}</td>
+          <td>{{topScore}}</td>
+          <td><a class="evict" href="#">evict</a></td>
+        </tr>
+      {{/if}}
+      {{#unless id}}
+      <tr>
+        <td class="empty" colspan="5">EMPTY</td>
+      </tr>
+      {{/unless}}
+    {{/each}}
+  </tbody>
+  
 </table>
 
 <button class="dislodge">

@@ -18,6 +18,7 @@ function getLobby() {
 }
 
 function renderLobby(data) {
-  $('#current').html(viewCurrent());
+  var matchPlayers = [{}, {}];
+  $('#current').html(viewCurrent({players: matchPlayers}));
   $('#lobby').html(viewLobby(data));
 }
