@@ -7,7 +7,7 @@ require('../../../3rdparty/rx.zepto');
 module.exports = function() {
   
   if (player.get().id == undefined) {
-    routie.navigate('/register');
+    routie.navigate('/connect');
   }
   
   $('#page').attr('class', 'lobby');

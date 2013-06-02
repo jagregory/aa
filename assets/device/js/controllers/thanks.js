@@ -7,7 +7,7 @@ module.exports = function() {
   $('#page').html(view());
   
   setTimeout(function() {
-    routie.navigate('/register');
+    routie.navigate('/connect');
   }, 4000);
   
 };
