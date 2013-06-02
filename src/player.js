@@ -13,7 +13,7 @@ db.loadPlayers(function(err, list) {
 exports.create = function(fields) {
   var p = _.extend(fields, {
     id: uuid.v4(),
-    pin: Math.floor(Math.random() * 10000),  
+    pin: randomPin(),  
     topScore: 0
   });
   players.push(p);
@@ -32,3 +32,7 @@ exports.all = function() {
 exports.delete = function(player) {
   players = _.reject(players, function(p) { return p.id === player.id; });
 };
+
+function randomPin() {
+  return Math.floor(Math.random() * 100000);
+}
