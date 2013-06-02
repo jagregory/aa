@@ -1,5 +1,6 @@
 var routie = require('../../3rdparty/routie');
 var tappable = require('../../3rdparty/tappable');
+var player = require('./player');
 
 window.Pong = {}
 Pong.Device = function() {
@@ -16,7 +17,7 @@ Pong.Device = function() {
   
   $('#menu').on('click', function() {
     if (window.confirm('disconnect player?')) {
-      window.localStorage.clear();
+      player.reset();
       routie.navigate('/');
     }
   });
