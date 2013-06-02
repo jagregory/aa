@@ -1,18 +1,24 @@
-<table>
-  <tr>
-    <th>First name</th>
-    <th>Last name</th>
-    <th>Mobile</th>
-    <th>Game level</th>
-    <th>Actions</th>
-  </tr>
-  {{#each players}}
-    <tr id="{{id}}">
-      <td>{{firstName}}</td>
-      <td>{{lastName}}</td>
-      <td>{{mobile}}</td>
-      <td>{{level}}</td>
-      <td><a class="delete" href="#">delete</a></td>
+<section id="players">
+  
+  <h1>All players</h1>
+
+  <table id="players">
+    <tr>
+      <th>First name</th>
+      <th>Last name</th>
+      <th>Mobile</th>
+      <th>Game level</th>
+      <th>Actions</th>
     </tr>
-  {{/each}}
-</table>
+    {{#each players}}
+      <tr id="{{id}}">
+        <td>{{firstName}}</td>
+        <td>{{lastName}}</td>
+        <td>{{mobile}}</td>
+        <td>{{level}}</td>
+        <td><a class="delete" href="#">delete</a></td>
+      </tr>
+    {{/each}}
+  </table>
+
+</section>

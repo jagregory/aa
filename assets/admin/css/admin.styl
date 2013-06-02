@@ -6,11 +6,37 @@ global-reset()
   box-sizing: border-box
 
 body
-  background: #eee
+  background-color: #eee
   color: #333
   margin: 0
-  padding: 2em
   -webkit-font-smoothing: antialiased
+
+#container
+  display: table
+
+nav
+  background-color: #333
+  display: table-cell
+  font-size: 1.2em
+  width: 10em
+  ul
+    min-height: 30em
+  li
+    background-color: #333
+    border-top: 1px solid #666
+    border-bottom: 1px solid #000
+    cursor: pointer
+    display: block
+    padding: 0.8em
+  i
+    margin-right: 0.5em
+  a
+    color: #eee
+    
+#page
+  display: table-cell
+  min-height: 30em
+  padding: 2em
 
 h1
   font-size: 2em

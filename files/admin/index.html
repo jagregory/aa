@@ -10,43 +10,34 @@
   
   <body>
 
-    <h1><i class="icon icon-gamepad"></i>Current match</h1>
-    <div id="match">
-      <table>
-        <tr>
-          <th>First name</th>
-          <th>Last name</th>
-          <th>Mobile</th>
-          <th>Game level</th>
-          <th>Actions</th>
-        </tr>
-          <tr>
-            <td>John</td>
-            <td>Doe</td>
-            <td>0412345678</td>
-            <td>1</td>
-            <td><a class="forfeit" href="#">forfeit</a></td>
-          </tr>
-          <tr>
-            <td>Bill</td>
-            <td>Cosby</td>
-            <td>0412345678</td>
-            <td>3</td>
-            <td><a class="forfeit" href="#">forfeit</a></td>
-          </tr>
-      </table>
-      <button>
-        <i class="icon icon-resize-full"></i>
-        Try to dislodge ball
-      </button>
-    </div>
+    <div id="container">
+      
+      <nav>
+        <ul>
+          <li>
+            <a href="#/register">
+              <i class="icon icon-user"></i>
+              Register
+            </a>
+          </li>
+          <li>
+            <a href="#/players">
+              <i class="icon icon-group"></i>
+              All players
+            </a>
+          </li>
+          <li>
+            <a href="#/game">
+              <i class="icon icon-gamepad"></i>
+              Game
+            </a>
+          </li>
+        </ul>
+      </nav>
     
-    <h1><i class="icon icon-pushpin"></i>Lobby</h1>
-    <div id="lobby">
-    </div>
+      <div id="page">
+      </div>
     
-    <h1><i class="icon icon-group"></i>All players</h1>
-    <div id="players">
     </div>
     
     <script src="/3rdparty/zepto.min.js" type="text/javascript"></script>
