@@ -46,7 +46,7 @@ function stop(e) {
 function sendAction(actionName) {
   $.ajax({
     type: 'POST',
-    url: '/game/' + player.get().id,
+    url: '/game/players/' + player.get().id,
     data: JSON.stringify({action: actionName}),
     contentType: 'application/json'
   });
