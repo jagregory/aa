@@ -14,4 +14,9 @@ Pong.Device = function() {
       '/thanks':     require('./controllers/thanks')
   });
   
+  $('#reset').on('click', function() {
+    window.localStorage.clear();
+    routie.navigate('/');
+  });
+  
 };
