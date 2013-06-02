@@ -11,15 +11,15 @@ module.exports = function() {
   $('#page').attr('class', 'connect');
   $('#page').html(view());
   
-  $('input.pin').on('keypress', function(e) {
-    e.preventDefault();
+  $('#pin').on('keyup', function(e) {
     connect();
   });
   
 };
 
 function connect() {
-  $.post('/player', p).then(go);
+  var pin = $('#pin').val();
+  $.post('/connect/' + pin).then(go);
 }
 
 function go(data) {

@@ -13,6 +13,12 @@ exports.register = function(app) {
   })
 
   // get all players (for debugging)
+  app.get('/connect/:pin', function(req, res) {
+    res.header('Cache-Control', 'no-cache')
+    res.status(403).send('Invalid PIN');
+  });
+
+  // get all players (for debugging)
   app.get('/player', function(req, res) {
     res.header('Cache-Control', 'no-cache')
 
