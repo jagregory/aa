@@ -13,7 +13,7 @@ exports.register = function(app) {
   })
 
   // get all players (for debugging)
-  app.get('/connect/:pin', function(req, res) {
+  app.post('/connect/:pin', function(req, res) {
     res.header('Cache-Control', 'no-cache')
     res.status(403).send('Invalid PIN');
   });
@@ -21,26 +21,19 @@ exports.register = function(app) {
   // get all players (for debugging)
   app.get('/player', function(req, res) {
     res.header('Cache-Control', 'no-cache')
-
     res.send(player.all());
   });
 
   // create a player
   app.post('/player', function(req, res) {
     res.header('Cache-Control', 'no-cache')
-
-    var p = player.create(
-      req.body.firstName,
-      req.body.lastName,
-      req.body.mobile
-    );
+    var p = player.create(req.body);
     res.send(p);
   });
 
   // delete a player
   app.delete('/player/:playerId', function(req, res) {
     res.header('Cache-Control', 'no-cache')
-
     var p = player.withId(req.params.playerId);
     if (!p) {
       res.status(404).send('Player unknown');
@@ -53,14 +46,12 @@ exports.register = function(app) {
   // get the lobby state
   app.get('/lobby', function(req, res) {
     res.header('Cache-Control', 'no-cache')
-
     res.send(lobby.state());
   });
 
   // try to join the lobby
   app.post('/lobby/:playerId', function(req, res) {
     res.header('Cache-Control', 'no-cache')
-
     var p = player.withId(req.params.playerId);
     if (!p) {
       res.status(404).send('Player unknown');

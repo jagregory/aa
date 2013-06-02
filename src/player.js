@@ -10,13 +10,11 @@ db.loadPlayers(function(err, list) {
   players = list;
 });
 
-exports.create = function(firstName, lastName, mobile) {
-  var p = Object.freeze({
+exports.create = function(fields) {
+  var p = _.extend(fields, {
     id: uuid.v4(),
-    firstName: firstName,
-    lastName: lastName,
-    mobile: mobile,
-    level: 1
+    pin: Math.floor(Math.random() * 10000),  
+    topScore: 0
   });
   players.push(p);
   db.savePlayers(players);
