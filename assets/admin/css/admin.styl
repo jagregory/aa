@@ -3,9 +3,8 @@
 global-reset()
 
 @import '_nav'
-@import '_register'
-@import '_players'
-@import '_game'
+@import '_forms'
+@import '_pages'
 
 *
   box-sizing: border-box
@@ -71,16 +70,19 @@ td.empty
 
 .dataTables_wrapper
   .dataTables_length
-    float: left
-    margin-bottom: 1em
+    display: none
   .dataTables_filter
-    float: right
+    margin-bottom: 1em
+    label
+      display: inline
+    input
+      width: 15em
   .dataTables_info
     float: left
   .dataTables_paginate
     float: right
     a
-      margin-left: 0.5em
+      margin-left: 1em
   table
     clear: both
     margin-bottom: 1em
