@@ -8,14 +8,23 @@ exports.register = function(app) {
 
   // mobile landing page
   app.get('/', function(req, res) {
-    res.header('Cache-Control', 'no-cache')
+    res.header('Cache-Control', 'no-cache');
     res.redirect('/device')
   })
 
-  // get all players (for debugging)
+  // connect a device to a player (PIN)
   app.post('/connect/:pin', function(req, res) {
-    res.header('Cache-Control', 'no-cache')
-    res.status(403).send('Invalid PIN');
+    res.header('Cache-Control', 'no-cache');
+    var pin = parseInt(req.params.pin, 10);
+    var p = player.withPin(pin);
+    if (!p) {
+      res.status(403).send('Invalid PIN');
+    } else {
+      res.send({
+        id: p.id,
+        name: p.name
+      });
+    }
   });
 
   // get all players (for debugging)
@@ -26,14 +35,14 @@ exports.register = function(app) {
 
   // create a player
   app.post('/player', function(req, res) {
-    res.header('Cache-Control', 'no-cache')
+    res.header('Cache-Control', 'no-cache');
     var p = player.create(req.body);
     res.send(p);
   });
 
   // delete a player
   app.delete('/player/:playerId', function(req, res) {
-    res.header('Cache-Control', 'no-cache')
+    res.header('Cache-Control', 'no-cache');
     var p = player.withId(req.params.playerId);
     if (!p) {
       res.status(404).send('Player unknown');

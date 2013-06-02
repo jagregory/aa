@@ -25,6 +25,10 @@ exports.withId = function(id) {
   return _.findWhere(players, {id: id});
 };
 
+exports.withPin = function(pin) {
+  return _.findWhere(players, {pin: pin});
+};
+
 exports.all = function() {
   return players;
 };
