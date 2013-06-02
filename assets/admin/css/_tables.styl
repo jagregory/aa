@@ -1,0 +1,44 @@
+
+table
+  border: 1px solid #333
+
+thead tr
+    background-color: #333
+    color: #eee
+
+tbody tr
+  background: #fbfbfb
+
+th, td
+  padding: 0.5em
+
+th
+  font-weight: bold
+  width: 8em
+
+td
+  border-top: 1px solid #333
+
+td.empty
+  font-style: italic
+
+//
+// jQuery DataTables
+//
+
+.dataTables_wrapper
+  .dataTables_filter
+    margin-bottom: 1em
+    label
+      display: inline
+    input
+      width: 15em
+  .dataTables_info
+    float: left
+  .dataTables_paginate
+    float: right
+    a
+      margin-left: 1em
+  table
+    clear: both
+    margin-bottom: 1em
