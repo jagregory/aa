@@ -2,8 +2,7 @@ var routie = require('../../3rdparty/routie');
 var tappable = require('../../3rdparty/tappable');
 var player = require('./player');
 
-window.Pong = {}
-Pong.Device = function() {
+window.Device = function() {
   
   routie({
       '':            require('./controllers/connect'),
