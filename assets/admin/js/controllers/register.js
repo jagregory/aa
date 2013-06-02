@@ -1,5 +1,5 @@
-var routie = require('../../../3rdparty/routie');
-var view = require('../../views/register.hbs');
+var routie  = require('../../../3rdparty/routie');
+var view    = require('../../views/register.hbs');
 
 module.exports = function() {
 

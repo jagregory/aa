@@ -1,14 +1,15 @@
-var routie = require('../../../3rdparty/routie');
-var viewLobby = require('../../views/lobby.hbs');
-var viewMatch = require('../../views/match.hbs');
+var routie      = require('../../../3rdparty/routie');
+var viewGame    = require('../../views/game.hbs');
+var viewCurrent = require('../../views/game-current.hbs');
+var viewLobby   = require('../../views/game-lobby.hbs');
 
 module.exports = function() {
   
   $('nav li').removeClass('current');
   $('nav li.game').addClass('current');
   
+  $('#page').html(viewGame());
   getLobby();
-  //setInterval(getLobby, 5000);
 
 };
 
@@ -17,7 +18,6 @@ function getLobby() {
 }
 
 function renderLobby(data) {
-  $('#page').html('');
-  $('#page').append(viewMatch());
-  $('#page').append(viewLobby(data));
+  $('#current').html(viewCurrent());
+  $('#lobby').html(viewLobby(data));
 }
