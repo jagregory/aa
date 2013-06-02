@@ -3,6 +3,9 @@ var view = require('../../views/players.hbs');
 
 module.exports = function() {
 
+  $('nav li').removeClass('current');
+  $('nav li.players').addClass('current');
+
   $('#page').on('click', '#players .delete', deletePlayer);
   getPlayers();
   

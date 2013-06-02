@@ -1,11 +1,11 @@
 @import 'nib'
 
+global-reset()
+
+@import '_nav'
 @import '_register'
 @import '_players'
 @import '_game'
-
-
-global-reset()
 
 *
   box-sizing: border-box
@@ -21,23 +21,8 @@ body
   display: table
 
 nav
-  background-color: #333
   display: table-cell
-  width: 10em
-  ul
-    min-height: 30em
-  li
-    background-color: #333
-    border-top: 1px solid #666
-    border-bottom: 1px solid #000
-    cursor: pointer
-    display: block
-    padding: 0.8em
-  i
-    margin-right: 0.5em
-  a
-    color: #eee
-    
+        
 #page
   display: table-cell
   min-height: 30em
@@ -52,6 +37,12 @@ h1
 h1:first-child
   margin-top: 0
 
+a
+  color: #1865ff
+  cursor: pointer
+  text-decoration: none
+
+
 table
   background: #f9f9f9
   border: 1px solid #333
@@ -65,11 +56,6 @@ th
 
 td
   border-top: 1px solid #333
-
-a
-  color: #1865ff
-  cursor: pointer
-  text-decoration: none
 
 td.empty
   font-style: italic
