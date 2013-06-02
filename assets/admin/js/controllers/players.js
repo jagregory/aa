@@ -17,6 +17,7 @@ function getPlayers() {
 
 function renderPlayers(data) {
   $('#page').html(view({players: data}));
+  $('#page table').dataTable();
 }
 
 function deletePlayer(e) {
