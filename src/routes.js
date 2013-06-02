@@ -83,7 +83,9 @@ exports.register = function(app) {
       res.status(404).send('Player unknown');
     } else {
       game.removePlayer(p);
-      res.send(lobby.state());
+      res.send({
+        players: game.getPlayers()
+      });
     }
   });
 
