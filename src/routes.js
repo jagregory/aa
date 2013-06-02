@@ -1,8 +1,6 @@
-var player = require('./player');
-var lobby = require('./lobby');
-var match = require('./match');
+var player  = require('./player');
+var game    = require('./game');
 
-var matchInProgress = null;
 
 exports.register = function(app) {
 
@@ -52,76 +50,56 @@ exports.register = function(app) {
     }
   });
 
-  // get the lobby state
-  app.get('/lobby', function(req, res) {
+  // get the game state
+  app.get('/game/status', function(req, res) {
     res.header('Cache-Control', 'no-cache')
-    res.send(lobby.state());
+    res.send({
+      inProgress: game.inProgress(),
+      players: game.getPlayers()
+    });
   });
 
-  // try to join the lobby
-  app.post('/lobby/:playerId', function(req, res) {
+  // try to join the game
+  app.post('/game/players', function(req, res) {
     res.header('Cache-Control', 'no-cache')
-    var p = player.withId(req.params.playerId);
+    var p = player.withId(req.body.playerId);
     if (!p) {
       res.status(404).send('Player unknown');
-    } else if (lobby.isFull()) {
-      res.status(409).send('Lobby full');
+    } else if (game.inProgress()) {
+      res.status(409).send('Game in progress');
     } else {
-      lobby.addPlayer(p);
-      if (lobby.isFull()) {
-        matchInProgress = match.create(lobby);
-      }
-      res.send(lobby.state());
+      game.addPlayer(p);
+      res.send({
+        inProgress: game.inProgress()
+      });
     }
   });
 
-  // leave the lobby
-  app.delete('/lobby/:playerId', function(req, res) {
+  // leave the game
+  app.delete('/game/players/:playerId', function(req, res) {
     res.header('Cache-Control', 'no-cache')
-
     var p = player.withId(req.params.playerId);
     if (!p) {
       res.status(404).send('Player unknown');
     } else {
-      lobby.removePlayer(p);
+      game.removePlayer(p);
       res.send(lobby.state());
     }
   });
 
   // send an action to the game
-  app.post('/game/:playerId', function(req, res) {
+  app.post('/game/players/:playerId', function(req, res) {
     res.header('Cache-Control', 'no-cache')
-
-    console.log('POSTed')
     var p = player.withId(req.params.playerId);
     if (!p) {
       res.status(404).send('Player unknown');
-    } else if (matchInProgress === null) {
-      res.status(404).send('No match in progress');
-    } else if (matchInProgress.hasPlayer(p) === false) {
-      res.status(403).send('Player not in this match');
+    } else if (game.inProgress() === false) {
+      res.status(404).send('No game in progress');
+    } else if (game.hasPlayer(p) === false) {
+      res.status(403).send('Player not in the current game');
     } else {
-      var action = req.body.action;
-      matchInProgress.send(p, action);
+      game.send(p, req.body.action);
       res.send({ processed: true })
-    }
-  });
-
-  // forfeit the game
-  app.delete('/game/:playerId', function(req, res) {
-    res.header('Cache-Control', 'no-cache')
-    
-    var p = player.withId(req.params.playerId);
-    if (!p) {
-      res.status(404).send('Player unknown');
-    } else if (matchInProgress === null) {
-      res.status(404).send('No match in progress');
-    } else if (matchInProgress.hasPlayer(p) === false) {
-      res.status(403).send('Player not in this match');
-    } else {
-      var action = req.body.action;
-      matchInProgress.forfeit(p);
-      res.send({forfeit: true});
     }
   });
 

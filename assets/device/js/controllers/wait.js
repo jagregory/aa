@@ -17,18 +17,18 @@ module.exports = function() {
     .interval(3000)
     .startWith(-1)
     .selectMany(observableLobby)
-    .skipWhile(gameIsFull)
+    .skipWhile(gameInProgress)
     .take(1)
     .subscribe(switchState, onError);
 
 };
 
 function observableLobby() {
-  return $.getJSONAsObservable('/lobby');
+  return $.getJSONAsObservable('/game/status');
 }
 
-function gameIsFull(res) {
-  return res.data.full === true;
+function gameInProgress(res) {
+  return res.data.inProgress === true;
 }
 
 function switchState() {
@@ -36,5 +36,5 @@ function switchState() {
 }
 
 function onError() {
-  console.log('Lobby not responding');
+  console.log('Game not responding');
 }

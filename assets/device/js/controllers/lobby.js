@@ -18,18 +18,18 @@ module.exports = function() {
     .interval(1000)
     .startWith(-1)
     .selectMany(observableLobby)
-    .skipWhile(playerIsMissing)
+    .skipWhile(waitingForOtherPlayer)
     .take(1)
     .subscribe(startMatch, onError);
 
 };
 
 function observableLobby() {
-  return $.getJSONAsObservable('/lobby');
+  return $.getJSONAsObservable('/game/status');
 }
 
-function playerIsMissing(res) {
-  return res.data.full === false;
+function waitingForOtherPlayer(res) {
+  return res.data.inProgress === false;
 }
 
 function startMatch() {
@@ -37,13 +37,13 @@ function startMatch() {
 }
 
 function onError() {
-  console.log('Lobby not responding');
+  console.log('Game not responding');
 }
 
 function exitLobby() {
   $.ajax({
     type: 'DELETE',
-    url: '/lobby/' + player.get().id
+    url: '/game/players/' + player.get().id
   }).then(backToWait);
 }
 

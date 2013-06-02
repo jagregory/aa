@@ -16,7 +16,8 @@ module.exports = function() {
 
 function joinLobby(e) {
   e.preventDefault();
-  $.post('/lobby/' + player.get().id).then(joined).fail(backToWait);
+  var data = { playerId: player.get().id };
+  $.post('/game/players', data).then(joined).fail(backToWait);
 }
 
 function joined(data) {

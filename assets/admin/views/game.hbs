@@ -1,8 +1,45 @@
   
-<h1>Game</h1>
+<h1>Current game</h1>
 
-<h2>Current match</h2>
-<section id="current"></section>
+<div id="game-status">
+  <dt>Status</dt>{{#if inProgress}}<dd class="in-progress">in progress</dd>{{else}}<dd class="waiting">waiting</dd>{{/if}}
+</div>
 
-<h2>Lobby</h2>
-<section id="lobby"></section>
+<table>
+  
+  <thead>
+    <tr>
+      <th>First name</th>
+      <th>Last name</th>
+      <th>Phone</th>
+      <th>Top score</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  
+  <tbody>
+    {{#each players}}
+      {{#if id}}
+        <tr>
+          <td>{{firstName}}</td>
+          <td>{{lastName}}</td>
+          <td>{{phoneNumber}}</td>
+          <td>{{topScore}}</td>
+          <td><a class="evict" href="#">evict</a></td>
+        </tr>
+      {{/if}}
+      {{#unless id}}
+      <tr>
+        <td class="empty" colspan="5">EMPTY</td>
+      </tr>
+      {{/unless}}
+    {{/each}}
+  </tbody>
+  
+</table>
+
+<button class="dislodge">
+  <i class="icon icon-angle-left"></i>
+  dislodge the ball
+  <i class="icon icon-angle-right"></i>
+</button>

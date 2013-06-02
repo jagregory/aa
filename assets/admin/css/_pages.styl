@@ -1,11 +1,26 @@
 
-#current
+#game-status
+  font-size: 1.1em
+  margin-bottom: 1em
+  dt, dd
+    border: 1px solid #333
+    display: inline-block
+    padding: 0.3em
+    text-align: center
+    width: 8em
+  dt
+    background-color: #333
+    color: #fff;
+  dd.in-progress
+    background-color: #3ae600
+    color: #333
+  dd.waiting
+    background-color: #ffad33
+    color: #333
 
-  margin-bottom: 2em
-
-  button.dislodge
-    width: 15em
-    i.icon:nth-child(1)
-      margin-right: 0.5em
-    i.icon:nth-child(2)
-      margin-left: 0.5em
+button.dislodge
+  width: 15em
+  i.icon:nth-child(1)
+    margin-right: 0.5em
+  i.icon:nth-child(2)
+    margin-left: 0.5em
