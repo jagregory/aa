@@ -9,7 +9,7 @@ var ballSize = 1.5;
 
 var fixture = PF.fixture({
   shape:      PF.shape.circle(ballSize / 2),
-  dynamics:   {density: 1, friction: 0, restitution: 1},
+  dynamics:   {density: 1, friction: 0.1, restitution: 1},
   category:   PF.categories.BALL,
   collision:  PF.categories.ARENA | PF.categories.PLAYER
 });
@@ -32,8 +32,8 @@ Ball.prototype = new Entity();
 Ball.prototype.update = function(delta) {  
   Entity.prototype.update.call(this, delta);
   mathUtils.clampVelocity(this.body, 15, 30);
-  this.sprite.anchor.x = this.sprite.width  / 2;
-  this.sprite.anchor.y = this.sprite.height / 2;
+  this.sprite.anchor.x = 64;//this.sprite.width  / 2;
+  this.sprite.anchor.y = 64;//this.sprite.height / 2;
 };
 
 Ball.prototype.collision = function(other, points) {    
