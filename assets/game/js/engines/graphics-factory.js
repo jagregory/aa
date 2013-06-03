@@ -32,11 +32,11 @@ exports.tile = function(image, width, height, rotation) {
 
 exports.text = function(text, size, opts) {
   opts = _.extend({
-      font: '' + (size || 50) + 'px PressStart2P',
+      font: '' + (size || 50) + 'px Arial',
       fill: '#000',
-      align: 'center',
+      align: 'left',
       stroke: '#fff',
-      strokeThickness: 4
+      strokeThickness: 1
   }, opts);
   var text = new PIXI.Text(text, opts);
   text.anchor.x = 0.5;

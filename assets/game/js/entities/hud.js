@@ -14,12 +14,12 @@ function Hud(text) {
   this.p2Bg.position.x = (world.right - 3) * world.pixelsPerMeter - this.p2Bg.width;
   this.p2Bg.position.y = (world.top   + 1) * world.pixelsPerMeter;
   
-  this.p1Name = GF.text('John', 20);
+  this.p1Name = GF.text('John Doe', 20);
   this.p1Name.position.x = (world.left + 7)   * world.pixelsPerMeter;
   this.p1Name.position.y = (world.top  + 1.8) * world.pixelsPerMeter;
 
-  this.p2Name = GF.text('Bill', 20);
-  this.p2Name.position.x = (world.right - 11) * world.pixelsPerMeter;
+  this.p2Name = GF.text('John Doe', 20);
+  this.p2Name.position.x = (world.right - 15) * world.pixelsPerMeter;
   this.p2Name.position.y = (world.top + 1.8)  * world.pixelsPerMeter;
     
 };
