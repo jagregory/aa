@@ -13,7 +13,7 @@ function Wall(id, x, y, width, height, rotation) {
     }),
     fixture: PF.fixture({
       shape:      PF.shape.box(width, height),
-      dynamics:   {density: 1, friction: 0, restitution: 1},
+      dynamics:   {density: 1, friction: 0.1, restitution: 1},
       category:   PF.categories.ARENA,
       collision:  PF.categories.ALL
     })
