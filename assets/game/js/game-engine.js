@@ -23,7 +23,7 @@ var GameEngine = function(data) {
   
   var nextTickActions = [];
   
-  //physics.debugDraw(data.debugDraw);
+  physics.debugDraw(data.debugDraw);
   
   this.players  = data.players;  
   this.view     = renderer.view;
@@ -85,6 +85,15 @@ var GameEngine = function(data) {
   
   this.queueNext = function(action) {
     nextTickActions.push(action);
+  };
+  
+  this.resize = function(width, height) {
+    var ratio = height / 640;
+    data.debugDraw.style.width  = (960 * ratio) + 'px';
+    data.debugDraw.style.height = height + 'px';
+    renderer.view.style.width  = width + 'px';
+    renderer.view.style.height = height + 'px';
+    renderer.resize(width / ratio, 640);
   };
   
   function tick() {

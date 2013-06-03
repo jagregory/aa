@@ -8,14 +8,16 @@ window.Main = function() {
   
   var gameEngine  = null;
 
-  var board           = document.querySelector('#board');
+  $(window).resize(resize);
+
+  var board           = document.querySelector('#game');
   var debugCanvas     = document.querySelector('#debugDraw');
-  var scoreContainer  = document.querySelector('#scores');
+  // var scoreContainer  = document.querySelector('#scores');
   
-  scoreContainer.innerHTML = scoreView({
-    p1: { name: '-', score: 0 },
-    p2: { name: '-', score: 0 }
-  });
+  // scoreContainer.innerHTML = scoreView({
+  //   p1: { name: '-', score: 0 },
+  //   p2: { name: '-', score: 0 }
+  // });
   
   // Wire external events
   bridgeKeyboard.connect(matchStart, playerMove, playerStop);
@@ -35,6 +37,7 @@ window.Main = function() {
       debugDraw: debugCanvas
     });
     board.appendChild(gameEngine.view);
+    resize();
     updateScore();
   }
 
@@ -51,10 +54,10 @@ window.Main = function() {
   }
   
   function updateScore() {
-    scoreContainer.innerHTML = scoreView({
-      p1: gameEngine.players[0],
-      p2: gameEngine.players[1]
-    });
+    // scoreContainer.innerHTML = scoreView({
+    //   p1: gameEngine.players[0],
+    //   p2: gameEngine.players[1]
+    // });
   }
   
   hub.on('score', function() {
@@ -63,6 +66,14 @@ window.Main = function() {
     // With some sort of MVVM framework
     setTimeout(updateScore, 100);
   });
+  
+  function resize() {
+  	var width  = $(window).width(); 
+  	var height = $(window).height(); 	
+  	if (gameEngine) {
+  		gameEngine.resize(width, height);
+  	}
+  }  
   
 };
 
