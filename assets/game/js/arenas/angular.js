@@ -5,7 +5,7 @@ var PEAK = 1.35;
 
 exports.name = 'Angular';
 
-exports.background = '/game/images/bg_dots.png';
+exports.background = '/game/images/grass.jpg';
 
 exports.walls = [
   

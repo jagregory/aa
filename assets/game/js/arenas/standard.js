@@ -2,7 +2,7 @@ var w = require('../world');
 
 exports.name = 'Standard';
 
-exports.background = '/game/images/bg_triangles.png';
+exports.background = '/game/images/grass.jpg';
 
 exports.walls = [
 
