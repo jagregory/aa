@@ -7,7 +7,7 @@ var Goal            = require('./goal');
 
 var definitions = [
   require('../arenas/standard'),
-  require('../arenas/angular'),
+//  require('../arenas/angular'),
 ];
 
 function Arena() {

@@ -20,9 +20,7 @@ function Goal(id, playerIndex, x, y, width, height, rotation) {
       collision:  PF.categories.ALL
     })
   };
-  this.sprite = GF.tile('/game/images/goal.png', width, height, rotation);
-  this.sprite.position.x = world.toPixels(x);
-  this.sprite.position.y = world.toPixels(y);
+  this.sprite = GF.sprite('/game/images/goal.png', width, height, rotation);
 }
 
 Goal.prototype = new Entity();
@@ -36,6 +34,12 @@ Goal.prototype.collision = function(other, points) {
     });
     hub.send('score', {against: this.playerIndex});
   }
+};
+
+Goal.prototype.update = function(delta) {
+  Entity.prototype.update.call(this, delta);
+  this.sprite.anchor.x = 128;
+  this.sprite.anchor.y = 256;
 };
 
 module.exports = Goal;
