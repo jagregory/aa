@@ -16,7 +16,7 @@ function GameEngine(data) {
   this.nextTickActions  = [];
   this.players          = data.players;  
   
-  this.graphics  = new GraphicsEngine(data.gameView, data.debugView);
+  this.graphics  = new GraphicsEngine(data.world, data.gameView, data.debugView);
   this.physics   = new PhysicsEngine(data.debugView);
   this.sound     = new SoundEngine();
   this.particles = new ParticleEngine(this);
@@ -46,10 +46,6 @@ function GameEngine(data) {
   }.bind(this))
 
 };
-
-GameEngine.prototype.resize = function(width, height) {
-  this.graphics.resize(width, height);
-}
 
 GameEngine.prototype.start = function() {
   this.states.start();

@@ -3,7 +3,7 @@
 
 var pixelsPerMeter = 16;
 var blockSize = 0.5;
-var width     = 60;
+var width     = 50;
 var height    = 30;
 
 exports.width  = width;
@@ -22,4 +22,11 @@ exports.toPixels = function(meters) {
 
 exports.fromPixels = function(pixels) {
   return pixels / pixelsPerMeter;
+};
+
+exports.create = function() {
+  return {
+    width: 50,
+    height: 30
+  };
 };

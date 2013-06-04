@@ -3,17 +3,22 @@ var bridgeSocket    = require('./bridge/socket');
 var bridgeKeyboard  = require('./bridge/keyboard');
 var scoreView       = require('../views/scores.hbs');
 var hub             = require('./hub');
+var world           = require('./world');
 
 window.Main = function() {
   
   var gameEngine  = null;
 
-  $(window).resize(resize);
-
   var container  = document.querySelector('#container');
   var gameView   = document.querySelector('#gameView');
-  var debugView  = null; //document.querySelector('#debugView');
+  var debugView  = document.querySelector('#debugView');
   
+  debugView.height = window.innerHeight;
+  debugView.width  = window.innerWidth;
+
+  gameView.height = window.innerHeight;
+  gameView.width  = window.innerWidth;
+    
   // Wire external events
   bridgeKeyboard.connect(matchStart, playerMove, playerStop);
   bridgeSocket.connect(matchStart, playerMove, playerStop);
@@ -28,20 +33,12 @@ window.Main = function() {
       }
     });
     gameEngine = new GameEngine({
+      world: world.create(),
       players: players,
       gameView: gameView,
       debugView: debugView
     });
-    resize();
     gameEngine.start();
-  }
-
-  function resize() {
-  	if (gameEngine) {
-    	var width  = $('#container').width(); 
-    	var height = $('#container').height(); 	
-  		gameEngine.resize(width, height);
-  	}
   }
   
   function playerMove(args) {
