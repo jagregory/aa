@@ -7,125 +7,126 @@ var EntityTracker   = require('./entitytracker');
 var GameStates      = require('./game-states');
 var Time            = require('./time');
 var world           = require('./world');
+var userInterface   = require('./user-interface');
 var hub             = require('./hub');
 
 
-var GameEngine = function(data) {
+function GameEngine(data) {
   
-  var renderer  = PIXI.autoDetectRenderer(960, 480);
-  var stage     = new PIXI.Stage();
-  var physics   = new PhysicsEngine();
-  var sound     = new SoundEngine();
-  var particles = new ParticleEngine(this);
-  var states    = new GameStates(this);
-  var tracker   = new EntityTracker();
-  var time      = new Time();
+  this.renderer  = PIXI.autoDetectRenderer(960, 480);
+  this.stage     = new PIXI.Stage();
+  this.physics   = new PhysicsEngine();
+  this.sound     = new SoundEngine();
+  this.particles = new ParticleEngine(this);
+  this.states    = new GameStates(this);
+  this.tracker   = new EntityTracker();
+  this.time      = new Time();
   
-  var nextTickActions = [];
+  this.nextTickActions  = [];
+  this.debugDraw        = data.debugDraw;
+  this.players          = data.players;  
   
-  physics.debugDraw(data.debugDraw);
-  
-  this.players  = data.players;  
-  this.view     = renderer.view;
-  
-  // ----- temporary until entities don't need a ref to these engines anymore
-  this.stage    = stage;
-  this.physics  = physics;
-  // -----
-  
-  physics.collision(function(fixtureA, fixtureB, points) {
+  this.physics.debugDraw(this.debugDraw);
+    
+  this.physics.collision(function(fixtureA, fixtureB, points) {
     var entityA = fixtureA.GetUserData();
     var entityB = fixtureB.GetUserData();
     if (entityA && entityB) {
-      //console.log('[collision] ' + entityA.id + ' / ' + entityB.id);
       entityA.collision(entityB, points);
       entityB.collision(entityA, points);      
     }
   });
+   
+  hub.interceptor = _.bind(this.queueNext, this);
   
-  this.forget = function(entity) {
-    tracker.forget(entity);
-  };
-  
-  this.addEntity = function(entity) {
-    if (entity.id) {
-      //console.log('Adding entity: ', entity.id);
-      tracker.track(entity);
-      if (entity.create) {
-        entity.create(physics, stage);
-      }
-    } else {
-      console.log('Entity should have an ID', entity);
-    }
-  };
-
-  this.deleteEntity = function(id) {
-    var entity = tracker.find(id);
-    if (entity) {
-      if (entity.destroy) {
-        entity.destroy(physics, stage);
-      }
-      tracker.forget(entity);
-    } else {
-      console.log('Entity not found', entity);
-    }
-  };
-
-  this.getEntity = function(id) {
-    return tracker.find(id);
-  };
-  
-  this.transition = function(trans) {
-    states.transition(trans);
-  };
-
-  this.input = function(message, args) {
-    states.active().on(message, args);
-  };
-  
-  this.queueNext = function(action) {
-    nextTickActions.push(action);
-  };
-  
-  this.resize = function(width, height) {
-    var ratio = height / 640;
-    data.debugDraw.style.width  = (960 * ratio) + 'px';
-    data.debugDraw.style.height = height + 'px';
-    renderer.view.style.width  = width + 'px';
-    renderer.view.style.height = height + 'px';
-    renderer.resize(width / ratio, 640);
-  };
-  
-  function tick() {
-    time.update();
-    physics.update();
-    states.active().tick();
-    tracker.forEach(function(entity) {
-      if (entity.update) { entity.update(time.delta); }
-    });
-    renderer.render(stage);
-    
-    var nextAction = null;
-    while (nextAction = nextTickActions.pop()) {
-      nextAction.call(this);
-    }
-  };
-
   hub.on('entity:destroy', function(params) {
     this.deleteEntity(params.entity.id)
   }.bind(this))
 
   hub.on('score', function(params) {
     var playerIndex = 1 - params.against;
-    states.transition('scored', playerIndex);
+    this.states.transition('scored', playerIndex);
     this.players[playerIndex].score += 1;
   }.bind(this))
 
-  // Go!
-  hub.interceptor = this.queueNext;
-  states.start();
-  ticker.run(tick);
-
 };
+
+GameEngine.prototype.resize = function(width, height) {
+  var ratio = height / 640;
+  this.debugDraw.style.width  = (960 * ratio) + 'px';
+  this.debugDraw.style.height = height + 'px';
+  this.renderer.view.style.width  = width + 'px';
+  this.renderer.view.style.height = height + 'px';
+  this.renderer.resize(width / ratio, 640);
+  userInterface.resize(width / ratio, 640);
+}
+
+GameEngine.prototype.start = function() {
+  this.states.start();
+  ticker.run(_.bind(this.update, this));
+};
+
+GameEngine.prototype.update = function() {
+  this.time.update();
+  this.physics.update();
+  this.states.active().tick();
+  var delta = this.time.delta;
+  this.tracker.forEach(function(entity) {
+    if (entity.update) {
+      entity.update(delta);
+    }
+  });
+  this.renderer.render(this.stage);
+  
+  var nextAction = null;
+  while (nextAction = this.nextTickActions.pop()) {
+    nextAction.call(this);
+  }
+};
+
+GameEngine.prototype.transition = function(trans) {
+  this.states.transition(trans);
+};
+
+GameEngine.prototype.input = function(message, args) {
+  this.states.active().on(message, args);
+};
+
+GameEngine.prototype.queueNext = function(action) {
+  this.nextTickActions.push(action);
+};
+
+
+GameEngine.prototype.forget = function(entity) {
+  this.tracker.forget(entity);
+};
+
+GameEngine.prototype.addEntity = function(entity) {
+  if (entity.id) {
+    this.tracker.track(entity);
+    if (entity.create) {
+      entity.create(this.physics, this.stage);
+    }
+  } else {
+    console.log('Entity should have an ID', entity);
+  }
+};
+
+GameEngine.prototype.deleteEntity = function(id) {
+  var entity = this.tracker.find(id);
+  if (entity) {
+    if (entity.destroy) {
+      entity.destroy(this.physics, this.stage);
+    }
+    this.tracker.forget(entity);
+  } else {
+    console.log('Entity not found', entity);
+  }
+};
+
+GameEngine.prototype.getEntity = function(id) {
+  return this.tracker.find(id);
+};
+
 
 module.exports = GameEngine;

@@ -12,12 +12,6 @@ window.Main = function() {
 
   var board           = document.querySelector('#game');
   var debugCanvas     = document.querySelector('#debugDraw');
-  // var scoreContainer  = document.querySelector('#scores');
-  
-  // scoreContainer.innerHTML = scoreView({
-  //   p1: { name: '-', score: 0 },
-  //   p2: { name: '-', score: 0 }
-  // });
   
   // Wire external events
   bridgeKeyboard.connect(matchStart, playerMove, playerStop);
@@ -36,11 +30,19 @@ window.Main = function() {
       players: players,
       debugDraw: debugCanvas
     });
-    board.appendChild(gameEngine.view);
+    board.appendChild(gameEngine.renderer.view);
     resize();
-    updateScore();
+    gameEngine.start();
   }
 
+  function resize() {
+  	if (gameEngine) {
+    	var width  = $(window).width(); 
+    	var height = $(window).height(); 	
+  		gameEngine.resize(width, height);
+  	}
+  }
+  
   function playerMove(args) {
     if (gameEngine) {
       gameEngine.input('move', args);
@@ -52,28 +54,6 @@ window.Main = function() {
       gameEngine.input('stop', args);
     }
   }
-  
-  function updateScore() {
-    // scoreContainer.innerHTML = scoreView({
-    //   p1: gameEngine.players[0],
-    //   p2: gameEngine.players[1]
-    // });
-  }
-  
-  hub.on('score', function() {
-    // We don't control the order of event handlers
-    // Ideally, this will just react to the "players" model changing
-    // With some sort of MVVM framework
-    setTimeout(updateScore, 100);
-  });
-  
-  function resize() {
-  	var width  = $(window).width(); 
-  	var height = $(window).height(); 	
-  	if (gameEngine) {
-  		gameEngine.resize(width, height);
-  	}
-  }  
   
 };
 
