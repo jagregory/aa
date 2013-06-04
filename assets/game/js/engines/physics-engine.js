@@ -46,7 +46,7 @@ PhysicsEngine.prototype.collision = function(callback) {
 PhysicsEngine.prototype.debugDraw = function(canvas) {
   var debugDraw = new Box2D.Dynamics.b2DebugDraw();
   debugDraw.SetSprite(canvas.getContext("2d"));
-  debugDraw.SetDrawScale(world.pixelsPerMeter);
+  debugDraw.SetDrawScale(world.pixelsPerMeter * 1.5);
   debugDraw.SetFillAlpha(0.3);
   debugDraw.SetLineThickness(1.0);
   debugDraw.SetFlags(Box2D.Dynamics.b2DebugDraw.e_shapeBit | Box2D.Dynamics.b2DebugDraw.e_jointBit);

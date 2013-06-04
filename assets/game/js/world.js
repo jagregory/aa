@@ -30,3 +30,7 @@ exports.create = function() {
     height: 30
   };
 };
+
+exports.setPixelsPerMeter = function(val) {
+  pixelsPerMeter = val;
+};

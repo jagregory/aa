@@ -1,4 +1,5 @@
 var userInterface   = require('../user-interface');
+var world2           = require('../world');
 
 function GraphicsEngine(world, gameView, debugView) {
   this.renderer     = PIXI.autoDetectRenderer(gameView.width, gameView.height, gameView);
@@ -11,8 +12,10 @@ function GraphicsEngine(world, gameView, debugView) {
   
   gameView.width  = width;
   debugView.width  = width;
-  userInterface.resize(width, gameView.height);
-  this.renderer.resize(width, gameView.height);
+  userInterface.resize(gameView.width, gameView.height);
+  this.renderer.resize(gameView.width, gameView.height);
+  
+  world2.setPixelsPerMeter(Math.floor(gameView.height / world.height));
 }
 
 GraphicsEngine.prototype.render = function() {

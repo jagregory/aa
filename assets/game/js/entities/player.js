@@ -43,8 +43,8 @@ Player.prototype.create = function(physicsEngine, graphicsEngine) {
 
 Player.prototype.update = function(delta) {
   Entity.prototype.update.call(this, delta);
-  this.sprite.anchor.x = this.sprite.width  / 2;
-  this.sprite.anchor.y = this.sprite.height / 2;
+  this.sprite.anchor.x = 8;//this.sprite.width  / 2;
+  this.sprite.anchor.y = 32;//this.sprite.height / 2;
 };
 
 Player.prototype.collision = function(other, points) {    
