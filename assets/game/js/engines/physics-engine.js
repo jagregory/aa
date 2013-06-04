@@ -3,7 +3,7 @@ var world = require('../world');
 var frameRate   = 1 / 60;
 var iterations  = 10;
 
-function PhysicsEngine() {
+function PhysicsEngine(debugCanvas) {
   
   this.collisionCallback = null;
   this.b2world = new Box2D.Dynamics.b2World(new Box2D.Common.Math.b2Vec2(0, 0), true);
@@ -21,6 +21,10 @@ function PhysicsEngine() {
   }.bind(this);
   
   this.b2world.SetContactListener(contactListener);
+  
+  if (debugCanvas) {
+    this.debugDraw(debugCanvas);
+  }
 }
 
 PhysicsEngine.prototype.create = function(bodyDef, fixtureDef) {

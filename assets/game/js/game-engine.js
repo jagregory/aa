@@ -1,4 +1,5 @@
 var _               = require('../../3rdparty/underscore-min');
+var GraphicsEngine  = require('./engines/graphics-engine');
 var PhysicsEngine   = require('./engines/physics-engine');
 var SoundEngine     = require('./engines/sound-engine');
 var ParticleEngine  = require('./engines/particle-engine');
@@ -7,26 +8,21 @@ var EntityTracker   = require('./entitytracker');
 var GameStates      = require('./game-states');
 var Time            = require('./time');
 var world           = require('./world');
-var userInterface   = require('./user-interface');
 var hub             = require('./hub');
 
 
 function GameEngine(data) {
   
-  this.renderer  = PIXI.autoDetectRenderer(960, 480);
-  this.stage     = new PIXI.Stage();
-  this.physics   = new PhysicsEngine();
+  this.nextTickActions  = [];
+  this.players          = data.players;  
+  
+  this.graphics  = new GraphicsEngine(data.gameView, data.debugView);
+  this.physics   = new PhysicsEngine(data.debugView);
   this.sound     = new SoundEngine();
   this.particles = new ParticleEngine(this);
   this.states    = new GameStates(this);
   this.tracker   = new EntityTracker();
   this.time      = new Time();
-  
-  this.nextTickActions  = [];
-  this.debugDraw        = data.debugDraw;
-  this.players          = data.players;  
-  
-  this.physics.debugDraw(this.debugDraw);
     
   this.physics.collision(function(fixtureA, fixtureB, points) {
     var entityA = fixtureA.GetUserData();
@@ -52,13 +48,7 @@ function GameEngine(data) {
 };
 
 GameEngine.prototype.resize = function(width, height) {
-  var ratio = height / 640;
-  this.debugDraw.style.width  = (960 * ratio) + 'px';
-  this.debugDraw.style.height = height + 'px';
-  this.renderer.view.style.width  = width + 'px';
-  this.renderer.view.style.height = height + 'px';
-  this.renderer.resize(width / ratio, 640);
-  userInterface.resize(width / ratio, 640);
+  this.graphics.resize(width, height);
 }
 
 GameEngine.prototype.start = function() {
@@ -76,7 +66,7 @@ GameEngine.prototype.update = function() {
       entity.update(delta);
     }
   });
-  this.renderer.render(this.stage);
+  this.graphics.render();
   
   var nextAction = null;
   while (nextAction = this.nextTickActions.pop()) {
@@ -105,7 +95,7 @@ GameEngine.prototype.addEntity = function(entity) {
   if (entity.id) {
     this.tracker.track(entity);
     if (entity.create) {
-      entity.create(this.physics, this.stage);
+      entity.create(this.physics, this.graphics);
     }
   } else {
     console.log('Entity should have an ID', entity);
@@ -116,7 +106,7 @@ GameEngine.prototype.deleteEntity = function(id) {
   var entity = this.tracker.find(id);
   if (entity) {
     if (entity.destroy) {
-      entity.destroy(this.physics, this.stage);
+      entity.destroy(this.physics, this.graphics);
     }
     this.tracker.forget(entity);
   } else {

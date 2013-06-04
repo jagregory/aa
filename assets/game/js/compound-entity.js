@@ -9,14 +9,6 @@ var CompoundEntity = function() {
   this.entities = [];
 };
 
-//
-// TODO
-//
-// Collisions should register on both the compound entity and the child entity
-// Maybe the user data can store both the entity ID and compound ID
-// this.entites[0].body.GetFixtureList().GetUserData().entityId = 'parent';
-//
-
 CompoundEntity.prototype.create = function(physicsEngine, graphicsEngine) {
   this.entities.forEach(function(entity) {
     entity.create(physicsEngine, graphicsEngine);

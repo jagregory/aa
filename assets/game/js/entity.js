@@ -15,7 +15,7 @@ Entity.prototype.create = function(physicsEngine, graphicsEngine) {
     this.body = physicsEngine.create(this.bodySpec.body, this.bodySpec.fixture);  
   }
   if (this.sprite) {
-    graphicsEngine.addChild(this.sprite);
+    graphicsEngine.add(this.sprite);
   }
 };
 
@@ -24,7 +24,7 @@ Entity.prototype.destroy = function(physicsEngine, graphicsEngine) {
     physicsEngine.destroy(this.body);
   }
   if (this.sprite) {
-    graphicsEngine.removeChild(this.sprite);
+    graphicsEngine.remove(this.sprite);
   }
 };
 

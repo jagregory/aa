@@ -2,7 +2,7 @@ var Entity = require('../entity');
 var GF = require('../engines/graphics-factory');
 var userInterface = require('../user-interface');
 
-var MARGIN = 30;
+var MARGIN = 30 //pixels;
 
 function Hud(text) {
   
@@ -29,17 +29,17 @@ function Hud(text) {
 Hud.prototype = new Entity();
 
 Hud.prototype.create = function(physicsEngine, graphicsEngine) {
-  graphicsEngine.addChild(this.p1Bg);
-  graphicsEngine.addChild(this.p2Bg);
-  graphicsEngine.addChild(this.p1Name);
-  graphicsEngine.addChild(this.p2Name);
+  graphicsEngine.add(this.p1Bg);
+  graphicsEngine.add(this.p2Bg);
+  graphicsEngine.add(this.p1Name);
+  graphicsEngine.add(this.p2Name);
 };
 
 Hud.prototype.destroy = function(physicsEngine, graphicsEngine) {
-  graphicsEngine.removeChild(this.p2Bg);
-  graphicsEngine.removeChild(this.p2Bg);
-  graphicsEngine.removeChild(this.p1Name);
-  graphicsEngine.removeChild(this.p2Name);
+  graphicsEngine.remove(this.p2Bg);
+  graphicsEngine.remove(this.p2Bg);
+  graphicsEngine.remove(this.p1Name);
+  graphicsEngine.remove(this.p2Name);
 };
 
 module.exports = Hud;

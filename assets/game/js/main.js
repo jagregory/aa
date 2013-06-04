@@ -10,8 +10,9 @@ window.Main = function() {
 
   $(window).resize(resize);
 
-  var board           = document.querySelector('#game');
-  var debugCanvas     = document.querySelector('#debugDraw');
+  var container  = document.querySelector('#container');
+  var gameView   = document.querySelector('#gameView');
+  var debugView  = null; //document.querySelector('#debugView');
   
   // Wire external events
   bridgeKeyboard.connect(matchStart, playerMove, playerStop);
@@ -28,17 +29,17 @@ window.Main = function() {
     });
     gameEngine = new GameEngine({
       players: players,
-      debugDraw: debugCanvas
+      gameView: gameView,
+      debugView: debugView
     });
-    board.appendChild(gameEngine.renderer.view);
     resize();
     gameEngine.start();
   }
 
   function resize() {
   	if (gameEngine) {
-    	var width  = $(window).width(); 
-    	var height = $(window).height(); 	
+    	var width  = $('#container').width(); 
+    	var height = $('#container').height(); 	
   		gameEngine.resize(width, height);
   	}
   }

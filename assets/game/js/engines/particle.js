@@ -53,7 +53,7 @@ function Particle(game, physics, options) {
   sprite.anchor.x = 8;
   sprite.anchor.y = 8;
 
-  game.stage.addChild(sprite)
+  game.graphics.add(sprite)
 
   this.moveBy = function(xDelta, yDelta) {
     var force = new Box2D.Common.Math.b2Vec2(xDelta * -1, yDelta * -1)

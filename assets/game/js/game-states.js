@@ -50,8 +50,6 @@ function GameStates(game) {
     return activeState;
   };
   
-  hub.on('game:transition', this.transition);
-  
 }
 
 module.exports = GameStates;
