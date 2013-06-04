@@ -19,6 +19,18 @@ exports.sprite = function(image, width, height, rotation) {
   return sprite;
 };
 
+exports.uiSprite = function(image, width, height, rotation) {
+  var sprite = PIXI.Sprite.fromImage(image);
+  sprite.width = width;  
+  sprite.height = height;
+  sprite.position.x = 0;
+  sprite.position.y = 0;
+  sprite.anchor.x = 0.5;
+  sprite.anchor.y = 0.5;
+  sprite.rotation = rotation || 0;
+  return sprite;
+};
+
 exports.tile = function(image, width, height, rotation) {
   var texture = PIXI.Texture.fromImage(image);
   var sprite = new PIXI.TilingSprite(texture);
