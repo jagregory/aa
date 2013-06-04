@@ -32,8 +32,10 @@ Ball.prototype = new Entity();
 Ball.prototype.update = function(delta) {  
   Entity.prototype.update.call(this, delta);
   mathUtils.clampVelocity(this.body, 15, 30);
-  this.sprite.anchor.x = 64;//this.sprite.width  / 2;
-  this.sprite.anchor.y = 64;//this.sprite.height / 2;
+  // We should be able to specify "0.5", and not have to update it constantly
+  // Need to check our changes to PIXI
+  this.sprite.anchor.x = this.sprite.texture.width  / 2;
+  this.sprite.anchor.y = this.sprite.texture.height / 2;
 };
 
 Ball.prototype.collision = function(other, points) {    
