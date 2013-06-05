@@ -1,7 +1,5 @@
 
-var gameWorld = {
-  width:  60,
-  height: 30
-};
+// Physical world (sizes in meters)
 
-module.exports = gameWorld;
+exports.width  = 60;
+exports.height = 30;

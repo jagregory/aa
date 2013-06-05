@@ -5,23 +5,23 @@ var SoundEngine     = require('./sound-engine');
 var ParticleEngine  = require('./particle-engine');
 var ticker          = require('./ticker');
 var EntityTracker   = require('./entitytracker');
-var GameStates      = require('./game-states');
+var Sequencer       = require('./sequencer');
 var Time            = require('./time');
 var hub             = require('./hub');
 
 
-function GameEngine(data) {
+function GameEngine(world, sequences, players, gameView, debugView) {
   
   this.nextTickActions  = [];
-  this.players          = data.players;  
+  this.players          = players;
   
-  this.graphics  = new GraphicsEngine(data.world, data.gameView, data.debugView);
-  this.physics   = new PhysicsEngine(data.debugView);
-  this.sound     = new SoundEngine();
-  this.particles = new ParticleEngine(this);
-  this.states    = new GameStates(this);
-  this.tracker   = new EntityTracker();
-  this.time      = new Time();
+  this.graphics     = new GraphicsEngine(world, gameView, debugView);
+  this.physics      = new PhysicsEngine(debugView);
+  this.sound        = new SoundEngine();
+  this.particles    = new ParticleEngine(this);
+  this.sequencer    = new Sequencer(this, sequences);
+  this.tracker      = new EntityTracker();
+  this.time         = new Time();
     
   this.physics.collision(function(fixtureA, fixtureB, points) {
     var entityA = fixtureA.GetUserData();
@@ -40,21 +40,21 @@ function GameEngine(data) {
 
   hub.on('score', function(params) {
     var playerIndex = 1 - params.against;
-    this.states.transition('scored', playerIndex);
+    this.sequencer.transition('scored', playerIndex);
     this.players[playerIndex].score += 1;
   }.bind(this))
 
 };
 
 GameEngine.prototype.start = function() {
-  this.states.start();
+  this.sequencer.start();
   ticker.run(_.bind(this.update, this));
 };
 
 GameEngine.prototype.update = function() {
   this.time.update();
   this.physics.update();
-  this.states.active().tick();
+  this.sequencer.active().tick();
   var delta = this.time.delta;
   this.tracker.forEach(function(entity) {
     if (entity.update) {
@@ -70,11 +70,11 @@ GameEngine.prototype.update = function() {
 };
 
 GameEngine.prototype.transition = function(trans) {
-  this.states.transition(trans);
+  this.sequencer.transition(trans);
 };
 
 GameEngine.prototype.input = function(message, args) {
-  this.states.active().on(message, args);
+  this.sequencer.active().on(message, args);
 };
 
 GameEngine.prototype.queueNext = function(action) {
