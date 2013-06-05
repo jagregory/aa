@@ -9,8 +9,8 @@ var GF = require('../engines/graphics-factory');
 var world = require('../game-world');
 
 var startingPos = [
-  world.width / 12,
-  world.width - world.width / 12
+  world.width / 10,
+  world.width - world.width / 10
 ];
 
 function WarmUp(game) {

@@ -4,11 +4,11 @@ var Entity      = require('../entity');
 var world       = require('../game-world');
 var hub         = require('../hub');
 
-var paddleWidth  = 1;
+var paddleWidth  = 4;
 var paddleHeight = 4;
 
 var fixture = PF.fixture({
-  shape:      PF.shape.box(paddleWidth, paddleHeight),
+  shape:      PF.shape.circle(2),
   dynamics:   {density: 1, friction: 0.5, restitution: 1},
   category:   PF.categories.PLAYER,
   collision:  PF.categories.ARENA | PF.categories.BALL
@@ -21,13 +21,13 @@ function Player(id, x, y) {
     fixture: fixture
   };
   this.constraintSpec = {
-    body: PF.static({x: x, y: world.height / 2}),
+    body: PF.static({x: x, y: 0}),
     fixture: PF.fixture({
       shape: PF.shape.box(1, 1),
       dynamics: {density: 0, friction: 0, restitution: 0},
     })
   };
-  this.sprite = GF.sprite('/game/images/paddle.png', paddleWidth, paddleHeight);
+  this.sprite = GF.sprite(this.id === 'p1' ? '/game/images/cat.png' : '/game/images/koala.png', 7, 7);
 }
 
 Player.prototype = new Entity();

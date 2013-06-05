@@ -30,6 +30,13 @@ exports.walls = [
   
 ];
 
+exports.spinners = [
+
+  { x:  width / 12 * 5,   y:  height / 3,     width:  2, height: 2, rotation: PI / 4 },
+  { x:  width / 12 * 7,   y:  height / 3 * 2, width:  2, height: 2, rotation: PI / 4 },
+  
+];
+
 exports.goals = {
   
   0: [
