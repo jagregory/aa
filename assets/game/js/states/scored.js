@@ -1,11 +1,11 @@
-var Text = require('../entities/text');
+var ActionText = require('../entities/action-text');
 
 function Scored(game) {
   
   this.enter = function(playerIndex) {
     game.deleteEntity('ball');
     var msg = 'P' + (playerIndex + 1) + ' SCORED'
-    game.addEntity(new Text('player-scored', msg));
+    game.addEntity(new ActionText('player-scored', msg));
     setTimeout(backToKickoff, 1500);
   };
   

@@ -1,7 +1,7 @@
 var _ = require('../../../3rdparty/underscore-min');
 var GF = require('../engines/graphics-factory');
 var Ball = require('../entities/ball');
-var Text = require('../entities/text');
+var ActionText = require('../entities/action-text');
 var world = require('../world');
 
 var ballStartX = world.width / 5;
@@ -14,7 +14,7 @@ function KickOff(game) {
   
   this.enter = function() {
     ball = new Ball('ball', ballStartX, ballStartY);
-    text = new Text('countdown', '');
+    text = new ActionText('countdown', '');
     game.addEntity(ball);
     game.addEntity(text);
     countdown(3);

@@ -4,7 +4,7 @@
 var Arena = require('../entities/arena');
 var Player = require('../entities/player');
 var Hud = require('../entities/hud');
-var Text = require('../entities/text');
+var ActionText = require('../entities/action-text');
 var GF = require('../engines/graphics-factory');
 var world = require('../world');
 
@@ -21,7 +21,7 @@ function WarmUp(game) {
     game.addEntity(new Player('p1', startingPos[0], world.height / 2));
     game.addEntity(new Player('p2', startingPos[1], world.height / 2));
     game.addEntity(new Hud());
-    game.addEntity(new Text('get-ready', 'GET READY!'));
+    game.addEntity(new ActionText('get-ready', 'GET READY!'));
 
     setTimeout(function() {
       game.transition('ready');
