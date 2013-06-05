@@ -1,6 +1,4 @@
 var _ = require('../../../3rdparty/underscore-min');
-var world = require('../world');
-
 
 exports.static = function(options) {
   return bodyDef(Box2D.Dynamics.b2Body.b2_staticBody, options);
@@ -29,7 +27,7 @@ exports.shape = {
   },
   box: function(width, height) {
     var ps = new Box2D.Collision.Shapes.b2PolygonShape;
-    ps.SetAsBox(width / world.physicsScale, height / world.physicsScale);
+    ps.SetAsBox(width / 2, height / 2);   // half-width, half-height
     return ps;
   }
 };

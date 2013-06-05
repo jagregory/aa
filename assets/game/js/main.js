@@ -1,7 +1,7 @@
 var GameEngine      = require('./game-engine');
+var gameWorld       = require('./game-world');
 var bridgeSocket    = require('./bridge/socket');
 var bridgeKeyboard  = require('./bridge/keyboard');
-var world           = require('./world');
 
 window.Main = function() {
   
@@ -13,9 +13,8 @@ window.Main = function() {
   
   debugView.height = window.innerHeight;
   debugView.width  = window.innerWidth;
-
-  gameView.height = window.innerHeight;
-  gameView.width  = window.innerWidth;
+  gameView.height  = window.innerHeight;
+  gameView.width   = window.innerWidth;
     
   // Wire external events
   bridgeKeyboard.connect(matchStart, playerMove, playerStop);
@@ -31,7 +30,7 @@ window.Main = function() {
       }
     });
     gameEngine = new GameEngine({
-      world: world.create(),
+      world: gameWorld,
       players: players,
       gameView: gameView,
       debugView: debugView

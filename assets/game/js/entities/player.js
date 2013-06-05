@@ -1,7 +1,7 @@
 var PF          = require('../engines/physics-factory');
 var GF          = require('../engines/graphics-factory');
 var Entity      = require('../entity');
-var world       = require('../world');
+var world       = require('../game-world');
 var hub         = require('../hub');
 
 var paddleWidth  = 1;
@@ -21,7 +21,7 @@ function Player(id, x, y) {
     fixture: fixture
   };
   this.constraintSpec = {
-    body: PF.static({x: x, y: world.top}),
+    body: PF.static({x: x, y: world.height / 2}),
     fixture: PF.fixture({
       shape: PF.shape.box(1, 1),
       dynamics: {density: 0, friction: 0, restitution: 0},

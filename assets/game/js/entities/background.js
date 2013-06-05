@@ -1,10 +1,11 @@
 var GF          = require('../engines/graphics-factory');
 var Entity      = require('../entity');
 var world       = require('../world');
+var gameWorld   = require('../game-world');
 
 function Background(image) {
   this.id = 'background';
-  this.sprite = GF.tile(image, world.toPixels(world.width), world.toPixels(world.height), 0);
+  this.sprite = GF.tile(image, world.toPixels(gameWorld.width), world.toPixels(gameWorld.height), 0);
 }
 
 Background.prototype = new Entity();

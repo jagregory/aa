@@ -1,6 +1,5 @@
 var _ = require('../../3rdparty/underscore-min');
 var Entity = require('./entity');
-var world = require('./world');
 
 var globalCount = 0;
 

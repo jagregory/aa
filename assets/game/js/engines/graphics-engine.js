@@ -1,5 +1,5 @@
 var userInterface   = require('../user-interface');
-var world2           = require('../world');
+var world2          = require('../world');
 
 function GraphicsEngine(world, gameView, debugView) {
   this.renderer     = PIXI.autoDetectRenderer(gameView.width, gameView.height, gameView);

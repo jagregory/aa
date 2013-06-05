@@ -7,7 +7,6 @@ var ticker          = require('./engines/ticker');
 var EntityTracker   = require('./entitytracker');
 var GameStates      = require('./game-states');
 var Time            = require('./time');
-var world           = require('./world');
 var hub             = require('./hub');
 
 

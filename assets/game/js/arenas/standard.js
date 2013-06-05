@@ -1,29 +1,43 @@
-var w = require('../world');
-var PI   = 3.14;
+var world = require('../game-world');
 
-exports.name = 'Standard';
+exports.name        = 'Standard';
+exports.background  = '/game/images/grass.jpg';
 
-exports.background = '/game/images/grass.jpg';
+var PI     = 3.14;
+var width  = world.width;
+var height = world.height;
+var top    = 0.5;
+var left   = 0.5;
+var right  = world.width  - 0.5;
+var bottom = world.height - 0.5;
+
 
 exports.walls = [
 
-  // outer box
-  { x:  w.width / 2,     y:  w.top,           width:  w.width, height: 1              },
-  { x:  w.width / 2,     y:  w.bottom,        width:  w.width, height: 1              },
-  { x:  w.left + 2,      y:  w.height * 1/6,  width:  1,       height: w.height / 2.5 },
-  { x:  w.left + 2,      y:  w.height * 5/6,  width:  1,       height: w.height / 2.5 },
-  { x:  w.right - 2,     y:  w.height * 1/6,  width:  1,       height: w.height / 2.5 },
-  { x:  w.right - 2,     y:  w.height * 5/6,  width:  1,       height: w.height / 2.5 },
+  // top
+  { x:  width / 2,     y:  top,           width:  width,   height: 1             },
+  
+  // bottom
+  { x:  width / 2,     y:  bottom,        width:  width,   height: 1             },
+  
+  // left
+  { x:  left  + 2,     y:  height * 1/6,  width:  1,       height: height / 2.5  },
+  { x:  left  + 2,     y:  height * 5/6,  width:  1,       height: height / 2.5  },
+  
+  // right
+  { x:  right - 2,     y:  height * 1/6,  width:  1,       height: height / 2.5  },
+  { x:  right - 2,     y:  height * 5/6,  width:  1,       height: height / 2.5  },
+  
 ];
 
 exports.goals = {
   
   0: [
-    { x:  w.left + 1,    y:  w.height / 2,    width:  4,       height: 8 },
+    { x:  left + 1,   y:  height / 2,   width:  4,  height: 8 },
   ],
   
   1: [
-    { x:  w.right - 1,   y:  w.height / 2,    width:  4,       height: 8, rotation: PI },
+    { x:  right - 1,  y:  height / 2,   width:  4,   height: 8, rotation: PI },
   ]
   
 };

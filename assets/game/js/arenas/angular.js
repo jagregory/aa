@@ -1,4 +1,9 @@
-var w = require('../world');
+//
+// Needs fixing
+// See how the "standard" arena is defined
+//
+
+var w = require('../game-world');
 
 var PI   = 3.14;
 var PEAK = 1.35;

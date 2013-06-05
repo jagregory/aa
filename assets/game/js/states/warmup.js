@@ -6,7 +6,7 @@ var Player = require('../entities/player');
 var Hud = require('../entities/hud');
 var ActionText = require('../entities/action-text');
 var GF = require('../engines/graphics-factory');
-var world = require('../world');
+var world = require('../game-world');
 
 var startingPos = [
   world.width / 12,
