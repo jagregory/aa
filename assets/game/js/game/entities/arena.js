@@ -1,5 +1,5 @@
-var _               = require('../../../3rdparty/underscore-min');
-var CompoundEntity  = require('../compound-entity');
+var _               = require('../../../../3rdparty/underscore-min');
+var CompoundEntity  = require('../../engine/compound-entity');
 var Background      = require('./background');
 var Wall            = require('./wall');
 var Spinner         = require('./spinner');

@@ -1,6 +1,6 @@
-var Entity = require('../entity');
-var GF = require('../engines/graphics-factory');
-var userInterface = require('../user-interface');
+var Entity = require('../../engine/entity');
+var GF = require('../../engine/graphics-factory');
+var userInterface = require('../../engine/user-interface');
 
 var MARGIN = 30 //pixels;
 var HUD_WIDTH = 358;

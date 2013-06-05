@@ -1,6 +1,6 @@
 var _        = require('../../../3rdparty/underscore-min');
-var hub      = require('../hub');
-var Explosion = require('../entities/explosion')
+var hub      = require('./hub');
+var Explosion = require('./explosion')
 
 var ParticleEngine = function(game) {
   

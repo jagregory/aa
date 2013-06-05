@@ -1,4 +1,4 @@
-var eve = require('../../3rdparty/eve');
+var eve = require('../../../3rdparty/eve');
 
 exports.interceptor = function(fn) { fn(); };
 

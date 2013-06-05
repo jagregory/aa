@@ -1,7 +1,7 @@
 var _ = require('../../../3rdparty/underscore-min'),
-  Entity = require('../entity'),
-  World = require('../world'),
-  hub = require('../hub')
+  Entity = require('./entity'),
+  World = require('./world'),
+  hub = require('./hub')
 
 var M_PI = Math.PI
 var M_PI_2 = M_PI / 2

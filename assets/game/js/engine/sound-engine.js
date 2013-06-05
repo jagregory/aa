@@ -1,4 +1,4 @@
-var hub = require('../hub');
+var hub = require('./hub');
 
 function Sound() {
   

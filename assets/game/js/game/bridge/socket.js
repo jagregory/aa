@@ -1,4 +1,4 @@
-var io = require('../../../3rdparty/socket.io.min');
+var io = require('../../../../3rdparty/socket.io.min');
 
 exports.connect = function(matchStart, playerMove, playerStop) {
 

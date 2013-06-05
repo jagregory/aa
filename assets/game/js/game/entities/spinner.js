@@ -1,7 +1,7 @@
-var PF          = require('../engines/physics-factory');
-var GF          = require('../engines/graphics-factory');
-var Entity      = require('../entity');
-var world       = require('../world');
+var PF          = require('../../engine/physics-factory');
+var GF          = require('../../engine/graphics-factory');
+var Entity      = require('../../engine/entity');
+var world       = require('../../engine/world');
 
 function Spinner(id, x, y, width, height) {
   this.id = id;

@@ -1,4 +1,4 @@
-var world = require('../world');
+var world = require('./world');
 
 var frameRate   = 1 / 60;
 var iterations  = 10;

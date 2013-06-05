@@ -1,5 +1,5 @@
 var _ = require('../../../3rdparty/underscore-min');
-var world = require('../world');
+var world = require('./world');
 
 //
 // Anchor always seems reset for "normal" sprites

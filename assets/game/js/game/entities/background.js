@@ -1,6 +1,6 @@
-var GF          = require('../engines/graphics-factory');
-var Entity      = require('../entity');
-var world       = require('../world');
+var GF          = require('../../engine/graphics-factory');
+var Entity      = require('../../engine/entity');
+var world       = require('../../engine/world');
 var gameWorld   = require('../game-world');
 
 function Background(image) {

@@ -1,5 +1,5 @@
-var _ = require('../../../3rdparty/underscore-min');
-var GF = require('../engines/graphics-factory');
+var _ = require('../../../../3rdparty/underscore-min');
+var GF = require('../../engine/graphics-factory');
 var Ball = require('../entities/ball');
 var ActionText = require('../entities/action-text');
 var world = require('../game-world');

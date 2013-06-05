@@ -1,8 +1,8 @@
-var PF          = require('../engines/physics-factory');
-var GF          = require('../engines/graphics-factory');
-var Entity      = require('../entity');
+var PF          = require('../../engine/physics-factory');
+var GF          = require('../../engine/graphics-factory');
+var Entity      = require('../../engine/entity');
 var world       = require('../game-world');
-var hub         = require('../hub');
+var hub         = require('../../engine/hub');
 
 var paddleWidth  = 4;
 var paddleHeight = 4;

@@ -1,9 +1,9 @@
-var PF          = require('../engines/physics-factory');
-var GF          = require('../engines/graphics-factory');
-var Entity      = require('../entity');
-var world       = require('../world');
-var mathUtils   = require('../math-utils');
-var hub         = require('../hub');
+var PF          = require('../../engine/physics-factory');
+var GF          = require('../../engine/graphics-factory');
+var Entity      = require('../../engine/entity');
+var world       = require('../../engine/world');
+var mathUtils   = require('../../engine/math-utils');
+var hub         = require('../../engine/hub');
 
 var ballSize = 3;
 

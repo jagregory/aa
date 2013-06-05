@@ -1,5 +1,5 @@
-var PF         = require('../engines/physics-factory');
-var world      = require('../world');
+var PF         = require('./physics-factory');
+var world      = require('./world');
 var categories = PF.categories;
 
 var M_PI = Math.PI;

@@ -1,6 +1,6 @@
-var GF = require('../engines/graphics-factory');
-var Entity = require('../entity');
-var userInterface = require('../user-interface');
+var GF = require('../../engine/graphics-factory');
+var Entity = require('../../engine/entity');
+var userInterface = require('../../engine/user-interface');
 
 function ActionText(id, text) {
   

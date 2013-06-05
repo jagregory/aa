@@ -1,8 +1,9 @@
-var WarmUp      = require('./states/warmup');
-var KickOff     = require('./states/kickoff');
-var Play        = require('./states/play');
-var Scored      = require('./states/scored');
-var EndOfMatch  = require('./states/endofmatch');
+// These need to be injected by the game
+var WarmUp      = require('../game/states/warmup');
+var KickOff     = require('../game/states/kickoff');
+var Play        = require('../game/states/play');
+var Scored      = require('../game/states/scored');
+var EndOfMatch  = require('../game/states/endofmatch');
 var hub         = require('./hub');
 
 function GameStates(game) {

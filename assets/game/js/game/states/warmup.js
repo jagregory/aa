@@ -5,7 +5,7 @@ var Arena = require('../entities/arena');
 var Player = require('../entities/player');
 var Hud = require('../entities/hud');
 var ActionText = require('../entities/action-text');
-var GF = require('../engines/graphics-factory');
+var GF = require('../../engine/graphics-factory');
 var world = require('../game-world');
 
 var startingPos = [
