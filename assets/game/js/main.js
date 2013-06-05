@@ -1,8 +1,8 @@
+var bridgeSocket    = require('./bridge-socket');
+var bridgeKeyboard  = require('./bridge-keyboard');
 var GameEngine      = require('./engine/game-engine');
 var gameWorld       = require('./game/game-world');
 var sequences       = require('./game/sequences');
-var bridgeSocket    = require('./game/bridge/socket');
-var bridgeKeyboard  = require('./game/bridge/keyboard');
 
 window.Main = function() {
   
