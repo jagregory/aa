@@ -1,8 +1,6 @@
 var GameEngine      = require('./game-engine');
 var bridgeSocket    = require('./bridge/socket');
 var bridgeKeyboard  = require('./bridge/keyboard');
-var scoreView       = require('../views/scores.hbs');
-var hub             = require('./hub');
 var world           = require('./world');
 
 window.Main = function() {
