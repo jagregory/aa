@@ -15,7 +15,7 @@ function Engine(game, gameView, debugView) {
   this.nextTickActions  = [];
   
   this.graphics     = new GraphicsEngine(game.world, gameView, debugView);
-  this.physics      = new PhysicsEngine(debugView);
+  this.physics      = new PhysicsEngine(/*debugView*/);
   this.sound        = new SoundEngine();
   this.particles    = new ParticleEngine(this);
   this.sequencer    = new Sequencer(this, game);
