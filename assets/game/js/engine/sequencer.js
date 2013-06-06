@@ -20,7 +20,11 @@ function Sequencer(engine, game) {
         states[end]   && states[end].enter(args);
         activeState = states[end];
       }
-    }
+    },
+    
+    error: function(eventName, from, to, args, errorCode, errorMessage) {
+        console.log('[sequencer] ' + eventName + ' : ' + errorMessage);
+    },
   
   });
   
