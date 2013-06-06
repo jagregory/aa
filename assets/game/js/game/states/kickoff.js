@@ -2,12 +2,12 @@ var _ = require('../../../../3rdparty/underscore-min');
 var GF = require('../../engine/graphics-factory');
 var Ball = require('../entities/ball');
 var ActionText = require('../entities/action-text');
-var world = require('../game').world;
+var game = require('../game');
 
-var ballStartX = world.width / 5;
-var ballStartY = world.height / 2;
+var ballStartX = game.world.width / 5;
+var ballStartY = game.world.height / 2;
 
-function KickOff(game) {
+function KickOff(engine) {
   
   var ball = null;
   var text = null;
@@ -15,8 +15,8 @@ function KickOff(game) {
   this.enter = function() {
     ball = new Ball('ball', ballStartX, ballStartY);
     text = new ActionText('countdown', '');
-    game.addEntity(ball);
-    game.addEntity(text);
+    engine.addEntity(ball);
+    engine.addEntity(text);
     countdown(3);
   };
   
@@ -28,10 +28,10 @@ function KickOff(game) {
   
   this.on = function(message, args) {
     if (message === 'move') {
-      var player = game.getEntity(args.pindex === 0 ? 'p1' : 'p2');
+      var player = engine.getEntity(args.pindex === 0 ? 'p1' : 'p2');
       player.move(args.dir);
     } else if (message === 'stop') {
-      var player = game.getEntity(args.pindex === 0 ? 'p1' : 'p2');
+      var player = engine.getEntity(args.pindex === 0 ? 'p1' : 'p2');
       player.stop();
     }
   };
@@ -46,10 +46,10 @@ function KickOff(game) {
   }
   
   function go() {
-    game.deleteEntity('countdown');
+    engine.deleteEntity('countdown');
     ball.body.SetAwake(true);
     ball.body.SetLinearVelocity(new Box2D.Common.Math.b2Vec2(16, 16));
-    game.transition('go');
+    engine.transition('go');
   }
   
 }

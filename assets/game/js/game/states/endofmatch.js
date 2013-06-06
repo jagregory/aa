@@ -1,12 +1,12 @@
 var ActionText = require('../entities/action-text');
 
-function EndOfMatch(game) {
+function EndOfMatch(engine) {
   
   this.enter = function() {
-    game.deleteEntity('p1');
-    game.deleteEntity('p2');
-    game.deleteEntity('ball');
-    game.addEntity(new ActionText('winner', 'John wins!'))
+    engine.deleteEntity('p1');
+    engine.deleteEntity('p2');
+    engine.deleteEntity('ball');
+    engine.addEntity(new ActionText('winner', 'John wins!'))
   };
   
   this.exit = function() {

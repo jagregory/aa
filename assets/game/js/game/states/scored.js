@@ -1,11 +1,11 @@
 var ActionText = require('../entities/action-text');
 
-function Scored(game) {
+function Scored(engine) {
   
   this.enter = function(playerIndex) {
-    game.deleteEntity('ball');
     var msg = 'P' + (playerIndex + 1) + ' SCORED'
-    game.addEntity(new ActionText('player-scored', msg));
+    engine.deleteEntity('ball');
+    engine.addEntity(new ActionText('player-scored', msg));
     setTimeout(backToKickoff, 1500);
   };
   
@@ -19,8 +19,8 @@ function Scored(game) {
   };
   
   function backToKickoff() {
-    game.deleteEntity('player-scored');
-    game.transition('ready');
+    engine.deleteEntity('player-scored');
+    engine.transition('ready');
   }
   
 }

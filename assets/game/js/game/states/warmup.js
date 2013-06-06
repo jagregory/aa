@@ -6,31 +6,31 @@ var Player = require('../entities/player');
 var Hud = require('../entities/hud');
 var ActionText = require('../entities/action-text');
 var GF = require('../../engine/graphics-factory');
-var world = require('../game').world;
+var game = require('../game');
 
 var startingPos = [
-  world.width / 10,
-  world.width - world.width / 10
+  game.world.width / 10,
+  game.world.width - game.world.width / 10
 ];
 
-function WarmUp(game) {
+function WarmUp(engine) {
   
   this.enter = function() {
 
-    game.addEntity(new Arena());
-    game.addEntity(new Player('p1', startingPos[0], world.height / 2));
-    game.addEntity(new Player('p2', startingPos[1], world.height / 2));
-    game.addEntity(new Hud());
-    game.addEntity(new ActionText('get-ready', 'GET READY!'));
+    engine.addEntity(new Arena());
+    engine.addEntity(new Player('p1', startingPos[0], game.world.height / 2));
+    engine.addEntity(new Player('p2', startingPos[1], game.world.height / 2));
+    engine.addEntity(new Hud());
+    engine.addEntity(new ActionText('get-ready', 'GET READY!'));
 
     setTimeout(function() {
-      game.transition('ready');
+      engine.transition('ready');
     }, 2000);    
 
   };
   
   this.exit = function() {
-    game.deleteEntity('get-ready');
+    engine.deleteEntity('get-ready');
   };
   
   this.tick = function() {
