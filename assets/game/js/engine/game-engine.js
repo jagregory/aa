@@ -53,9 +53,9 @@ GameEngine.prototype.start = function() {
 
 GameEngine.prototype.update = function() {
   this.time.update();
-  this.physics.update();
-  this.sequencer.active().tick();
   var delta = this.time.delta;
+  this.physics.update();
+  this.sequencer.active().tick(delta);
   this.tracker.forEach(function(entity) {
     if (entity.update) {
       entity.update(delta);

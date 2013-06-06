@@ -4,13 +4,18 @@
 
 function Play(game) {
   
+  var countdownMillis = 60 * 1000;
+  
   this.enter = function() {
   };
   
   this.exit = function() {
   };
   
-  this.tick = function() {
+  this.tick = function(delta) {
+    countdownMillis -= delta;
+    var seconds = Math.floor(countdownMillis / 1000);
+    game.getEntity('hud').updateTime(seconds);
   };
   
   this.on = function(message, args) {

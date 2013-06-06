@@ -26,6 +26,10 @@ function Hud(text) {
   this.p2Name = GF.text('John Doe', 20);
   this.p2Name.position.x = userInterface.width - MARGIN - HUD_WIDTH + HUD_TEXT_X;
   this.p2Name.position.y = MARGIN + 12;
+
+  this.time = GF.text('00:90', 20);
+  this.time.position.x = userInterface.width / 2 - this.time.width / 2;
+  this.time.position.y = MARGIN + 12;
     
 };
 
@@ -36,6 +40,7 @@ Hud.prototype.create = function(physicsEngine, graphicsEngine) {
   graphicsEngine.add(this.p2Bg);
   graphicsEngine.add(this.p1Name);
   graphicsEngine.add(this.p2Name);
+  graphicsEngine.add(this.time);
 };
 
 Hud.prototype.destroy = function(physicsEngine, graphicsEngine) {
@@ -43,6 +48,11 @@ Hud.prototype.destroy = function(physicsEngine, graphicsEngine) {
   graphicsEngine.remove(this.p2Bg);
   graphicsEngine.remove(this.p1Name);
   graphicsEngine.remove(this.p2Name);
+  graphicsEngine.remove(this.time);
+};
+
+Hud.prototype.updateTime = function(seconds) {
+  this.time.setText('00:' + seconds);
 };
 
 module.exports = Hud;
