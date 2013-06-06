@@ -38,11 +38,13 @@ Ball.prototype.update = function(delta) {
   this.sprite.anchor.y = this.sprite.texture.height / 2;
 };
 
-Ball.prototype.collision = function(other, points) {    
-  hub.send('particles:explosion', {
-    source: points[0],
-    size: 'small'
-  })
+Ball.prototype.collision = function(other, points) {
+  if (other.id.match(/goal/)) {
+    hub.send('particles:explosion', {
+      source: points[0],
+      size: 'small'
+    })
+  }  
 }
 
 module.exports = Ball;
