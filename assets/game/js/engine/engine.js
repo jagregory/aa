@@ -48,6 +48,10 @@ Engine.prototype.start = function() {
   ticker.run(_.bind(this.update, this));
 };
 
+Engine.prototype.stop = function() {
+  ticker.stop();
+};
+
 Engine.prototype.update = function() {
   this.time.update();
   var delta = this.time.delta;

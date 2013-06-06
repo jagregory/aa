@@ -2,10 +2,12 @@ var bridgeSocket    = require('./bridge-socket');
 var bridgeKeyboard  = require('./bridge-keyboard');
 var Engine          = require('./engine/engine');
 var Game            = require('./game/game');
+var hub             = require('./engine/hub');
 
 window.Main = function() {
   
   var engine = null;
+  var game   = null;
 
   var container  = document.querySelector('#container');
   var gameView   = document.querySelector('#gameView');
@@ -22,7 +24,8 @@ window.Main = function() {
   
   function matchStart(players) {
     // TODO: what about a new match? Reset everything?
-    engine = new Engine(new Game(players), gameView, debugView);
+    game = new Game(players);
+    engine = new Engine(game, gameView, debugView);
     engine.start();
   }
   
@@ -37,6 +40,13 @@ window.Main = function() {
       engine.message('stop', args);
     }
   }
+  
+  hub.on('finish', function() {
+    engine.stop();
+    console.log('Game finished');
+    console.log('P1 score = ' + game.players[0].score);
+    console.log('P2 score = ' + game.players[1].score);
+  });
   
 };
 

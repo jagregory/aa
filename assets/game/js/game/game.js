@@ -34,11 +34,11 @@ function Game(playerInfo) {
       score: 0
     }
   });
-  
-  this.score = function(playerIndex) {
-    this.players[playerIndex].score += 1;
-  };
 
 }
+
+Game.prototype.score = function(playerIndex) {
+    this.players[playerIndex].score += 1;
+};
 
 module.exports = Game;

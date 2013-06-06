@@ -1,4 +1,5 @@
-var ActionText = require('../entities/action-text');
+var ActionText  = require('../entities/action-text');
+var hub         = require('../../engine/hub');
 
 function EndOfMatch(game, engine) {
   
@@ -6,7 +7,8 @@ function EndOfMatch(game, engine) {
     engine.deleteEntity('p1');
     engine.deleteEntity('p2');
     engine.deleteEntity('ball');
-    engine.addEntity(new ActionText('winner', 'John wins!'))
+    engine.addEntity(new ActionText('winner', 'John wins!'));
+    setTimeout(finish, 3000);
   };
   
   this.exit = function() {
@@ -17,6 +19,10 @@ function EndOfMatch(game, engine) {
 
   this.on = function(message, args) {
   };
+  
+  function finish() {
+    hub.send('finish');
+  }
   
 }
 
