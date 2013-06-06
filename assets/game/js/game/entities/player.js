@@ -4,9 +4,6 @@ var Entity      = require('../../engine/entity');
 var world       = require('../world');
 var hub         = require('../../engine/hub');
 
-var paddleWidth  = 4;
-var paddleHeight = 4;
-
 var fixture = PF.fixture({
   shape:      PF.shape.circle(2),
   dynamics:   {density: 1, friction: 0.5, restitution: 1},
@@ -27,7 +24,7 @@ function Player(id, x, y) {
       dynamics: {density: 0, friction: 0, restitution: 0},
     })
   };
-  this.sprite = GF.sprite(this.id === 'p1' ? '/game/images/cat.png' : '/game/images/koala.png', 7, 7);
+  this.sprite = GF.sprite(this.id === 'p1' ? '/game/images/cat.png' : '/game/images/dog.png', 5, 5);
 }
 
 Player.prototype = new Entity();

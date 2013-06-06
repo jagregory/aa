@@ -17,7 +17,7 @@ function Arena() {
 
   this.id = 'arena';
   
-  this.entities.push(new Background(picked.background));
+  this.entities.push(new Background());
   
   _.each(picked.walls, function(w, i) {
       var wall = new Wall(w.id || 'wall' + i, w.x, w.y, w.width, w.height, w.rotation || 0);

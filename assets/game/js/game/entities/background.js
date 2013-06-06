@@ -5,7 +5,7 @@ var gameWorld   = require('../world');
 
 function Background(image) {
   this.id = 'background';
-  this.sprite = GF.tile(image, world.toPixels(gameWorld.width), world.toPixels(gameWorld.height), 0);
+  this.sprite = GF.sprite('/game/images/stadium.png', gameWorld.width, gameWorld.height);
 }
 
 Background.prototype = new Entity();

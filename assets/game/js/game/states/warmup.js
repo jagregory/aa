@@ -10,8 +10,8 @@ var GF = require('../../engine/graphics-factory');
 function WarmUp(game, engine) {
 
   var startingPos = [
-    game.world.width / 10,
-    game.world.width - game.world.width / 10
+    game.world.width / 8,
+    game.world.width - game.world.width / 8
   ];
   
   this.enter = function() {

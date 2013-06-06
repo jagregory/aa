@@ -1,15 +1,14 @@
 var world = require('../world');
 
 exports.name        = 'Standard';
-exports.background  = '/game/images/grass.jpg';
 
 var PI     = 3.14;
 var width  = world.width;
 var height = world.height;
-var top    = 0.5;
+var top    = 3;
 var left   = 0.5;
 var right  = world.width  - 0.5;
-var bottom = world.height - 0.5;
+var bottom = world.height - 1.5;
 
 
 exports.walls = [

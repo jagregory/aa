@@ -5,7 +5,7 @@ var world       = require('../../engine/world');
 var mathUtils   = require('../../engine/math-utils');
 var hub         = require('../../engine/hub');
 
-var ballSize = 3;
+var ballSize = 2;
 
 var fixture = PF.fixture({
   shape:      PF.shape.circle(ballSize / 2),
