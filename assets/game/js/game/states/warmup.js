@@ -1,7 +1,7 @@
 // reset players pos
 // can move, but no ball
 
-var Arena = require('../entities/arena');
+var Stadium = require('../entities/stadium');
 var Player = require('../entities/player');
 var Hud = require('../entities/hud');
 var ActionText = require('../entities/action-text');
@@ -16,7 +16,7 @@ function WarmUp(game, engine) {
   
   this.enter = function() {
 
-    engine.addEntity(new Arena());
+    engine.addEntity(new Stadium());
     engine.addEntity(new Player('p1', startingPos[0], game.world.height / 2));
     engine.addEntity(new Player('p2', startingPos[1], game.world.height / 2));
     engine.addEntity(new Hud());

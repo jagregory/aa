@@ -9,7 +9,7 @@ function Wall(id, x, y, width, height, rotation) {
     body: PF.static({
       x: x,
       y: y,
-      angle: rotation
+      angle: rotation || 0
     }),
     fixture: PF.fixture({
       shape:      PF.shape.box(width, height),

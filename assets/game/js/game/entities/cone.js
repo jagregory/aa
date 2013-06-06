@@ -6,7 +6,7 @@ var world       = require('../../engine/world');
 function Cone(id, x, y) {
   this.id = id;
   this.bodySpec = {
-    body: PF.dynamic({
+    body: PF.static({
       x: x,
       y: y
     }),
@@ -17,19 +17,19 @@ function Cone(id, x, y) {
       collision:  PF.categories.ALL
     })
   };
-  this.sprite = GF.sprite('/game/images/cone.png', 2, 4);
+  this.sprite = GF.sprite('/game/images/cone.png', 2, 3.3);
   this.sprite.position.x = world.toPixels(x);
   this.sprite.position.y = world.toPixels(y);
 }
 
 Cone.prototype = new Entity();
 
-// Cone.prototype.update = function(delta) {
-//   Entity.prototype.update.call(this, delta);
-//   // We should be able to specify "0.5", and not have to update it constantly
-//   // Need to check our changes to PIXI
-//   this.sprite.anchor.x = this.sprite.texture.width  / 2;
-//   this.sprite.anchor.y = this.sprite.texture.height / 3;
-// };
+Cone.prototype.update = function(delta) {
+  Entity.prototype.update.call(this, delta);
+  // We should be able to specify "0.5", and not have to update it constantly
+  // Need to check our changes to PIXI
+  this.sprite.anchor.x = this.sprite.texture.width  / 2;
+  this.sprite.anchor.y = this.sprite.texture.height / 3;
+};
 
 module.exports = Cone;
