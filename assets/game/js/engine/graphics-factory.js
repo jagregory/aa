@@ -55,6 +55,15 @@ exports.text = function(text, size, opts) {
   return text;
 };
 
+exports.animation = function(images, width, height) {
+  var textures = images.map(function(i) {
+    return PIXI.Texture.fromImage(i);
+  });
+  var anim = new PIXI.MovieClip(textures);
+  init(anim, width, height, 0);
+  return anim;
+};
+
 function init(sprite, width, height, rotation) {
   sprite.width = world.toPixels(width);  
   sprite.height = world.toPixels(height);

@@ -24,7 +24,11 @@ function Player(id, x, y) {
       dynamics: {density: 0, friction: 0, restitution: 0},
     })
   };
-  this.sprite = GF.sprite(this.id === 'p1' ? '/game/images/cat.png' : '/game/images/dog.png', 5, 5);
+  if (this.id === 'p1') {
+    this.sprite = GF.animation(['/game/images/cat.png', '/game/images/cat-up.png', '/game/images/cat-down.png'], 5, 5);
+  } else {
+    this.sprite = GF.animation(['/game/images/dog.png', '/game/images/dog-up.png', '/game/images/dog-down.png'], 5, 5);
+  }
 }
 
 Player.prototype = new Entity();
@@ -58,11 +62,17 @@ Player.prototype.move = function(dir) {
   var y = (dir === 'up') ? -30 : 30;
   this.body.SetAwake(true);
   this.body.SetLinearVelocity(new Box2D.Common.Math.b2Vec2(0, y));
+  if (y < 0) {
+    this.sprite.gotoAndStop(1);
+  } else {
+    this.sprite.gotoAndStop(2);
+  }
 };
 
 Player.prototype.stop = function() {
   this.body.SetAwake(false);
   this.body.SetLinearVelocity(new Box2D.Common.Math.b2Vec2(0, 0));
+  this.sprite.gotoAndStop(0);
 };
 
 
