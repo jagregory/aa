@@ -1,7 +1,7 @@
 var GF          = require('../../engine/graphics-factory');
 var Entity      = require('../../engine/entity');
 var world       = require('../../engine/world');
-var gameWorld   = require('../game-world');
+var gameWorld   = require('../game').world;
 
 function Background(image) {
   this.id = 'background';

@@ -1,10 +1,8 @@
-// give the ball a nudge
-// check if anyone scored
-// add power ups to collect, etc
+var game2 = require('../game');
 
 function Play(game) {
   
-  var countdownMillis = 60 * 1000;
+  var countdownMillis = game2.duration * 1000;
   
   this.enter = function() {
   };

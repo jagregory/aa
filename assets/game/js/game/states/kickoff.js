@@ -2,7 +2,7 @@ var _ = require('../../../../3rdparty/underscore-min');
 var GF = require('../../engine/graphics-factory');
 var Ball = require('../entities/ball');
 var ActionText = require('../entities/action-text');
-var world = require('../game-world');
+var world = require('../game').world;
 
 var ballStartX = world.width / 5;
 var ballStartY = world.height / 2;

@@ -1,7 +1,7 @@
 var bridgeSocket    = require('./bridge-socket');
 var bridgeKeyboard  = require('./bridge-keyboard');
 var GameEngine      = require('./engine/game-engine');
-var gameWorld       = require('./game/game-world');
+var game            = require('./game/game');
 var sequences       = require('./game/sequences');
 
 window.Main = function() {
@@ -30,7 +30,7 @@ window.Main = function() {
         score: 0
       }
     });
-    gameEngine = new GameEngine(gameWorld, sequences, players, gameView, debugView);
+    gameEngine = new GameEngine(game.world, sequences, players, gameView, debugView);
     gameEngine.start();
   }
   
