@@ -10,16 +10,15 @@ var Time            = require('./time');
 var hub             = require('./hub');
 
 
-function GameEngine(world, sequences, players, gameView, debugView) {
+function Engine(game, gameView, debugView) {
   
   this.nextTickActions  = [];
-  this.players          = players;
   
-  this.graphics     = new GraphicsEngine(world, gameView, debugView);
+  this.graphics     = new GraphicsEngine(game.world, gameView, debugView);
   this.physics      = new PhysicsEngine(debugView);
   this.sound        = new SoundEngine();
   this.particles    = new ParticleEngine(this);
-  this.sequencer    = new Sequencer(this, sequences);
+  this.sequencer    = new Sequencer(this, game);
   this.tracker      = new EntityTracker();
   this.time         = new Time();
     
@@ -36,22 +35,20 @@ function GameEngine(world, sequences, players, gameView, debugView) {
   
   hub.on('entity:destroy', function(params) {
     this.deleteEntity(params.entity.id)
-  }.bind(this))
-
-  hub.on('score', function(params) {
-    var playerIndex = 1 - params.against;
-    this.sequencer.transition('scored', playerIndex);
-    this.players[playerIndex].score += 1;
-  }.bind(this))
-
+  }.bind(this));
+  
+  hub.on('state:transition', function(params, args) {
+    this.sequencer.transition(params.name, params.args);    
+  }.bind(this));
+  
 };
 
-GameEngine.prototype.start = function() {
+Engine.prototype.start = function() {
   this.sequencer.start();
   ticker.run(_.bind(this.update, this));
 };
 
-GameEngine.prototype.update = function() {
+Engine.prototype.update = function() {
   this.time.update();
   var delta = this.time.delta;
   this.physics.update();
@@ -69,24 +66,24 @@ GameEngine.prototype.update = function() {
   }
 };
 
-GameEngine.prototype.transition = function(trans) {
+Engine.prototype.transition = function(trans) {
   this.sequencer.transition(trans);
 };
 
-GameEngine.prototype.input = function(message, args) {
+Engine.prototype.message = function(message, args) {
   this.sequencer.active().on(message, args);
 };
 
-GameEngine.prototype.queueNext = function(action) {
+Engine.prototype.queueNext = function(action) {
   this.nextTickActions.push(action);
 };
 
 
-GameEngine.prototype.forget = function(entity) {
+Engine.prototype.forget = function(entity) {
   this.tracker.forget(entity);
 };
 
-GameEngine.prototype.addEntity = function(entity) {
+Engine.prototype.addEntity = function(entity) {
   if (entity.id) {
     this.tracker.track(entity);
     if (entity.create) {
@@ -97,7 +94,7 @@ GameEngine.prototype.addEntity = function(entity) {
   }
 };
 
-GameEngine.prototype.deleteEntity = function(id) {
+Engine.prototype.deleteEntity = function(id) {
   var entity = this.tracker.find(id);
   if (entity) {
     if (entity.destroy) {
@@ -109,9 +106,9 @@ GameEngine.prototype.deleteEntity = function(id) {
   }
 };
 
-GameEngine.prototype.getEntity = function(id) {
+Engine.prototype.getEntity = function(id) {
   return this.tracker.find(id);
 };
 
 
-module.exports = GameEngine;
+module.exports = Engine;

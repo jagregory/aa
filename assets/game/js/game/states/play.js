@@ -1,6 +1,5 @@
-var game = require('../game');
 
-function Play(engine) {
+function Play(game, engine) {
   
   var countdownMillis = game.duration * 1000;
   

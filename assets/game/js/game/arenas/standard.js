@@ -1,4 +1,4 @@
-var world = require('../game').world;
+var world = require('../world');
 
 exports.name        = 'Standard';
 exports.background  = '/game/images/grass.jpg';

@@ -1,6 +1,6 @@
 var ActionText = require('../entities/action-text');
 
-function EndOfMatch(engine) {
+function EndOfMatch(game, engine) {
   
   this.enter = function() {
     engine.deleteEntity('p1');

@@ -1,12 +1,11 @@
 var bridgeSocket    = require('./bridge-socket');
 var bridgeKeyboard  = require('./bridge-keyboard');
 var Engine          = require('./engine/engine');
-var game            = require('./game/game');
-var sequences       = require('./game/sequences');
+var Game            = require('./game/game');
 
 window.Main = function() {
   
-  var engine  = null;
+  var engine = null;
 
   var container  = document.querySelector('#container');
   var gameView   = document.querySelector('#gameView');
@@ -22,32 +21,20 @@ window.Main = function() {
   bridgeSocket.connect(matchStart, playerMove, playerStop);
   
   function matchStart(players) {
-    //
-    // TODO: Cleanup any previous game?
-    //
-    // TODO: moving the player does not belong to the engine
-    // In fact the engine shouldn't even be aware there's players
-    //
-    var players = players.map(function(p) {
-      return {
-        id: p.id,
-        name: p.firstName + ' ' + p.lastName,
-        score: 0
-      }
-    });
-    engine = new Engine(game.world, sequences, players, gameView, debugView);
+    // TODO: what about a new match? Reset everything?
+    engine = new Engine(new Game(players), gameView, debugView);
     engine.start();
   }
   
   function playerMove(args) {
     if (engine) {
-      engine.input('move', args);
+      engine.message('move', args);
     }
   }
   
   function playerStop(args) {
     if (engine) {
-      engine.input('stop', args);
+      engine.message('stop', args);
     }
   }
   

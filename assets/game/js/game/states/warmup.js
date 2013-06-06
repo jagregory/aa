@@ -6,14 +6,13 @@ var Player = require('../entities/player');
 var Hud = require('../entities/hud');
 var ActionText = require('../entities/action-text');
 var GF = require('../../engine/graphics-factory');
-var game = require('../game');
 
-var startingPos = [
-  game.world.width / 10,
-  game.world.width - game.world.width / 10
-];
+function WarmUp(game, engine) {
 
-function WarmUp(engine) {
+  var startingPos = [
+    game.world.width / 10,
+    game.world.width - game.world.width / 10
+  ];
   
   this.enter = function() {
 

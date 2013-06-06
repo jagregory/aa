@@ -1,9 +1,9 @@
 var _ = require('../../../3rdparty/underscore-min');
 
-function Sequencer(game, definition) {
+function Sequencer(engine, game) {
     
-  var states = _.reduce(definition.states, function(acc, fn, key) {
-    acc[key] = new fn(game);
+  var states = _.reduce(game.states, function(acc, fn, key) {
+    acc[key] = new fn(game, engine);
     return acc;
   }, {});
   
@@ -11,7 +11,7 @@ function Sequencer(game, definition) {
   
   var fsm = window.StateMachine.create({
   
-    events: definition.transitions,
+    events: game.transitions,
   
     callbacks: {
       onenterstate: function(transition, start, end, args) {

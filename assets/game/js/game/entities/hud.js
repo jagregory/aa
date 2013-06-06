@@ -1,7 +1,6 @@
 var Entity = require('../../engine/entity');
 var GF = require('../../engine/graphics-factory');
 var userInterface = require('../../engine/user-interface');
-var game = require('../game');
 
 var MARGIN = 30 //pixels;
 var HUD_WIDTH = 358;
@@ -28,7 +27,7 @@ function Hud(text) {
   this.p2Name.position.x = userInterface.width - MARGIN - HUD_WIDTH + HUD_TEXT_X;
   this.p2Name.position.y = MARGIN + 12;
 
-  this.time = GF.text(fourDigits(game.duration), 20);
+  this.time = GF.text(fourDigits(0), 20);
   this.time.position.x = userInterface.width / 2 - this.time.width / 2;
   this.time.position.y = MARGIN + 12;
     

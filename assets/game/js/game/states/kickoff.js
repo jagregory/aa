@@ -2,15 +2,14 @@ var _ = require('../../../../3rdparty/underscore-min');
 var GF = require('../../engine/graphics-factory');
 var Ball = require('../entities/ball');
 var ActionText = require('../entities/action-text');
-var game = require('../game');
 
-var ballStartX = game.world.width / 5;
-var ballStartY = game.world.height / 2;
-
-function KickOff(engine) {
+function KickOff(game, engine) {
   
   var ball = null;
   var text = null;
+
+  var ballStartX = game.world.width / 5;
+  var ballStartY = game.world.height / 2;
   
   this.enter = function() {
     ball = new Ball('ball', ballStartX, ballStartY);
