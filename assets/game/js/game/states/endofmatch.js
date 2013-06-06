@@ -1,10 +1,12 @@
-// final cut scene
-// send the score to the server
-// and back to pre-match
+var ActionText = require('../entities/action-text');
 
 function EndOfMatch(game) {
   
   this.enter = function() {
+    game.deleteEntity('p1');
+    game.deleteEntity('p2');
+    game.deleteEntity('ball');
+    game.addEntity(new ActionText('winner', 'John wins!'))
   };
   
   this.exit = function() {

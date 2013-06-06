@@ -16,6 +16,9 @@ function Play(game) {
     countdownMillis -= delta;
     var seconds = Math.floor(countdownMillis / 1000);
     game.getEntity('hud').updateTime(seconds);
+    if (seconds <= 0) {
+      game.transition('end');
+    }
   };
   
   this.on = function(message, args) {
