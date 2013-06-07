@@ -1,5 +1,6 @@
 var Sequencer   = require('./sequencer');
 var world       = require('./world');
+var hub         = require('../engine/hub');
 
 function Game(engine, playerInfo) {
 
@@ -34,6 +35,10 @@ function Game(engine, playerInfo) {
   
   this.sequencer = new Sequencer(engine, this, states, transitions);
   this.sequencer.start();
+
+  hub.on('state:transition', function(params) {
+    this.sequencer.transition(params.name, params.args);
+  }.bind(this));
 
 }
 

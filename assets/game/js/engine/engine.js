@@ -38,10 +38,6 @@ function Engine(world, mainView, debugView) {
     this.deleteEntity(params.entity.id)
   }.bind(this));
   
-  // hub.on('state:transition', function(params, args) {
-  //   this.sequencer.transition(params.name, params.args);    
-  // }.bind(this));
-  
 };
 
 Engine.prototype.start = function() {

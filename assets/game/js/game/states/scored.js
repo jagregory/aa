@@ -20,7 +20,7 @@ function Scored(engine, game) {
   
   function backToKickoff() {
     engine.deleteEntity('player-scored');
-    engine.transition('ready');
+    game.transition('ready');
   }
   
 }
