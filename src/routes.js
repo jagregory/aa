@@ -61,7 +61,7 @@ exports.register = function(app) {
 
   // finish the game (sent by the game itself)
   app.post('/game/status', function(req, res) {
-    game.reset();
+    game.clear();
     res.header('Cache-Control', 'no-cache')
     res.send({
       finished: game.inProgress(),
