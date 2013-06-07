@@ -1,45 +1,52 @@
-  
-<h1>Current game</h1>
+<section id="game">
 
-<div id="game-status">
-  <dt>Status</dt>{{#if inProgress}}<dd class="in-progress">in progress</dd>{{else}}<dd class="waiting">waiting</dd>{{/if}}
-</div>
+  <h1>Current game</h1>
 
-<table>
+  {{#if inProgress}}
+    <div class="status in-progress">In progress</div>
+  {{else}}
+    <div class="status waiting">Waiting for players</div>
+  {{/if}}
+
+  <table>
   
-  <thead>
-    <tr>
-      <th>First name</th>
-      <th>Last name</th>
-      <th>Phone</th>
-      <th>Top score</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  
-  <tbody>
-    {{#each players}}
-      {{#if id}}
-        <tr id="{{id}}">
-          <td>{{firstName}}</td>
-          <td>{{lastName}}</td>
-          <td>{{phoneNumber}}</td>
-          <td>{{topScore}}</td>
-          <td><a class="evict" href="#">evict</a></td>
-        </tr>
-      {{/if}}
-      {{#unless id}}
+    <thead>
       <tr>
-        <td class="empty" colspan="5">EMPTY</td>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Phone</th>
+        <th>Top score</th>
+        <th>Actions</th>
       </tr>
-      {{/unless}}
-    {{/each}}
-  </tbody>
+    </thead>
   
-</table>
+    <tbody>
+      {{#each players}}
+        {{#if id}}
+          <tr id="{{id}}">
+            <td>{{firstName}}</td>
+            <td>{{lastName}}</td>
+            <td>{{phoneNumber}}</td>
+            <td>{{topScore}}</td>
+            <td><a class="evict" href="#">evict</a></td>
+          </tr>
+        {{/if}}
+        {{#unless id}}
+        <tr>
+          <td class="empty" colspan="5">EMPTY</td>
+        </tr>
+        {{/unless}}
+      {{/each}}
+    </tbody>
+  
+  </table>
 
-<button class="dislodge">
-  <i class="icon icon-angle-left"></i>
-  dislodge the ball
-  <i class="icon icon-angle-right"></i>
-</button>
+  <!--
+  <button class="dislodge">
+    <i class="icon icon-angle-left"></i>
+    dislodge the ball
+    <i class="icon icon-angle-right"></i>
+  </button>
+  -->
+
+</section>
