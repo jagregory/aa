@@ -24,13 +24,13 @@ function Spinner(id, x, y, width, height) {
 
 Spinner.prototype = new Entity();
 
-Spinner.prototype.create = function(physicsEngine, graphicsEngine) {
-  Entity.prototype.create.call(this, physicsEngine, graphicsEngine);
+Spinner.prototype.create = function(engine, game) {
+  Entity.prototype.create.call(this, engine, game);
 //  this.body.SetAngularVelocity(new Box2D.Common.Math.b2Vec2(1, 1));    
 
   var thisPos = this.body.GetWorldCenter();
   var pivotDef = PF.static({x: thisPos.x, y: thisPos.y});
-  var pivot = physicsEngine.create(pivotDef, null);
+  var pivot = engine.physics.create(pivotDef, null);
 
   var jointDef = new Box2D.Dynamics.Joints.b2RevoluteJointDef();
   jointDef.Initialize(pivot, this.body, this.body.GetPosition());
@@ -39,7 +39,7 @@ Spinner.prototype.create = function(physicsEngine, graphicsEngine) {
   jointDef.enableMotor    = true;
   jointDef.enableLimit    = false;
 
-  var joint = physicsEngine.b2world.CreateJoint(jointDef);
+  var joint = engine.physics.b2world.CreateJoint(jointDef);
 
 };
 

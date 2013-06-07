@@ -24,7 +24,7 @@ function Cone(id, x, y) {
 
 Cone.prototype = new Entity();
 
-Cone.prototype.update = function(delta) {
+Cone.prototype.update = function(engine, game, delta) {
   Entity.prototype.update.call(this, delta);
   // We should be able to specify "0.5", and not have to update it constantly
   // Need to check our changes to PIXI

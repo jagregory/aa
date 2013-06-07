@@ -2,14 +2,15 @@ var _ = require('../../../../3rdparty/underscore-min');
 var GF = require('../../engine/graphics-factory');
 var Ball = require('../entities/ball');
 var ActionText = require('../entities/action-text');
+var world = require('../world');
 
-function KickOff(game, engine) {
+function KickOff(engine, game) {
   
   var ball = null;
   var text = null;
 
-  var ballStartX = game.world.width / 5;
-  var ballStartY = game.world.height / 2;
+  var ballStartX = world.width / 5;
+  var ballStartY = world.height / 2;
   
   this.enter = function() {
     ball = new Ball('ball', ballStartX, ballStartY);
@@ -22,7 +23,7 @@ function KickOff(game, engine) {
   this.exit = function() {
   };
   
-  this.tick = function() {
+  this.update = function(delta) {
   };
   
   this.on = function(message, args) {
@@ -48,7 +49,7 @@ function KickOff(game, engine) {
     engine.deleteEntity('countdown');
     ball.body.SetAwake(true);
     ball.body.SetLinearVelocity(new Box2D.Common.Math.b2Vec2(16, 16));
-    engine.transition('go');
+    game.transition('go');
   }
   
 }

@@ -37,17 +37,17 @@ function Player(id, x, y) {
 
 Player.prototype = new Entity();
 
-Player.prototype.create = function(physicsEngine, graphicsEngine) {
-  Entity.prototype.create.call(this, physicsEngine, graphicsEngine);
-  this.constraintBody = physicsEngine.create(this.constraintSpec.body, this.constraintSpec.fixture);
+Player.prototype.create = function(engine, game) {
+  Entity.prototype.create.call(this, engine, game);
+  this.constraintBody = engine.physics.create(this.constraintSpec.body, this.constraintSpec.fixture);
   var verticalAxis = new Box2D.Common.Math.b2Vec2(0,1);
   var joint  = new Box2D.Dynamics.Joints.b2LineJointDef();
   joint.Initialize(this.constraintBody, this.body, this.body.GetPosition(), verticalAxis);
-  physicsEngine.b2world.CreateJoint(joint);  
+  engine.physics.b2world.CreateJoint(joint);  
 }
 
-Player.prototype.update = function(delta) {
-  Entity.prototype.update.call(this, delta);
+Player.prototype.update = function(engine, game, delta) {
+  Entity.prototype.update.call(this, engine, game, delta);
   // We should be able to specify "0.5", and not have to update it constantly
   // Need to check our changes to PIXI
   this.sprite.anchor.x = this.sprite.texture.width  / 2;

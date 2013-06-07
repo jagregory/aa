@@ -1,7 +1,7 @@
 var ActionText  = require('../entities/action-text');
 var hub         = require('../../engine/hub');
 
-function EndOfMatch(game, engine) {
+function EndOfMatch(engine, game) {
   
   this.enter = function() {
     engine.deleteEntity('p1');
@@ -14,7 +14,7 @@ function EndOfMatch(game, engine) {
   this.exit = function() {
   };
   
-  this.tick = function() {
+  this.update = function(delta) {
   };
 
   this.on = function(message, args) {

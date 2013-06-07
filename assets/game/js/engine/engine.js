@@ -5,22 +5,23 @@ var SoundEngine     = require('./sound-engine');
 var ParticleEngine  = require('./particle-engine');
 var ticker          = require('./ticker');
 var EntityTracker   = require('./entitytracker');
-var Sequencer       = require('./sequencer');
 var Time            = require('./time');
 var hub             = require('./hub');
 
 
-function Engine(game, gameView, debugView) {
+function Engine(world, mainView, debugView) {
   
   this.nextTickActions  = [];
   
-  this.graphics     = new GraphicsEngine(game.world, gameView, debugView);
-  this.physics      = new PhysicsEngine(/*debugView*/);
+  this.graphics     = new GraphicsEngine(world, mainView, debugView);
+  this.physics      = new PhysicsEngine(debugView);
   this.sound        = new SoundEngine();
   this.particles    = new ParticleEngine(this);
-  this.sequencer    = new Sequencer(this, game);
   this.tracker      = new EntityTracker();
   this.time         = new Time();
+  
+  // No game attached yet
+  this.game = null;
     
   this.physics.collision(function(fixtureA, fixtureB, points) {
     var entityA = fixtureA.GetUserData();
@@ -37,14 +38,13 @@ function Engine(game, gameView, debugView) {
     this.deleteEntity(params.entity.id)
   }.bind(this));
   
-  hub.on('state:transition', function(params, args) {
-    this.sequencer.transition(params.name, params.args);    
-  }.bind(this));
+  // hub.on('state:transition', function(params, args) {
+  //   this.sequencer.transition(params.name, params.args);    
+  // }.bind(this));
   
 };
 
 Engine.prototype.start = function() {
-  this.sequencer.start();
   ticker.run(_.bind(this.update, this));
 };
 
@@ -53,29 +53,23 @@ Engine.prototype.stop = function() {
 };
 
 Engine.prototype.update = function() {
+  var that = this;
   this.time.update();
-  var delta = this.time.delta;
   this.physics.update();
-  this.sequencer.active().tick(delta);
   this.tracker.forEach(function(entity) {
     if (entity.update) {
-      entity.update(delta);
+      entity.update(that, that.game, that.time.delta);
     }
   });
+  if (this.game) {
+    this.game.update(this, this.time.delta);
+  }
   this.graphics.render();
   
   var nextAction = null;
   while (nextAction = this.nextTickActions.pop()) {
     nextAction.call(this);
   }
-};
-
-Engine.prototype.transition = function(trans) {
-  this.sequencer.transition(trans);
-};
-
-Engine.prototype.message = function(message, args) {
-  this.sequencer.active().on(message, args);
 };
 
 Engine.prototype.queueNext = function(action) {
@@ -91,7 +85,7 @@ Engine.prototype.addEntity = function(entity) {
   if (entity.id) {
     this.tracker.track(entity);
     if (entity.create) {
-      entity.create(this.physics, this.graphics);
+      entity.create(this, this.game);
     }
   } else {
     console.log('Entity should have an ID', entity);
@@ -102,7 +96,7 @@ Engine.prototype.deleteEntity = function(id) {
   var entity = this.tracker.find(id);
   if (entity) {
     if (entity.destroy) {
-      entity.destroy(this.physics, this.graphics);
+      entity.destroy(this, this.game);
     }
     this.tracker.forget(entity);
   } else {
@@ -114,5 +108,12 @@ Engine.prototype.getEntity = function(id) {
   return this.tracker.find(id);
 };
 
+Engine.prototype.attach = function(game) {
+  this.game = game;
+};
+
+Engine.prototype.detach = function() {
+  this.game = null;
+};
 
 module.exports = Engine;

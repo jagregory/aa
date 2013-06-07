@@ -11,14 +11,6 @@ function Hud(text) {
   
   this.id = 'hud';
   
-  // this.p1Bg = GF.uiSprite('/game/images/hud-bg.png', HUD_WIDTH, HUD_HEIGHT);
-  // this.p1Bg.position.x = MARGIN;
-  // this.p1Bg.position.y = MARGIN;
-  // 
-  // this.p2Bg = GF.uiSprite('/game/images/hud-bg.png', HUD_WIDTH, HUD_HEIGHT);
-  // this.p2Bg.position.x = userInterface.width - MARGIN - HUD_WIDTH;
-  // this.p2Bg.position.y = MARGIN;
-  
   this.p1Name = GF.text('John Doe', 25);
   this.p1Name.position.x = MARGIN + HUD_TEXT_X;
   this.p1Name.position.y = MARGIN + 10;
@@ -35,24 +27,24 @@ function Hud(text) {
 
 Hud.prototype = new Entity();
 
-Hud.prototype.create = function(physicsEngine, graphicsEngine) {
-  // graphicsEngine.add(this.p1Bg);
-  // graphicsEngine.add(this.p2Bg);
-  graphicsEngine.add(this.p1Name);
-  graphicsEngine.add(this.p2Name);
-  graphicsEngine.add(this.time);
+Hud.prototype.create = function(engine, game) {
+  engine.graphics.add(this.p1Name);
+  engine.graphics.add(this.p2Name);
+  engine.graphics.add(this.time);
 };
 
-Hud.prototype.destroy = function(physicsEngine, graphicsEngine) {
-  // graphicsEngine.remove(this.p2Bg);
-  // graphicsEngine.remove(this.p2Bg);
-  graphicsEngine.remove(this.p1Name);
-  graphicsEngine.remove(this.p2Name);
-  graphicsEngine.remove(this.time);
+Hud.prototype.destroy = function(engine, game) {
+  engine.graphics.remove(this.p1Name);
+  engine.graphics.remove(this.p2Name);
+  engine.graphics.remove(this.time);
 };
 
-Hud.prototype.updateTime = function(seconds) {
-  this.time.setText(fourDigits(seconds));
+Hud.prototype.update = function(engine, game, delta) {
+  var p1 = engine.getEntity('p1');
+  var p2 = engine.getEntity('p2');
+  this.p1Name.setText(p1.name + ' ' + p1.score);
+  this.p2Name.setText(p1.name + ' ' + p1.score);
+  this.time.setText(fourDigits(game.remainingTime));
 };
 
 function fourDigits(seconds) {

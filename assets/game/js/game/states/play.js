@@ -1,5 +1,5 @@
 
-function Play(game, engine) {
+function Play(engine, game) {
   
   var countdownMillis = game.duration * 1000;
   
@@ -9,7 +9,7 @@ function Play(game, engine) {
   this.exit = function() {
   };
   
-  this.tick = function(delta) {
+  this.update = function(delta) {
     countdownMillis -= delta;
     var seconds = Math.floor(countdownMillis / 1000);
     engine.getEntity('hud').updateTime(seconds);

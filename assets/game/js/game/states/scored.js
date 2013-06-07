@@ -1,6 +1,6 @@
 var ActionText = require('../entities/action-text');
 
-function Scored(game, engine) {
+function Scored(engine, game) {
   
   this.enter = function(playerIndex) {
     game.score(playerIndex);
@@ -12,7 +12,7 @@ function Scored(game, engine) {
   this.exit = function() {
   };
   
-  this.tick = function() {
+  this.update = function(delta) {
   };
   
   this.on = function(message, args) {

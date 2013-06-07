@@ -29,7 +29,7 @@ function Ball(id, x, y) {
 
 Ball.prototype = new Entity();
 
-Ball.prototype.update = function(delta) {  
+Ball.prototype.update = function(engine, game, delta) {  
   Entity.prototype.update.call(this, delta);
   mathUtils.clampVelocity(this.body, 15, 30);
   // We should be able to specify "0.5", and not have to update it constantly

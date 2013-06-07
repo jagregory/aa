@@ -2,13 +2,11 @@ var bridgeSocket    = require('./bridge-socket');
 var bridgeKeyboard  = require('./bridge-keyboard');
 var Engine          = require('./engine/engine');
 var Game            = require('./game/game');
+var world           = require('./game/world');
 var hub             = require('./engine/hub');
 
 window.Main = function() {
   
-  var engine = null;
-  var game   = null;
-
   var container  = document.querySelector('#container');
   var gameView   = document.querySelector('#gameView');
   var debugView  = document.querySelector('#debugView');
@@ -17,32 +15,25 @@ window.Main = function() {
   debugView.width  = window.innerWidth;
   gameView.height  = window.innerHeight;
   gameView.width   = window.innerWidth;
-    
-  // Wire external events
-  bridgeKeyboard.connect(matchStart, playerMove, playerStop);
-  bridgeSocket.connect(matchStart, playerMove, playerStop);
+  
+  var engine = new Engine(world, gameView, debugView);
+  var game   = null;
   
   function matchStart(players) {
-    // TODO: find a way to cleanup the current game and start a new one
-    //
-    // game = new Game(players);
-    // engine.attach(game);
-    // engine.start();
-    //
-    game = new Game(players);
-    engine = new Engine(game, gameView, debugView);
+    game = new Game(engine, players);
+    engine.attach(game);
     engine.start();
   }
   
   function playerMove(args) {
-    if (engine) {
-      engine.message('move', args);
+    if (game) {
+      game.message('move', args);
     }
   }
   
   function playerStop(args) {
-    if (engine) {
-      engine.message('stop', args);
+    if (game) {
+      game.message('stop', args);
     }
   }
   
@@ -57,16 +48,13 @@ window.Main = function() {
   }
   
   function cleanup() {
-    // TODO: find a way to cleanup the current game and start a new one
-    //
-    // engine.stop();
-    // engine.detach(game);
-    // engine.reset();
-    //
-    //engine.stop();
-    //window.location.reload();
+    engine.stop();
+    engine.detach(game);
+    engine.reset();
   }
   
+  bridgeKeyboard.connect(matchStart, playerMove, playerStop);
+  bridgeSocket.connect(matchStart, playerMove, playerStop);
   hub.on('finish', endMatchOnServer);
   
 };

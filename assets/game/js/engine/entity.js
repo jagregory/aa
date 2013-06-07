@@ -9,26 +9,26 @@ var Entity = function() {
   this.sprite = null;
 };
 
-Entity.prototype.create = function(physicsEngine, graphicsEngine) {
+Entity.prototype.create = function(engine, game) {
   if (this.bodySpec) {
     this.bodySpec.fixture.userData = this;
-    this.body = physicsEngine.create(this.bodySpec.body, this.bodySpec.fixture);  
+    this.body = engine.physics.create(this.bodySpec.body, this.bodySpec.fixture);  
   }
   if (this.sprite) {
-    graphicsEngine.add(this.sprite);
+    engine.graphics.add(this.sprite);
   }
 };
 
-Entity.prototype.destroy = function(physicsEngine, graphicsEngine) {
+Entity.prototype.destroy = function(engine, game) {
   if (this.body) {
-    physicsEngine.destroy(this.body);
+    engine.physics.destroy(this.body);
   }
   if (this.sprite) {
-    graphicsEngine.remove(this.sprite);
+    engine.graphics.remove(this.sprite);
   }
 };
 
-Entity.prototype.update = function(delta) {
+Entity.prototype.update = function(engine, game, delta) {
   if (this.sprite && this.body) {
     this.sprite.position.x = world.toPixels(this.body.GetPosition().x);
     this.sprite.position.y = world.toPixels(this.body.GetPosition().y);
