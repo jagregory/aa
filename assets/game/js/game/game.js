@@ -3,6 +3,16 @@ var world       = require('./world');
 
 function Game(engine, playerInfo) {
 
+  // two players in the current match
+  // or maybe this belongs in the Player entity?
+  this.players = playerInfo.map(function(p) {
+    return {
+      id: p.id,
+      name: p.firstName + ' ' + p.lastName,
+      score: 0
+    }
+  });
+  
   var states = {
     'warmup':     require('./states/warmup'),
     'kickoff':    require('./states/kickoff'),
@@ -20,18 +30,10 @@ function Game(engine, playerInfo) {
   ];
   
   this.duration  = 15;
+  this.timeRemaining = this.duration * 1000;
+  
   this.sequencer = new Sequencer(engine, this, states, transitions);
   this.sequencer.start();
-  
-  // two players in the current match
-  // or maybe this belongs in the Player entity?
-  this.players = playerInfo.map(function(p) {
-    return {
-      id: p.id,
-      name: p.firstName + ' ' + p.lastName,
-      score: 0
-    }
-  });
 
 }
 

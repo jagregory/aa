@@ -15,12 +15,17 @@ var ANIM_REST = 0;
 var ANIM_UP   = 1;
 var ANIM_DOWN = 2;
 
-function Player(id, x, y) {
-  this.id = id;
+function Player(id, name, x, y) {
+  
+  this.id    = id;
+  this.name  = name;
+  this.score = 0;
+  
   this.bodySpec = {
     body: PF.dynamic({ x: x, y: y, fixedRotation: true }),
     fixture: fixture
   };
+  
   this.constraintSpec = {
     body: PF.static({x: x, y: 0}),
     fixture: PF.fixture({
@@ -28,11 +33,13 @@ function Player(id, x, y) {
       dynamics: {density: 0, friction: 0, restitution: 0},
     })
   };
+  
   if (this.id === 'p1') {
     this.sprite = GF.animation(['/game/images/cat.png', '/game/images/cat-up.png', '/game/images/cat-down.png'], 5, 5);
   } else {
     this.sprite = GF.animation(['/game/images/dog.png', '/game/images/dog-up.png', '/game/images/dog-down.png'], 5, 5);
   }
+  
 }
 
 Player.prototype = new Entity();

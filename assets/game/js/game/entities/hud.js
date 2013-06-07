@@ -44,10 +44,11 @@ Hud.prototype.update = function(engine, game, delta) {
   var p2 = engine.getEntity('p2');
   this.p1Name.setText(p1.name + ' ' + p1.score);
   this.p2Name.setText(p1.name + ' ' + p1.score);
-  this.time.setText(fourDigits(game.remainingTime));
+  this.time.setText(fourDigits(game.timeRemaining));
 };
 
-function fourDigits(seconds) {
+function fourDigits(milliseconds) {
+  var seconds = Math.floor(milliseconds / 1000);
   var padded = (seconds < 10) ? ('0' + seconds) : seconds;
   return '00:' + padded;
 }

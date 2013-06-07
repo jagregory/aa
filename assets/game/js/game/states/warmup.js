@@ -17,9 +17,12 @@ function WarmUp(engine, game) {
   
   this.enter = function() {
 
+    var p1 = new Player('p1', game.players[0].name, startingPos[0], world.height / 2);
+    var p2 = new Player('p2', game.players[1].name, startingPos[1], world.height / 2);
+    
     engine.addEntity(new Stadium());
-    engine.addEntity(new Player('p1', startingPos[0], world.height / 2));
-    engine.addEntity(new Player('p2', startingPos[1], world.height / 2));
+    engine.addEntity(p1);
+    engine.addEntity(p2);
     engine.addEntity(new Hud());
     engine.addEntity(new ActionText('get-ready', 'GET READY!'));
 
