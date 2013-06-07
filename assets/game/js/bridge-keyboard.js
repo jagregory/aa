@@ -5,7 +5,7 @@ exports.connect = function(matchStart, playerMove, playerStop) {
   var keyup         = $(document).keyupAsObservable();
   var singledown    = keydown.merge(keyup).distinctUntilChanged();
   
-  singledown.where(key(13)).take(1).subscribe(start);
+  singledown.where(key(13)).subscribe(start);
   
   singledown.where(letter('Q')).subscribe(move(0, 'up'));
   singledown.where(letter('S')).subscribe(move(0, 'down'));
