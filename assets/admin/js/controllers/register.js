@@ -19,9 +19,13 @@ function register(e) {
     company:      $('#company').val(),
     role:         $('#role').val()
   };
-  $.post('/player', data).then(displayPin);
+  $.post('/player', data).then(displayPin).fail(error);
 }
 
 function displayPin(res) {
-  alert('PIN = ' + res.pin);
+  routie.navigate('/pin/' + res.pin);
+}
+
+function error(res) {
+  alert('Error: ' + res);
 }
