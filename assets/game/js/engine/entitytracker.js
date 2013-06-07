@@ -25,6 +25,10 @@ var EntityTracker = function() {
     delete entities[entity.id];
   };
   
+  this.forgetAll = function() {
+    entities = {};
+  }
+  
 };
 
 module.exports = EntityTracker;

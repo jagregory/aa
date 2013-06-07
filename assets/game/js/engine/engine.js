@@ -49,14 +49,11 @@ Engine.prototype.stop = function() {
 };
 
 Engine.prototype.update = function() {
-  var that = this;
   this.time.update();
   this.physics.update();
   this.tracker.forEach(function(entity) {
-    if (entity.update) {
-      entity.update(that, that.game, that.time.delta);
-    }
-  });
+    entity.update(this, this.game, this.time.delta);
+  }.bind(this));
   if (this.game) {
     this.game.update(this, this.time.delta);
   }
@@ -72,7 +69,8 @@ Engine.prototype.queueNext = function(action) {
   this.nextTickActions.push(action);
 };
 
-
+// TODO: this is only used by particles
+// Maybe they don't have to access the tracker directly
 Engine.prototype.forget = function(entity) {
   this.tracker.forget(entity);
 };
@@ -80,9 +78,7 @@ Engine.prototype.forget = function(entity) {
 Engine.prototype.addEntity = function(entity) {
   if (entity.id) {
     this.tracker.track(entity);
-    if (entity.create) {
-      entity.create(this, this.game);
-    }
+    entity.create(this, this.game);
   } else {
     console.log('Entity should have an ID', entity);
   }
@@ -91,9 +87,7 @@ Engine.prototype.addEntity = function(entity) {
 Engine.prototype.deleteEntity = function(id) {
   var entity = this.tracker.find(id);
   if (entity) {
-    if (entity.destroy) {
-      entity.destroy(this, this.game);
-    }
+    entity.destroy(this, this.game);
     this.tracker.forget(entity);
   } else {
     console.log('Entity not found', entity);
@@ -110,6 +104,13 @@ Engine.prototype.attach = function(game) {
 
 Engine.prototype.detach = function() {
   this.game = null;
+};
+
+Engine.prototype.reset = function() {
+  this.tracker.forEach(function(entity) {
+    entity.destroy(this, null);
+  }.bind(this));
+  this.tracker.forgetAll();
 };
 
 module.exports = Engine;
