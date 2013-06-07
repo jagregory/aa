@@ -8,21 +8,21 @@ var CompoundEntity = function() {
   this.entities = [];
 };
 
-CompoundEntity.prototype.create = function(physicsEngine, graphicsEngine) {
+CompoundEntity.prototype.create = function(engine, game) {
   this.entities.forEach(function(entity) {
-    entity.create(physicsEngine, graphicsEngine);
+    entity.create(engine, game);
   });
 };
 
-CompoundEntity.prototype.destroy = function(physicsEngine, graphicsEngine) {
+CompoundEntity.prototype.destroy = function(engine, game) {
   this.entities.forEach(function(entity) {
-    entity.destroy(physicsEngine, graphicsEngine);
+    entity.destroy(engine, game);
   });
 };
 
-CompoundEntity.prototype.update = function(physicsEngine, graphicsEngine) {
+CompoundEntity.prototype.update = function(engine, game) {
   this.entities.forEach(function(entity) {
-    entity.update(physicsEngine, graphicsEngine);
+    entity.update(engine, game);
   });
 };
 
