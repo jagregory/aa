@@ -20,10 +20,12 @@ window.Main = function() {
   var game   = null;
   
   function matchStart(players) {
-    game = new Game(engine, players);
-    engine.attach(game);
-    engine.start();
-    hub.on('finish', endMatchOnServer);
+    if (!game) {
+      game = new Game(engine, players);
+      engine.attach(game);
+      engine.start();
+      hub.on('finish', endMatchOnServer);
+    }
   }
   
   function playerMove(args) {
@@ -50,8 +52,9 @@ window.Main = function() {
   
   function cleanup() {
     engine.stop();
-    engine.detach(game);
+    engine.detach();
     engine.reset();
+    game = null;
   }
   
   bridgeKeyboard.connect(matchStart, playerMove, playerStop);
