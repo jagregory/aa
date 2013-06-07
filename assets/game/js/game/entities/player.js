@@ -53,6 +53,11 @@ Player.prototype.create = function(engine, game) {
   engine.physics.b2world.CreateJoint(joint);  
 }
 
+Player.prototype.destroy = function(engine, game) {
+  Entity.prototype.destroy.call(this, engine, game);
+  engine.physics.destroy(this.constraintBody);
+};
+
 Player.prototype.update = function(engine, game, delta) {
   Entity.prototype.update.call(this, engine, game, delta);
   // We should be able to specify "0.5", and not have to update it constantly
