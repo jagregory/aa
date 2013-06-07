@@ -16,6 +16,8 @@ var bottom = world.height - 1.5;
 function Stadium() {
   
   this.id = 'stadium';
+  
+  this.entities = [];
   this.entities.push(new Background());
   
   this.entities.push(new Wall('wall-top',    width / 2, top,            width, 1,            0));
