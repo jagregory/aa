@@ -59,6 +59,16 @@ exports.register = function(app) {
     });
   });
 
+  // finish the game (sent by the game itself)
+  app.post('/game/status', function(req, res) {
+    game.reset();
+    res.header('Cache-Control', 'no-cache')
+    res.send({
+      finished: game.inProgress(),
+      players: game.getPlayers()
+    });
+  });
+
   // try to join the game
   app.post('/game/players', function(req, res) {
     res.header('Cache-Control', 'no-cache')

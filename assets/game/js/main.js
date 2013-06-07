@@ -23,7 +23,12 @@ window.Main = function() {
   bridgeSocket.connect(matchStart, playerMove, playerStop);
   
   function matchStart(players) {
-    // TODO: what about a new match? Reset everything?
+    // TODO: find a way to cleanup the current game and start a new one
+    //
+    // game = new Game(players);
+    // engine.attach(game);
+    // engine.start();
+    //
     game = new Game(players);
     engine = new Engine(game, gameView, debugView);
     engine.start();
@@ -41,12 +46,28 @@ window.Main = function() {
     }
   }
   
-  hub.on('finish', function() {
-    engine.stop();
-    console.log('Game finished');
-    console.log('P1 score = ' + game.players[0].score);
-    console.log('P2 score = ' + game.players[1].score);
-  });
+  function endMatchOnServer() {
+    $.post('/game/status', {
+      status: 'finished',
+      scores: {
+        p1: game.players[0].score,
+        p2: game.players[1].score
+      }
+    }).then(cleanup).fail(cleanup);
+  }
+  
+  function cleanup() {
+    // TODO: find a way to cleanup the current game and start a new one
+    //
+    // engine.stop();
+    // engine.detach(game);
+    // engine.reset();
+    //
+    //engine.stop();
+    //window.location.reload();
+  }
+  
+  hub.on('finish', endMatchOnServer);
   
 };
 
