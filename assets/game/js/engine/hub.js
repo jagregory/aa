@@ -14,3 +14,7 @@ exports.on = function(message, callback) {
     });
   });
 };
+
+exports.unbindAll = function() {
+  eve.off();
+};

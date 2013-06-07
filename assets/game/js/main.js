@@ -23,6 +23,7 @@ window.Main = function() {
     game = new Game(engine, players);
     engine.attach(game);
     engine.start();
+    hub.on('finish', endMatchOnServer);
   }
   
   function playerMove(args) {
@@ -55,7 +56,6 @@ window.Main = function() {
   
   bridgeKeyboard.connect(matchStart, playerMove, playerStop);
   bridgeSocket.connect(matchStart, playerMove, playerStop);
-  hub.on('finish', endMatchOnServer);
   
 };
 
