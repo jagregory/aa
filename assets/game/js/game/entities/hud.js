@@ -43,7 +43,7 @@ Hud.prototype.update = function(engine, game, delta) {
   var p1 = engine.getEntity('p1');
   var p2 = engine.getEntity('p2');
   this.p1Name.setText(p1.name + ' ' + p1.score);
-  this.p2Name.setText(p1.name + ' ' + p1.score);
+  this.p2Name.setText(p2.name + ' ' + p2.score);
   this.time.setText(fourDigits(game.timeRemaining));
 };
 
