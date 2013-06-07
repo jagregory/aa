@@ -36,6 +36,7 @@ PhysicsEngine.prototype.create = function(bodyDef, fixtureDef) {
 };
 
 PhysicsEngine.prototype.destroy = function(body) {
+  body.GetFixtureList().SetUserData(null);
   this.b2world.DestroyBody(body);
 };
 
