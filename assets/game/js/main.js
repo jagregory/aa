@@ -28,15 +28,17 @@ window.Main = function() {
     }
   }
   
-  function playerMove(args) {
+  function playerMove(args) {    
     if (game) {
-      game.message('move', args);
+      // game.message('move', args);
+      game.move(args.pindex, args.dir);
     }
   }
   
   function playerStop(args) {
     if (game) {
-      game.message('stop', args);
+      // game.message('stop', args);
+      game.stop(args.pindex);
     }
   }
   

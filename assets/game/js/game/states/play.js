@@ -18,13 +18,6 @@ function Play(engine, game) {
   };
   
   this.on = function(message, args) {
-    if (message === 'move') {
-      var player = engine.getEntity(args.pindex === 0 ? 'p1' : 'p2');
-      player.move(args.dir);
-    } else if (message === 'stop') {
-      var player = engine.getEntity(args.pindex === 0 ? 'p1' : 'p2');
-      player.stop();
-    }
   };
   
 }

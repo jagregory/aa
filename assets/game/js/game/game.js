@@ -30,9 +30,10 @@ function Game(engine, playerInfo) {
       {   name: 'end',      from: ['warmup', 'kickoff', 'play', 'scored'],  to: 'endofmatch'   },
   ];
   
-  this.duration  = 15;
+  this.duration = 15;
   this.timeRemaining = this.duration * 1000;
   
+  this.engine = engine;
   this.sequencer = new Sequencer(engine, this, states, transitions);
   this.sequencer.start();
 
@@ -56,6 +57,16 @@ Game.prototype.message = function(message, args) {
 
 Game.prototype.score = function(playerIndex) {
     this.players[playerIndex].score += 1;
+};
+
+Game.prototype.move = function(pindex, dir) {
+  var player = this.engine.getEntity(pindex === 0 ? 'p1' : 'p2');
+  player.move(dir);
+};
+
+Game.prototype.stop = function(pindex) {
+  var player = this.engine.getEntity(pindex === 0 ? 'p1' : 'p2');
+  player.stop();
 };
 
 module.exports = Game;

@@ -46,6 +46,7 @@ Player.prototype = new Entity();
 
 Player.prototype.create = function(engine, game) {
   Entity.prototype.create.call(this, engine, game);
+  this.body.SetLinearDamping(2);
   this.constraintBody = engine.physics.create(this.constraintSpec.body, this.constraintSpec.fixture);
   var verticalAxis = new Box2D.Common.Math.b2Vec2(0,1);
   var joint  = new Box2D.Dynamics.Joints.b2LineJointDef();
@@ -76,7 +77,7 @@ Player.prototype.collision = function(other, points) {
 };
 
 Player.prototype.move = function(dir) {
-  var y = (dir === 'up') ? -30 : 30;
+  var y = (dir === 'up') ? -20 : 20;
   this.body.SetAwake(true);
   this.body.SetLinearVelocity(new Box2D.Common.Math.b2Vec2(0, y));
   if (y < 0) {
@@ -87,8 +88,8 @@ Player.prototype.move = function(dir) {
 };
 
 Player.prototype.stop = function() {
-  this.body.SetAwake(false);
-  this.body.SetLinearVelocity(new Box2D.Common.Math.b2Vec2(0, 0));
+  // this.body.SetAwake(false);
+  // this.body.SetLinearVelocity(new Box2D.Common.Math.b2Vec2(0, 0));
   this.sprite.gotoAndStop(0);
 };
 
