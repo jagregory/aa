@@ -5,11 +5,15 @@ var world       = require('../world');
 var hub         = require('../../engine/hub');
 
 var fixture = PF.fixture({
-  shape:      PF.shape.circle(2),
+  shape:      PF.shape.circle(1.8),
   dynamics:   {density: 1, friction: 0.5, restitution: 1},
   category:   PF.categories.PLAYER,
   collision:  PF.categories.ARENA | PF.categories.BALL
 });
+
+var ANIM_REST = 0;
+var ANIM_UP   = 1;
+var ANIM_DOWN = 2;
 
 function Player(id, x, y) {
   this.id = id;
@@ -54,7 +58,8 @@ Player.prototype.collision = function(other, points) {
   if (other.id === 'ball') {
     hub.send('sound:play', '/game/sounds/collision-2.mp3');
   } else if (other.id.match(/wall/)) {
-    this.body.SetLinearVelocity(new Box2D.Common.Math.b2Vec2(0, 10));
+    this.sprite.gotoAndStop(ANIM_REST);
+    this.body.SetLinearVelocity(new Box2D.Common.Math.b2Vec2(0, 5));
   }
 };
 
@@ -63,9 +68,9 @@ Player.prototype.move = function(dir) {
   this.body.SetAwake(true);
   this.body.SetLinearVelocity(new Box2D.Common.Math.b2Vec2(0, y));
   if (y < 0) {
-    this.sprite.gotoAndStop(1);
+    this.sprite.gotoAndStop(ANIM_UP);
   } else {
-    this.sprite.gotoAndStop(2);
+    this.sprite.gotoAndStop(ANIM_DOWN);
   }
 };
 
