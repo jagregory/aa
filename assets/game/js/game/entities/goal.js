@@ -10,7 +10,7 @@ function Goal(id, playerIndex, x, y, width, height, rotation) {
     body: PF.static({
       x: x,
       y: y,
-      angle: rotation
+      angle: rotation || 0
     }),
     fixture: PF.fixture({
       shape:      PF.shape.box(width, height),
@@ -19,7 +19,7 @@ function Goal(id, playerIndex, x, y, width, height, rotation) {
       collision:  PF.categories.ALL
     })
   };
-  this.sprite = GF.sprite('/game/images/goal.png', width, height, rotation);
+  // this.sprite = GF.sprite('/game/images/goal.png', width, height, rotation);
 }
 
 Goal.prototype = new Entity();
@@ -37,8 +37,8 @@ Goal.prototype.collision = function(other, points) {
 
 Goal.prototype.update = function(delta) {
   Entity.prototype.update.call(this, delta);
-  this.sprite.anchor.x = 128;
-  this.sprite.anchor.y = 256;
+  // this.sprite.anchor.x = 128;
+  // this.sprite.anchor.y = 256;
 };
 
 module.exports = Goal;
