@@ -6,7 +6,9 @@ function Scored(engine, game) {
     game.score(playerIndex);
     engine.deleteEntity('ball');
     engine.addEntity(new ActionText('player-scored', 'P' + (playerIndex + 1) + ' SCORED'));
-    setTimeout(backToKickoff, 1500);
+    setTimeout(function() {
+      backToKickoff(playerIndex)
+    }, 1500);
   };
   
   this.exit = function() {
@@ -18,9 +20,9 @@ function Scored(engine, game) {
   this.on = function(message, args) {
   };
   
-  function backToKickoff() {
+  function backToKickoff(playerIndex) {
     engine.deleteEntity('player-scored');
-    game.transition('ready');
+    game.transition('ready', playerIndex);
   }
   
 }
