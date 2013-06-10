@@ -40,8 +40,8 @@ Hud.prototype.destroy = function(engine, game) {
 };
 
 Hud.prototype.update = function(engine, game, delta) {
-  var p1 = engine.getEntity('p1');
-  var p2 = engine.getEntity('p2');
+  var p1 = game.players[0];
+  var p2 = game.players[1];
   this.p1Name.setText(p1.name + ' ' + p1.score);
   this.p2Name.setText(p2.name + ' ' + p2.score);
   this.time.setText(fourDigits(game.timeRemaining));
