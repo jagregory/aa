@@ -9,14 +9,17 @@ function KickOff(engine, game) {
   var ball = null;
   var text = null;
 
-  var ballStartX = world.width / 5;
   var ballStartY = world.height / 2;
-  var ballDirection = 1
+  var ballStartX = null
+  var ballDirection = null
   
   this.enter = function(lastScoringPlayerId) {
     if (lastScoringPlayerId === 0) {
       ballStartX = (world.width / 5) * 4
       ballDirection = -1
+    } else {
+      ballStartX = world.width / 5
+      ballDirection = 1
     }
 
     ball = new Ball('ball', ballStartX, ballStartY);
