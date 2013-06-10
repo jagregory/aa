@@ -1,24 +1,13 @@
 var _ = require('../../../3rdparty/underscore-min'),
   Entity = require('./entity'),
   World = require('./world'),
-  hub = require('./hub')
+  hub = require('./hub'),
+  mathUtils = require('./math-utils')
 
 var M_PI = Math.PI
 var M_PI_2 = M_PI / 2
 
-var randomBetween = function(min, max) {
-  return Math.floor(Math.random() * max) + min
-}
-
-var randomSign = function() {
-  return Math.random() < 0.5 ? -1 : 1
-}
-
-var distance = function(a, b) {
-  return Math.sqrt((b.x - a.x) * (b.x - a.x) + (b.y - a.y) * (b.y - a.y))
-}
-
-var Partical = function() {
+var Particle = function() {
   PIXI.Sprite.call(this, PIXI.Texture.fromImage('/game/images/particle-orange.png'))
   this.anchor.x = 0.5
   this.anchor.y = 0.5
@@ -27,8 +16,8 @@ var Partical = function() {
   this.width = 8
   this.height = 8
 }
-Partical.constructor = Partical
-Partical.prototype = Object.create(PIXI.Sprite.prototype)
+Particle.constructor = Particle
+Particle.prototype = Object.create(PIXI.Sprite.prototype)
 
 var resetParticle = function(particle) {
   particle.blendMode = PIXI.blendModes.SCREEN
@@ -49,7 +38,7 @@ var ParticlePool = function(size) {
   this.pool = []
 
   for (var i = 0; i <= size; i++) {
-    var particle = new Partical()
+    var particle = new Particle()
     this.pool.push({
       particle: particle,
       free: true
@@ -64,6 +53,10 @@ ParticlePool.prototype.claim = function(amount) {
     var entry = this.pool[i]
 
     if (entry.free) {
+      if (!entry.particle) {
+        throw 'Particle is null'
+      }
+
       entry.free = false
       particles.push(entry.particle)
     }
@@ -74,7 +67,7 @@ ParticlePool.prototype.claim = function(amount) {
   }
 
   if (particles.length < amount) {
-    console.log('Not enough particles to satisfy request')
+    throw 'Not enough particles to satisfy request'
   }
 
   return particles
@@ -97,20 +90,19 @@ var Explosion = function(origin, particleCount) {
   this.sprite = new PIXI.DisplayObjectContainer()
   this.sprite.position.x = World.toPixels(origin.x)
   this.sprite.position.y = World.toPixels(origin.y)
-  this.particles = []
   this.ttl = 0
 
-  particlePool.claim(particleCount).forEach(function(particle) {
+  this.particles = this.aliveParticles = particlePool.claim(particleCount)
+  this.particles.forEach(function(particle) {
     resetParticle(particle)
     this.sprite.addChild(particle)
-    this.particles.push(particle)
   }.bind(this))
 }
 Explosion.large = function(origin) {
-  return new Explosion(origin, randomBetween(750, 1250))
+  return new Explosion(origin, mathUtils.randomBetween(750, 1250))
 }
 Explosion.small = function(origin) {
-  return new Explosion(origin, randomBetween(9, 51))
+  return new Explosion(origin, mathUtils.randomBetween(9, 51))
 }
 
 Explosion.prototype = new Entity()
@@ -118,47 +110,50 @@ Explosion.prototype = new Entity()
 Explosion.prototype.update = function(delta) {
   this.ttl -= delta
 
-  this.particles.forEach(function(particle) {
-    if (!particle.parent) {
-      // dead particle
-      return
-    }
-    particle.position.x += (0.5 * particle.speed.x)
-    particle.position.y += (0.5 * particle.speed.y)
-    particle.speed.x += 0.05 * particle.acceleration.x
-    particle.speed.y += 0.05 * particle.acceleration.y
+  var currentParticles = this.aliveParticles
+  currentParticles.forEach(function(particle) {
+    if (particle.parent) {
+      particle.position.x += (0.5 * particle.speed.x)
+      particle.position.y += (0.5 * particle.speed.y)
+      particle.speed.x += 0.05 * particle.acceleration.x
+      particle.speed.y += 0.05 * particle.acceleration.y
 
-    var velocity = particle.speed
-    var angle = 0
+      var velocity = particle.speed
+      var angle = 0
 
-    if (velocity.x === 0) {
-      angle = velocity.y > 0 ? 0 : M_PI
-    } else if(velocity.y === 0) {
-      angle = velocity.x > 0 ? M_PI_2 : 3 * M_PI_2
-    } else {
-      angle = Math.atan(velocity.y / velocity.x) + M_PI_2
-    }   
+      if (velocity.x === 0) {
+        angle = velocity.y > 0 ? 0 : M_PI
+      } else if(velocity.y === 0) {
+        angle = velocity.x > 0 ? M_PI_2 : 3 * M_PI_2
+      } else {
+        angle = Math.atan(velocity.y / velocity.x) + M_PI_2
+      }   
 
-    if (velocity.x > 0) {
-      angle += M_PI
-    }
+      if (velocity.x > 0) {
+        angle += M_PI
+      }
 
-    particle.rotation = angle
+      particle.rotation = angle
+      particle.height = 8 * particle.speed.y
 
-    particle.height = 8 * particle.speed.y
-
-    if (distance({ x: 0, y: 0 }, particle.position) >= randomBetween(200, 375)) {
-      particle.alpha *= 0.92
+      if (mathUtils.distance({ x: 0, y: 0 }, particle.position) >= mathUtils.randomBetween(200, 375)) {
+        particle.alpha *= 0.92
+      }
     }
 
-    if (particle.alpha <= (Math.random() * 5) / 50) {
-      particle.visible = false
+    var deadParticle = !particle.parent
+
+    if (deadParticle) {
+      console.log('Dead particle')
+    }
+
+    if (deadParticle || particle.alpha <= (Math.random() * 5) / 50) {
+      this.aliveParticles = _.without(this.aliveParticles, particle)
     }
   }.bind(this))
 
-  if (!_.findWhere(this.particles, { visible: true })) {
+  if (this.aliveParticles.length === 0) {
     particlePool.release(this.particles)
-    this.particles = []
     hub.send('entity:destroy', {
       entity: this
     })
