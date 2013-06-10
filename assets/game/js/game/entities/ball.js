@@ -15,7 +15,6 @@ var fixture = PF.fixture({
 });
 
 function Ball(id, x, y) {
-  
   this.id = id;
 
   this.bodySpec = {
@@ -24,7 +23,6 @@ function Ball(id, x, y) {
   };
 
   this.sprite = GF.sprite('/game/images/ball.png', ballSize, ballSize);
-  
 };
 
 Ball.prototype = new Entity();
@@ -37,14 +35,5 @@ Ball.prototype.update = function(engine, game, delta) {
   this.sprite.anchor.x = this.sprite.texture.width  / 2;
   this.sprite.anchor.y = this.sprite.texture.height / 2;
 };
-
-Ball.prototype.collision = function(other, points) {
-  if (other.id.match(/goal/)) {
-    hub.send('particles:explosion', {
-      source: points[0],
-      size: 'small'
-    })
-  }  
-}
 
 module.exports = Ball;

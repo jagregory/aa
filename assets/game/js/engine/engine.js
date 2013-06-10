@@ -14,7 +14,7 @@ function Engine(world, mainView, debugView) {
   this.nextTickActions  = [];
   
   this.graphics     = new GraphicsEngine(world, mainView, debugView);
-  this.physics      = new PhysicsEngine(false);
+  this.physics      = new PhysicsEngine(debugView);
   this.sound        = new SoundEngine();
   this.particles    = new ParticleEngine(this);
   this.tracker      = new EntityTracker();
@@ -67,12 +67,6 @@ Engine.prototype.update = function() {
 
 Engine.prototype.queueNext = function(action) {
   this.nextTickActions.push(action);
-};
-
-// TODO: this is only used by particles
-// Maybe they don't have to access the tracker directly
-Engine.prototype.forget = function(entity) {
-  this.tracker.forget(entity);
 };
 
 Engine.prototype.addEntity = function(entity) {

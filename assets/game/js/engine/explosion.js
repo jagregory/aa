@@ -22,10 +22,12 @@ Particle.prototype = Object.create(PIXI.Sprite.prototype)
 var resetParticle = function(particle) {
   particle.blendMode = PIXI.blendModes.SCREEN
   particle.alpha = 1
-  particle.speed.x = (0.5 + Math.random()) * randomSign()
-  particle.speed.y = (0.5 + Math.random()) * randomSign()
-  particle.acceleration.x = (0.1 + Math.random()) * randomSign()
-  particle.acceleration.y = (0.1 + Math.random()) * randomSign()
+  particle.scale.x = 1
+  particle.scale.y = 1
+  particle.speed.x = (0.5 + Math.random()) * mathUtils.randomSign()
+  particle.speed.y = (0.5 + Math.random()) * mathUtils.randomSign()
+  particle.acceleration.x = (0.1 + Math.random()) * mathUtils.randomSign()
+  particle.acceleration.y = (0.1 + Math.random()) * mathUtils.randomSign()
   particle.position.x = 0
   particle.position.y = 0
   particle.visible = true
@@ -35,6 +37,7 @@ var resetParticle = function(particle) {
 }
 
 var ParticlePool = function(size) {
+  console.log('Constructing a particle pool with ' + size + ' particles')
   this.pool = []
 
   for (var i = 0; i <= size; i++) {
@@ -70,6 +73,8 @@ ParticlePool.prototype.claim = function(amount) {
     throw 'Not enough particles to satisfy request'
   }
 
+  console.log('Claimed ' + amount + ' particles')
+
   return particles
 }
 
@@ -81,6 +86,7 @@ ParticlePool.prototype.release = function(particles) {
     var entry = _.findWhere(this.pool, { particle: particle })
     entry.free = true
   }.bind(this))
+  console.log('Released ' + particles.length + ' particles')
 }
 
 var particlePool = new ParticlePool(5000)
