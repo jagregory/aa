@@ -15,7 +15,6 @@ var fixture = PF.fixture({
 });
 
 function Ball(id, x, y) {
-  
   this.id = id;
 
   this.bodySpec = {
@@ -24,27 +23,17 @@ function Ball(id, x, y) {
   };
 
   this.sprite = GF.sprite('/game/images/ball.png', ballSize, ballSize);
-  
 };
 
 Ball.prototype = new Entity();
 
 Ball.prototype.update = function(engine, game, delta) {  
   Entity.prototype.update.call(this, delta);
-  mathUtils.clampVelocity(this.body, 15, 30);
+  mathUtils.clampVelocity(this.body, 20, 35);
   // We should be able to specify "0.5", and not have to update it constantly
   // Need to check our changes to PIXI
   this.sprite.anchor.x = this.sprite.texture.width  / 2;
   this.sprite.anchor.y = this.sprite.texture.height / 2;
 };
-
-Ball.prototype.collision = function(other, points) {
-  if (other.id.match(/goal/)) {
-    hub.send('particles:explosion', {
-      source: points[0],
-      size: 'small'
-    })
-  }  
-}
 
 module.exports = Ball;

@@ -69,12 +69,6 @@ Engine.prototype.queueNext = function(action) {
   this.nextTickActions.push(action);
 };
 
-// TODO: this is only used by particles
-// Maybe they don't have to access the tracker directly
-Engine.prototype.forget = function(entity) {
-  this.tracker.forget(entity);
-};
-
 Engine.prototype.addEntity = function(entity) {
   if (entity.id) {
     this.tracker.track(entity);

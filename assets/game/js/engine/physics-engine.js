@@ -3,6 +3,14 @@ var world = require('./world');
 var frameRate   = 1 / 60;
 var iterations  = 10;
 
+var normaliseNan = function(n) {
+  return n || 0
+}
+
+var normalisePoint = function(p) {
+  return { x: normaliseNan(p.x), y: normaliseNan(p.y) }
+}
+
 function PhysicsEngine(debugCanvas) {
   
   this.collisionCallback = null;
@@ -16,7 +24,7 @@ function PhysicsEngine(debugCanvas) {
     var fixtureA = contact.GetFixtureA();
     var fixtureB = contact.GetFixtureB();
     if (this.collisionCallback) {
-      this.collisionCallback(fixtureA, fixtureB, worldManifold.m_points);
+      this.collisionCallback(fixtureA, fixtureB, worldManifold.m_points.map(normalisePoint));
     }
   }.bind(this);
   

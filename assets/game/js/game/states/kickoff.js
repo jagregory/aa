@@ -9,10 +9,19 @@ function KickOff(engine, game) {
   var ball = null;
   var text = null;
 
-  var ballStartX = world.width / 5;
   var ballStartY = world.height / 2;
+  var ballStartX = null
+  var ballDirection = null
   
-  this.enter = function() {
+  this.enter = function(lastScoringPlayerId) {
+    if (lastScoringPlayerId === 0) {
+      ballStartX = (world.width / 5) * 4
+      ballDirection = -1
+    } else {
+      ballStartX = world.width / 5
+      ballDirection = 1
+    }
+
     ball = new Ball('ball', ballStartX, ballStartY);
     text = new ActionText('countdown', '');
     engine.addEntity(ball);
@@ -41,7 +50,7 @@ function KickOff(engine, game) {
   function go() {
     engine.deleteEntity('countdown');
     ball.body.SetAwake(true);
-    ball.body.SetLinearVelocity(new Box2D.Common.Math.b2Vec2(16, 16));
+    ball.body.SetLinearVelocity(new Box2D.Common.Math.b2Vec2(16 * ballDirection, 16 * ballDirection));
     game.transition('go');
   }
   
