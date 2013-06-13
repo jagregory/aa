@@ -14,7 +14,7 @@ function Engine(world, mainView, debugView) {
   this.nextTickActions  = [];
   
   this.graphics     = new GraphicsEngine(world, mainView, debugView);
-  this.physics      = new PhysicsEngine(debugView);
+  this.physics      = new PhysicsEngine(/*debugView*/);
   this.sound        = new SoundEngine();
   this.particles    = new ParticleEngine(this);
   this.tracker      = new EntityTracker();
