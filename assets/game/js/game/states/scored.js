@@ -5,15 +5,14 @@ function Scored(engine, game) {
   
   this.enter = function(playerIndex) {
     game.score(playerIndex);
+    engine.deleteEntity('ball');
     engine.addEntity(new Boom('boom', playerIndex));
-    engine.addEntity(new ActionText('player-scored', 'P' + (playerIndex + 1) + ' SCORED'));
     setTimeout(function() {
       backToKickoff(playerIndex)
-    }, 1200);
+    }, 400);
   };
   
   this.exit = function() {
-    engine.deleteEntity('ball');
   };
   
   this.update = function(delta) {
@@ -24,7 +23,6 @@ function Scored(engine, game) {
   
   function backToKickoff(playerIndex) {
     engine.deleteEntity('boom');
-    engine.deleteEntity('player-scored');
     game.transition('ready', playerIndex);
   }
   

@@ -6,6 +6,7 @@ var mathUtils     = require('../../engine/math-utils');
 var PI            = 3.14;
 var TIME_STRETCH  = 200;  // millis
 var INITIAL_WIDTH = 200;  // pixels
+var INITIAL_CIRCLE_WIDTH = 50; // pixels
 
 function Boom(id, playerIndex) {
   
@@ -13,7 +14,7 @@ function Boom(id, playerIndex) {
   
   var x = playerIndex === 0 ? userInterface.width : 0;
   
-  this.circle = GF.uiSprite('/game/images/boom-circle.png', userInterface.height / 2 / 1.4, userInterface.height / 2, 0);
+  this.circle = GF.uiSprite('/game/images/boom-circle.png', INITIAL_CIRCLE_WIDTH, userInterface.height / 2, 0);
   this.circle.position.x = x;
   this.circle.position.y = userInterface.height / 2;
 
@@ -43,13 +44,16 @@ Boom.prototype.destroy = function(engine, game) {
 };
 
 Boom.prototype.update = function(engine, game, delta) {
-//  this.circle.anchor.x = this.circle.texture.width  / 2;
   this.circle.anchor.y = this.circle.texture.height / 2;
-//  this.flash.anchor.x  = this.flash.texture.width   / 2;
   this.flash.anchor.y  = this.flash.texture.height  / 2;
   
   this.time = mathUtils.clamp(this.time + delta, 0, TIME_STRETCH);
-  this.flash.width = INITIAL_WIDTH + (this.time / TIME_STRETCH) * (userInterface.width - INITIAL_WIDTH);
+  this.flash.width  = interpolate(this.time, 0, TIME_STRETCH, INITIAL_WIDTH, userInterface.width);
+  this.circle.width = interpolate(this.time, 0, TIME_STRETCH, INITIAL_CIRCLE_WIDTH, userInterface.height / 2 / 1.4);
 };
+
+function interpolate(current, inputMin, inputMax, outputMin, outputMax) {
+  return outputMin + (current / (inputMax-inputMin)) * (outputMax - outputMin);
+}
 
 module.exports = Boom;
