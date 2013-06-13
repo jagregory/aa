@@ -26,12 +26,16 @@ function Stadium() {
   this.entities.push(new Wall('wall-left2',  left  + 1.1, height * 4.9/6, 1,     height / 2.5,   0.05));
   this.entities.push(new Wall('wall-right1', right - 2.5, height * 1.0/6, 1,     height / 2.5, -0.10));
   this.entities.push(new Wall('wall-right2', right - 1.2, height * 4.9/6, 1,     height / 2.5, -0.05));
-  
+  this.entities.push(new Wall('wall-goal-left-top',     0, height / 2 - 4.5, 4,   1, 0));
+  this.entities.push(new Wall('wall-goal-left-bottom',  0, height / 2 + 3.5, 2.5, 1, 0));
+  this.entities.push(new Wall('wall-goal-right-top',    width, height / 2 - 4.5, 4,   1, 0));
+  this.entities.push(new Wall('wall-goal-right-bottom', width, height / 2 + 3.5, 2.5, 1, 0));
+    
   this.entities.push(new Cone('cone1', width / 12 * 5, height / 3 * 1));
   this.entities.push(new Cone('cone2', width / 12 * 7, height / 3 * 2));
   
-  this.entities.push(new Goal('goalp1', 0, 0,  height / 2, 2, 8));
-  this.entities.push(new Goal('goalp2', 1, world.width, height / 2, 2, 8));
+  this.entities.push(new Goal('goalp1', 0, 0, height / 2, 0.5, 8));
+  this.entities.push(new Goal('goalp2', 1, world.width, height / 2, 0.5, 8));
   
 }
 
