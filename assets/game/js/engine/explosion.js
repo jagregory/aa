@@ -24,10 +24,10 @@ var resetParticle = function(particle) {
   particle.alpha = 1
   particle.scale.x = 1
   particle.scale.y = 1
-  particle.speed.x = (0.5 + Math.random()) * mathUtils.randomSign()
-  particle.speed.y = (0.5 + Math.random()) * mathUtils.randomSign()
-  particle.acceleration.x = (0.1 + Math.random()) * mathUtils.randomSign()
-  particle.acceleration.y = (0.1 + Math.random()) * mathUtils.randomSign()
+  particle.speed.x = 0.3 + (1 + Math.random()) * mathUtils.randomSign()
+  particle.speed.y = 0.3 + (1 + Math.random()) * mathUtils.randomSign()
+  particle.acceleration.x = (0.5 + Math.random()) * mathUtils.randomSign()
+  particle.acceleration.y = (0.5 + Math.random()) * mathUtils.randomSign()
   particle.position.x = 0
   particle.position.y = 0
   particle.visible = true
@@ -119,10 +119,10 @@ Explosion.prototype.update = function(delta) {
   var currentParticles = this.aliveParticles
   currentParticles.forEach(function(particle) {
     if (particle.parent) {
-      particle.position.x += (0.5 * particle.speed.x)
-      particle.position.y += (0.5 * particle.speed.y)
-      particle.speed.x += 0.05 * particle.acceleration.x
-      particle.speed.y += 0.05 * particle.acceleration.y
+      particle.position.x += particle.speed.x
+      particle.position.y += particle.speed.y
+      particle.speed.x += particle.acceleration.x
+      particle.speed.y += particle.acceleration.y
 
       var velocity = particle.speed
       var angle = 0
@@ -142,8 +142,8 @@ Explosion.prototype.update = function(delta) {
       particle.rotation = angle
       particle.height = 8 * particle.speed.y
 
-      if (mathUtils.distance({ x: 0, y: 0 }, particle.position) >= mathUtils.randomBetween(200, 375)) {
-        particle.alpha *= 0.92
+      if (mathUtils.distance({ x: 0, y: 0 }, particle.position) >= mathUtils.randomBetween(50, 100)) {
+        particle.alpha *= 0.8
       }
     }
 
