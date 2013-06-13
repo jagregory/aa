@@ -28,10 +28,10 @@ Goal.prototype.collision = function(other, points) {
   if (other.id === 'ball') {
     hub.send('state:transition', {name: 'scored', args: 1 - this.playerIndex});
     hub.send('sound:play', '/game/sounds/explosion.mp3');
-    hub.send('particles:explosion', {
-      source: points[0],
-      size: 'large'
-    });
+    // hub.send('particles:explosion', {
+    //   source: points[0],
+    //   size: 'large'
+    // });
   }
 };
 
