@@ -4,9 +4,9 @@ var userInterface = require('../../engine/user-interface');
 var mathUtils     = require('../../engine/math-utils');
 
 var PI            = 3.14;
-var STRETCH_CIRCLE  =  90;  // millis
-var STRETCH_SPLASH  = 150;  // millis
-var STRETCH_LINE    = 200;  // millis
+var STRETCH_CIRCLE  =  80;  // millis
+var STRETCH_SPLASH  = 180;  // millis
+var STRETCH_LINE    = 260;  // millis
 
 function Boom(id, playerIndex) {
   
@@ -59,15 +59,14 @@ Boom.prototype.update = function(engine, game, delta) {
   var stretchCircle = mathUtils.clamp(this.time, 0, STRETCH_CIRCLE);
   var stretchSplash = mathUtils.clamp(this.time, 0, STRETCH_SPLASH);
   var stretchLine   = mathUtils.clamp(this.time, 0, STRETCH_LINE);
+  
   this.circle.width = interpolate(stretchCircle, 0, STRETCH_CIRCLE, 0, this.circle.height * 0.71);
   this.splash.width = interpolate(stretchSplash, 0, STRETCH_SPLASH, 0, this.splash.height * 0.5);
   this.line.width   = interpolate(stretchLine,   0, STRETCH_LINE,   0, this.line.height   * 7.26);
   
-  if (this.time >= STRETCH_SPLASH) {
-    this.circle.alpha *= 0.95;
-    this.splash.alpha *= 0.95;
-    this.line.alpha *= 0.95;
-  }
+  if (this.time >= STRETCH_CIRCLE) { this.circle.alpha *= 0.95; }
+  if (this.time >= STRETCH_SPLASH) { this.splash.alpha *= 0.95; }
+  if (this.time >= STRETCH_LINE)   { this.line.alpha   *= 0.95; }
 };
 
 function interpolate(current, inputMin, inputMax, outputMin, outputMax) {
