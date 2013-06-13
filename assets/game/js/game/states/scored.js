@@ -5,8 +5,9 @@ function Scored(engine, game) {
   
   this.enter = function(playerIndex) {
     game.score(playerIndex);
-    engine.deleteEntity('ball');
+    engine.getEntity('stadium').shake(playerIndex);
     engine.addEntity(new Boom('boom', playerIndex));
+    engine.deleteEntity('ball');
     setTimeout(function() {
       backToKickoff(playerIndex)
     }, 400);

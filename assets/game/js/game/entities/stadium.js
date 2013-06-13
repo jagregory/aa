@@ -41,4 +41,8 @@ function Stadium() {
 
 Stadium.prototype = new CompoundEntity();
 
+Stadium.prototype.shake = function(playerIndex) {
+  this.entities[0].shake(playerIndex);
+};
+
 module.exports = Stadium;

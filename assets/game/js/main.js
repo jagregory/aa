@@ -19,6 +19,8 @@ window.Main = function() {
   var engine = new Engine(world, gameView, debugView);
   var game   = null;
   
+  preloadAssets();
+  
   function matchStart(players) {
     if (!game) {
       game = new Game(engine, players);
@@ -64,25 +66,15 @@ window.Main = function() {
   
 };
 
-
-
-
-
-//
-//
-// Old code, where do we put this?
-//
-//
-
-/*
-  var assetLoader = new PIXI.AssetLoader(['/game/images/paddle.png', '/game/images/ball.png', '/game/images/particle.png']);
+function preloadAssets() {
+  var assetLoader = new PIXI.AssetLoader([
+    '/game/images/stadium.png',
+    '/game/images/stadium-shake-left.png',
+    '/game/images/stadium-shake-right.png'
+  ]);
   assetLoader.onComplete = function() {
     console.log('Assets loaded. Starting game.')
-    bridgeSocket.connect(matchStart, matchMove);
-    bridgeKeyboard.connect(matchStart, matchMove);
   };
-
   console.log('Loading assets');
   assetLoader.load();
-*/
-
+}
