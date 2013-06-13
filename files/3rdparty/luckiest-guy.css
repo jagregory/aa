@@ -1,0 +1,7 @@
+@font-face {
+	font-family: 'LuckiestGuy';
+	src: url('/font/LuckiestGuy.eot');
+	src: local('☺'), url('/font/LuckiestGuy.woff') format('woff'), url('/font/LuckiestGuy.ttf') format('truetype'), url('/font/LuckiestGuy.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
