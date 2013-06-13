@@ -50,10 +50,12 @@ window.Main = function() {
   function endMatchOnServer() {
     $.post('/game/status', {
       status: 'finished',
-      scores: {
-        p1: game.players[0].score,
-        p2: game.players[1].score
-      }
+      players: game.players.map(function(player) {
+        return {
+          id: player.id,
+          score: player.score
+        }
+      })
     }).then(showLeaderboard).fail(cleanup);
   }
   

@@ -21,6 +21,10 @@ exports.create = function(fields) {
   return p;
 };
 
+exports.saveAll = function() {
+  db.savePlayers(players)
+}
+
 exports.withId = function(id) {
   return _.findWhere(players, {id: id});
 };
