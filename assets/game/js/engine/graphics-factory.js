@@ -44,7 +44,7 @@ exports.tile = function(image, width, height, rotation) {
 
 exports.text = function(text, size, opts) {
   opts = _.extend({
-      font: '' + (size || 50) + 'px Arial',
+      font: '' + (size || 50) + 'px LuckiestGuy',
       fill: '#000',
       align: 'left',
       stroke: '#fff',
