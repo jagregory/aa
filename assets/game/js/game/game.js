@@ -64,9 +64,4 @@ Game.prototype.move = function(pindex, dir) {
   player.move(dir);
 };
 
-Game.prototype.stop = function(pindex) {
-  var player = this.engine.getEntity(pindex === 0 ? 'p1' : 'p2');
-  player.stop();
-};
-
 module.exports = Game;

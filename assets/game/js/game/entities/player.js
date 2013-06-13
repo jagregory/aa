@@ -77,6 +77,7 @@ Player.prototype.collision = function(other, points) {
 };
 
 Player.prototype.move = function(dir) {
+  clearTimeout(this.endFlame);
   var y = (dir === 'up') ? -20 : 20;
   this.body.SetAwake(true);
   this.body.SetLinearVelocity(new Box2D.Common.Math.b2Vec2(0, y));
@@ -85,13 +86,9 @@ Player.prototype.move = function(dir) {
   } else {
     this.sprite.gotoAndStop(ANIM_DOWN);
   }
+  this.endFlame = setTimeout(function() {
+    this.sprite.gotoAndStop(0);
+  }.bind(this), 200);
 };
-
-Player.prototype.stop = function() {
-  // this.body.SetAwake(false);
-  // this.body.SetLinearVelocity(new Box2D.Common.Math.b2Vec2(0, 0));
-  this.sprite.gotoAndStop(0);
-};
-
 
 module.exports = Player;

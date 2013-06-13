@@ -32,15 +32,7 @@ window.Main = function() {
   
   function playerMove(args) {    
     if (game) {
-      // game.message('move', args);
       game.move(args.pindex, args.dir);
-    }
-  }
-  
-  function playerStop(args) {
-    if (game) {
-      // game.message('stop', args);
-      game.stop(args.pindex);
     }
   }
   
@@ -61,8 +53,8 @@ window.Main = function() {
     game = null;
   }
   
-  bridgeKeyboard.connect(matchStart, playerMove, playerStop);
-  bridgeSocket.connect(matchStart, playerMove, playerStop);
+  bridgeKeyboard.connect(matchStart, playerMove);
+  bridgeSocket.connect(matchStart, playerMove);
   
 };
 
