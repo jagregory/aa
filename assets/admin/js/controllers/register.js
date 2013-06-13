@@ -17,7 +17,8 @@ function register(e) {
     lastName:     $('#lastName').val(),
     phoneNumber:  $('#phoneNumber').val(),
     company:      $('#company').val(),
-    role:         $('#role').val()
+    role:         $('#role').val(),
+    email:        $('#email').val()
   };
   $.post('/player', data).then(displayPin).fail(error);
 }
