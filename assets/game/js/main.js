@@ -4,9 +4,9 @@ var Engine          = require('./engine/engine');
 var Game            = require('./game/game');
 var world           = require('./game/world');
 var hub             = require('./engine/hub');
+var Leaderboard     = require('./game/entities/leaderboard')
 
 window.Main = function() {
-  
   var container  = document.querySelector('#container');
   var gameView   = document.querySelector('#gameView');
   var debugView  = document.querySelector('#debugView');
@@ -20,8 +20,19 @@ window.Main = function() {
   var game   = null;
   
   preloadAssets();
-  
+
+  engine.start()
+
+  function showLeaderboard() {
+    cleanup()
+
+    var leaderboard = new Leaderboard()
+    engine.addEntity(leaderboard)
+  }
+
   function matchStart(players) {
+    cleanup()
+
     if (!game) {
       game = new Game(engine, players);
       engine.attach(game);
@@ -43,7 +54,7 @@ window.Main = function() {
         p1: game.players[0].score,
         p2: game.players[1].score
       }
-    }).then(cleanup).fail(cleanup);
+    }).then(showLeaderboard).fail(cleanup);
   }
   
   function cleanup() {
@@ -52,10 +63,11 @@ window.Main = function() {
     engine.reset();
     game = null;
   }
+
+  showLeaderboard()
   
   bridgeKeyboard.connect(matchStart, playerMove);
   bridgeSocket.connect(matchStart, playerMove);
-  
 };
 
 function preloadAssets() {

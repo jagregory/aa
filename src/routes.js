@@ -25,7 +25,7 @@ exports.register = function(app) {
     }
   });
 
-  // get all players (for debugging)
+  // get all players (for leaderboard)
   app.get('/player', function(req, res) {
     res.header('Cache-Control', 'no-cache')
     res.send(player.all());
