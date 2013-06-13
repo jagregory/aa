@@ -6,7 +6,7 @@ var mathUtils     = require('../../engine/math-utils');
 var PI            = 3.14;
 var STRETCH_CIRCLE  =  80;  // millis
 var STRETCH_SPLASH  = 180;  // millis
-var STRETCH_LINE    = 260;  // millis
+var STRETCH_LINE    = 300;  // millis
 
 function Boom(id, playerIndex) {
   
