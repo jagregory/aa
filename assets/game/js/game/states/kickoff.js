@@ -43,7 +43,7 @@ function KickOff(engine, game) {
       go();
     } else {
       text.set(val.toString());
-      setTimeout(_.partial(countdown, --val), 1000);
+      setTimeout(_.partial(countdown, --val), 600);
     }
   }
   
