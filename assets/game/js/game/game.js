@@ -30,7 +30,7 @@ function Game(engine, playerInfo) {
       {   name: 'end',      from: ['warmup', 'kickoff', 'play', 'scored'],  to: 'endofmatch'   },
   ];
   
-  this.duration = 15;
+  this.duration = 60;
   this.timeRemaining = this.duration * 1000;
   
   this.engine = engine;
