@@ -4,9 +4,9 @@ var userInterface = require('../../engine/user-interface');
 var mathUtils     = require('../../engine/math-utils');
 
 var PI            = 3.14;
-var TIME_STRETCH  = 200;  // millis
-var INITIAL_WIDTH = 200;  // pixels
-var INITIAL_CIRCLE_WIDTH = 50; // pixels
+var STRETCH_CIRCLE  =  90;  // millis
+var STRETCH_SPLASH  = 150;  // millis
+var STRETCH_LINE    = 200;  // millis
 
 function Boom(id, playerIndex) {
   
@@ -14,17 +14,22 @@ function Boom(id, playerIndex) {
   
   var x = playerIndex === 0 ? userInterface.width : 0;
   
-  this.circle = GF.uiSprite('/game/images/boom-circle.png', INITIAL_CIRCLE_WIDTH, userInterface.height / 2, 0);
+  this.circle = GF.uiSprite('/game/images/boom-circle.png', 0, userInterface.height / 2, 0);
   this.circle.position.x = x;
   this.circle.position.y = userInterface.height / 2;
 
-  this.flash = GF.uiSprite('/game/images/boom-flash.png', INITIAL_WIDTH, userInterface.width / 7.25, 0);
-  this.flash.position.x = x;
-  this.flash.position.y = userInterface.height / 2;
+  this.splash = GF.uiSprite('/game/images/boom-splash.png', 0, userInterface.height / 1.2, 0);
+  this.splash.position.x = x;
+  this.splash.position.y = userInterface.height / 2;
+
+  this.line = GF.uiSprite('/game/images/boom-line.png', 0, userInterface.height / 4, 0);
+  this.line.position.x = x;
+  this.line.position.y = userInterface.height / 2;
 
   if (playerIndex === 0) {
     this.circle.rotation = PI;
-    this.flash.rotation  = PI;
+    this.splash.rotation = PI;
+    this.line.rotation  = PI;
   }
   
   this.time = 0;
@@ -35,21 +40,34 @@ Boom.prototype = new Entity();
 
 Boom.prototype.create = function(engine, game) {
   engine.graphics.add(this.circle);
-  engine.graphics.add(this.flash);
+  engine.graphics.add(this.splash);
+  engine.graphics.add(this.line);
 };
 
 Boom.prototype.destroy = function(engine, game) {
   engine.graphics.remove(this.circle);
-  engine.graphics.remove(this.flash);
+  engine.graphics.remove(this.splash);
+  engine.graphics.remove(this.line);
 };
 
 Boom.prototype.update = function(engine, game, delta) {
   this.circle.anchor.y = this.circle.texture.height / 2;
-  this.flash.anchor.y  = this.flash.texture.height  / 2;
+  this.splash.anchor.y = this.splash.texture.height / 2;
+  this.line.anchor.y  = this.line.texture.height  / 2;
+
+  this.time = this.time + delta;
+  var stretchCircle = mathUtils.clamp(this.time, 0, STRETCH_CIRCLE);
+  var stretchSplash = mathUtils.clamp(this.time, 0, STRETCH_SPLASH);
+  var stretchLine   = mathUtils.clamp(this.time, 0, STRETCH_LINE);
+  this.circle.width = interpolate(stretchCircle, 0, STRETCH_CIRCLE, 0, this.circle.height * 0.71);
+  this.splash.width = interpolate(stretchSplash, 0, STRETCH_SPLASH, 0, this.splash.height * 0.5);
+  this.line.width   = interpolate(stretchLine,   0, STRETCH_LINE,   0, this.line.height   * 7.26);
   
-  this.time = mathUtils.clamp(this.time + delta, 0, TIME_STRETCH);
-  this.flash.width  = interpolate(this.time, 0, TIME_STRETCH, INITIAL_WIDTH, userInterface.width);
-  this.circle.width = interpolate(this.time, 0, TIME_STRETCH, INITIAL_CIRCLE_WIDTH, userInterface.height / 2 / 1.4);
+  if (this.time >= STRETCH_SPLASH) {
+    this.circle.alpha *= 0.95;
+    this.splash.alpha *= 0.95;
+    this.line.alpha *= 0.95;
+  }
 };
 
 function interpolate(current, inputMin, inputMax, outputMin, outputMax) {
