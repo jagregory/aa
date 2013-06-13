@@ -10,7 +10,7 @@ var Leaderboard = function() {
     async: false,
     success: function(data) {
       this.players = data.sort(function(x,y) {
-        return y.level - x.level
+        return y.topScore - x.topScore
       }).slice(0, 10)
     }.bind(this)
   })
@@ -30,7 +30,7 @@ var Leaderboard = function() {
   this.sprites.push(titleSprite)
 
   this.players.forEach(function(player) {
-    var textSprite = GF.text(player.firstName + ' ... ' + player.level, 30, {
+    var textSprite = GF.text(player.firstName + ' ... ' + player.topScore, 30, {
       strokeThickness: 4
     })
     textSprite.position.x = userInterface.width / 2 - titleSprite.width  / 2;
