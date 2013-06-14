@@ -24,9 +24,9 @@ P2COLOR = #d65100
     .button
       width: 100%
     .button.up
-      border-bottom-width: 10px
+      border-bottom: 0
     .button.down
-      border-top-width: 10px
+      border-top: 0
 
   .landscape
     .row
@@ -34,34 +34,37 @@ P2COLOR = #d65100
     .button
       width: 50%
     .button.up
-      border-right-width: 10px
+      border-right: 0
     .button.down
-      border-left-width: 10px
+      border-left: 0
   
   .button
-    background-image: url('/device/images/stripes.png')
     border: 20px solid #000
     display: table-cell
-    font-size: 9em
-    text-align: center
-
-  .icon
-    text-shadow: 0 0 2px rgba(0,0,0,0.5), 0 0 31px rgba(255,255,255,0.7)
+    i
+      background-size: 10em
+      display: block
+      height: 10em
+      margin: 0 auto
+      width: 10em
 
   .p1
     .button
       border-color: P1COLOR
       background-color: lighten(P1COLOR, 30%)
-    .icon
-      color: P1COLOR
-
+      i
+        background-image: url('/device/images/button-p1.png')
+      &.pressed i
+        background-image: url('/device/images/button-p1-pressed.png')
+    
   .p2
     .button
       border-color: P2COLOR
       background-color: lighten(P2COLOR, 30%)
-    .icon
-      color: P2COLOR
-
+      i
+        background-image: url('/device/images/button-p2.png')
+      &.pressed i
+        background-image: url('/device/images/button-p2-pressed.png')
 
 @media (orientation: landscape)
   #page.gamepad

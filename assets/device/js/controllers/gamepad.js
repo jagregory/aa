@@ -30,16 +30,19 @@ module.exports = function() {
 
 function goUp(e) {
   e.preventDefault();
+  $(e.currentTarget).addClass('pressed');
   sendAction('up');
 }
 
 function goDown(e) {
   e.preventDefault();
+  $(e.currentTarget).addClass('pressed');
   sendAction('down');
 }
 
 function stop(e) {
   e.preventDefault();
+  $(e.currentTarget).removeClass('pressed');
   sendAction('stop');
 }
 
