@@ -37,7 +37,7 @@ window.Main = function() {
       game = new Game(engine, players);
       engine.attach(game);
       engine.start();
-      hub.on('finish', endMatchOnServer);
+      hub.on('game.finish', endMatchOnServer);
     }
   }
   
@@ -60,6 +60,7 @@ window.Main = function() {
   }
   
   function cleanup() {
+    hub.unbind('game.*');
     engine.stop();
     engine.detach();
     engine.reset();

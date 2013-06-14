@@ -31,7 +31,7 @@ function EndOfMatch(engine, game) {
   }
   
   function finish() {
-    hub.send('finish');
+    hub.send('game.finish');
   }
   
 }

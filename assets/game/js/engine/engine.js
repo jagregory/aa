@@ -101,7 +101,6 @@ Engine.prototype.detach = function() {
 };
 
 Engine.prototype.reset = function() {
-  hub.unbindAll();
   this.tracker.forEach(function(entity) {
     entity.destroy(this, null);
   }.bind(this));

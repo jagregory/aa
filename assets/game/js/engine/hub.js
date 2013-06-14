@@ -15,6 +15,6 @@ exports.on = function(message, callback) {
   });
 };
 
-exports.unbindAll = function() {
-  eve.off();
+exports.unbind = function(name) {
+  eve.off(name);
 };

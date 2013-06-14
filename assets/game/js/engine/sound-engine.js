@@ -8,7 +8,7 @@ function Sound() {
     sound.play();
   };
  
-  hub.on('sound:play', play);
+  hub.on('engine.sound.play', play);
   
 }
 
