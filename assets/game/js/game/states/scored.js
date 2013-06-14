@@ -1,10 +1,12 @@
 var Boom       = require('../entities/boom');
 var ActionText = require('../entities/action-text');
+var hub        = require('../../engine/hub');
 
 function Scored(engine, game) {
   
   this.enter = function(playerIndex) {
     game.score(playerIndex);
+    hub.send('sound:play', '/game/sounds/cheering.mp3');
     engine.getEntity('stadium').shake(playerIndex);
     engine.addEntity(new Boom('boom', playerIndex));
     engine.deleteEntity('ball');
