@@ -1,6 +1,9 @@
+var rx = require('rxjs');
 var routie = require('../../../3rdparty/routie');
 var player = require('../player');
 var view = require('../../views/gamepad.hbs');
+
+var observable = null;
 
 module.exports = function() {
 
@@ -9,10 +12,13 @@ module.exports = function() {
   }
   
   $('#page').attr('class', 'gamepad');
-  
-  $('#page').html(view({
-    index: player.get().pos || 1
-  }));
+  $('#page').html(view());
+
+  observable = rx.Observable
+    .interval(2000)
+    .startWith(-1)
+    .selectMany(observableGame)
+    .subscribe(checkGameStatus, onError);
 
   if ('ontouchstart' in window) {
     $('.button.up').on('touchstart', goUp);
@@ -55,3 +61,31 @@ function sendAction(actionName) {
   });
 }
 
+function observableGame() {
+  return $.getJSONAsObservable('/game/status');
+}
+
+function checkGameStatus(res) {
+  if (res.data.inProgress) {
+    var idx = currentPlayerIndex(res.data.players);
+    if (idx === null) {
+      observable.dispose();
+      routie.navigate('/wait');
+    } else {
+      $('#page .player').addClass('p' + (idx+1));
+    }
+  } else {
+    observable.dispose();
+    routie.navigate('/join');
+  }
+}
+
+function currentPlayerIndex(players) {
+  if (players[0].id === player.get().id) return 0;
+  if (players[1].id === player.get().id) return 1;
+  return null;
+}
+
+function onError() {
+  console.log('Game not responding');
+}
