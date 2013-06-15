@@ -29,7 +29,7 @@ Ball.prototype = new Entity();
 
 Ball.prototype.update = function(engine, game, delta) {  
   Entity.prototype.update.call(this, delta);
-  mathUtils.clampVelocity(this.body, 30, 40);
+  mathUtils.clampVelocityAvoidingStraight(this.body, 20, 30);
   // We should be able to specify "0.5", and not have to update it constantly
   // Need to check our changes to PIXI
   this.sprite.anchor.x = this.sprite.texture.width  / 2;
