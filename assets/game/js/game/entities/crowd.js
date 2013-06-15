@@ -3,7 +3,7 @@ var hub         = require('../../engine/hub');
 
 function Crowd() {
   this.id = 'crowd';
-  hub.send('engine.sound.play', sound('crowd', true, 'CROWD'));
+  hub.send('engine.sound.play', sound('crowd', true));
   hub.on('game.score', this.cheer.bind(this));
   hub.on('game.finishing', this.organ.bind(this));
   hub.on('game.end', this.end.bind(this));
@@ -20,7 +20,7 @@ Crowd.prototype.cheer = function() {
 };
 
 Crowd.prototype.organ = function() {
-  this.organSound = hub.send('engine.sound.play', sound('crowd-organ', false));
+  hub.send('engine.sound.play', sound('crowd-organ', false));
 };
 
 Crowd.prototype.end = function() {

@@ -2,9 +2,9 @@ var bridgeSocket    = require('./bridge-socket');
 var bridgeKeyboard  = require('./bridge-keyboard');
 var Engine          = require('./engine/engine');
 var Game            = require('./game/game');
+var Intro           = require('./intro/intro')
 var world           = require('./game/world');
 var hub             = require('./engine/hub');
-var Leaderboard     = require('./game/entities/leaderboard')
 
 window.Main = function() {
   var container  = document.querySelector('#container');
@@ -20,23 +20,18 @@ window.Main = function() {
   var game   = null;
   
   preloadAssets();
+  engine.start();
 
-  engine.start()
-
-  function showLeaderboard() {
-    cleanup()
-
-    var leaderboard = new Leaderboard()
-    engine.addEntity(leaderboard)
+  function showIntro() {
+    cleanup();
+    engine.attach(new Intro(engine));
   }
 
   function matchStart(players) {
-    cleanup()
-
+    cleanup();
     if (!game) {
       game = new Game(engine, players);
       engine.attach(game);
-      engine.start();
       hub.on('game.finish', endMatchOnServer);
     }
   }
@@ -56,21 +51,20 @@ window.Main = function() {
           score: player.score
         }
       })
-    }).then(showLeaderboard).fail(cleanup);
+    }).then(showIntro).fail(showIntro);
   }
   
   function cleanup() {
     hub.unbind('game.*');
-    engine.stop();
     engine.detach();
     engine.reset();
     game = null;
   }
 
-  showLeaderboard()
-  
+  showIntro();
   bridgeKeyboard.connect(matchStart, playerMove);
   bridgeSocket.connect(matchStart, playerMove);
+  
 };
 
 function preloadAssets() {
@@ -80,7 +74,7 @@ function preloadAssets() {
     '/game/images/stadium-shake-right.png'
   ]);
   assetLoader.onComplete = function() {
-    console.log('Assets loaded. Starting game.')
+    console.log('Assets loaded')
   };
   console.log('Loading assets');
   assetLoader.load();

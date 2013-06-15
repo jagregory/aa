@@ -30,7 +30,7 @@ function Game(engine, playerInfo) {
       {   name: 'end',      from: ['warmup', 'kickoff', 'play', 'scored'],  to: 'endofmatch'   },
   ];
   
-  this.duration = 20;
+  this.duration = 10;
   this.timeRemaining = this.duration * 1000;
   
   this.engine = engine;
@@ -49,6 +49,10 @@ function Game(engine, playerInfo) {
 
 Game.prototype.update = function(engine, delta) {
   this.sequencer.active().update(delta);
+};
+
+Game.prototype.destroy = function(engine) {
+  
 };
 
 Game.prototype.transition = function(name, args) {

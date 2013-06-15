@@ -41,7 +41,7 @@ function Engine(world, mainView, debugView) {
 };
 
 Engine.prototype.start = function() {
-  ticker.run(_.bind(this.update, this));
+  ticker.run(this.update.bind(this));
 };
 
 Engine.prototype.stop = function() {
@@ -97,6 +97,9 @@ Engine.prototype.attach = function(game) {
 };
 
 Engine.prototype.detach = function() {
+  if (this.game) {
+    this.game.destroy(this);
+  }
   this.game = null;
 };
 
