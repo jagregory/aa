@@ -2,7 +2,9 @@ var Entity = require('../../engine/entity')
 var GF  = require('../../engine/graphics-factory');
 var userInterface = require('../../engine/user-interface');
 
-var Leaderboard = function() {
+function Leaderboard(id) {
+  
+  this.id = id;
   this.players = []
   
   $.ajax({
@@ -39,6 +41,7 @@ var Leaderboard = function() {
     this.sprites.push(textSprite)
   }.bind(this))
 }
+
 Leaderboard.prototype = new Entity();
 
 Leaderboard.prototype.create = function(engine, game) {
