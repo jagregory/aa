@@ -1,10 +1,12 @@
-var hub = require('../../engine/hub');
-
-var FINAL_COUNTDOWN = 7 * 1000;
+var TimeBasedMessage  = require('../time-based-message');
+var mathUtils         = require('../../engine/math-utils');
 
 function Play(engine, game) {
   
-  var finishing = false;
+  var finalCountdown  = new TimeBasedMessage(7000, 'game.finishing');
+  var endOfMatch      = new TimeBasedMessage(0,    'game.end');
+  // TimeBasedMessage  half-time!
+  // TimeBasedMessage  multi-ball!
   
   this.enter = function() {
   };
@@ -13,17 +15,9 @@ function Play(engine, game) {
   };
   
   this.update = function(delta) {
-    game.timeRemaining -= delta;
-    if (game.timeRemaining < 0) {
-      game.timeRemaining = 0;
-    }
-    if (!finishing && game.timeRemaining < FINAL_COUNTDOWN) {
-      hub.send('game.finishing');
-      finishing = true;
-    }
-    if (game.timeRemaining === 0) {
-      hub.send('game.end');
-    }
+    game.timeRemaining = Math.max(game.timeRemaining - delta, 0);
+    finalCountdown.update(game.timeRemaining);
+    endOfMatch.update(game.timeRemaining);
   };
   
   this.on = function(message, args) {
