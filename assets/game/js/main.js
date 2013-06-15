@@ -1,8 +1,8 @@
 var bridgeSocket    = require('./bridge-socket');
 var bridgeKeyboard  = require('./bridge-keyboard');
 var Engine          = require('./engine/engine');
+var Title           = require('./title/title')
 var Game            = require('./game/game');
-var Intro           = require('./intro/intro')
 var world           = require('./game/world');
 var hub             = require('./engine/hub');
 
@@ -24,7 +24,7 @@ window.Main = function() {
 
   function showIntro() {
     cleanup();
-    engine.attach(new Intro(engine));
+    engine.attach(new Title(engine));
   }
 
   function matchStart(players) {
