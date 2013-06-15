@@ -30,15 +30,19 @@ function Game(engine, playerInfo) {
       {   name: 'end',      from: ['warmup', 'kickoff', 'play', 'scored'],  to: 'endofmatch'   },
   ];
   
-  this.duration = 60;
+  this.duration = 20;
   this.timeRemaining = this.duration * 1000;
   
   this.engine = engine;
   this.sequencer = new Sequencer(engine, this, states, transitions);
   this.sequencer.start();
 
-  hub.on('game.transition', function(params) {
-    this.sequencer.transition(params.name, params.args);
+  hub.on('game.score', function(playerIndex) {
+    this.sequencer.transition('scored', playerIndex);
+  }.bind(this));
+
+  hub.on('game.end', function() {
+    this.sequencer.transition('end');
   }.bind(this));
 
 }

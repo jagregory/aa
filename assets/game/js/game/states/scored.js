@@ -6,7 +6,7 @@ function Scored(engine, game) {
   
   this.enter = function(playerIndex) {
     game.score(playerIndex);
-    hub.send('engine.sound.play', '/game/sounds/cheering.mp3');
+    hub.send('engine.sound.play', '/game/sounds/crowd-cheering.mp3');
     engine.getEntity('stadium').shake(playerIndex);
     engine.addEntity(new Boom('boom', playerIndex));
     engine.deleteEntity('ball');

@@ -1,5 +1,10 @@
+var hub = require('../../engine/hub');
+
+var FINAL_COUNTDOWN = 12 * 1000;
 
 function Play(engine, game) {
+  
+  var finishing = false;
   
   this.enter = function() {
   };
@@ -12,8 +17,12 @@ function Play(engine, game) {
     if (game.timeRemaining < 0) {
       game.timeRemaining = 0;
     }
+    if (!finishing && game.timeRemaining < FINAL_COUNTDOWN) {
+      hub.send('game.finishing');
+      finishing = true;
+    }
     if (game.timeRemaining === 0) {
-      game.transition('end');
+      hub.send('game.end');
     }
   };
   

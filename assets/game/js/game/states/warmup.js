@@ -3,6 +3,7 @@
 
 var GF          = require('../../engine/graphics-factory');
 var Stadium     = require('../entities/stadium');
+var Crowd       = require('../entities/crowd');
 var Player      = require('../entities/player');
 var Hud         = require('../entities/hud');
 var ActionText  = require('../entities/action-text');
@@ -21,6 +22,7 @@ function WarmUp(engine, game) {
     var p2 = new Player('p2', game.players[1].name, startingPos[1], world.height / 2);
     
     engine.addEntity(new Stadium());
+    engine.addEntity(new Crowd());
     engine.addEntity(p1);
     engine.addEntity(p2);
     engine.addEntity(new Hud());
