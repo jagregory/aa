@@ -5,7 +5,7 @@ var Cone            = require('./cone');
 var Goal            = require('./goal');
 var world           = require('../world');
 
-var PI     = 3.14;
+var PI     = 3.14159;
 var width  = world.width;
 var height = world.height;
 var top    = 3.8;
@@ -31,8 +31,8 @@ function Stadium() {
   this.entities.push(new Wall('wall-goal-right-top',    width,          height / 2 - 5.4,   4,       1,               0));
   this.entities.push(new Wall('wall-goal-right-bottom', width,          height / 2 + 4.1,   2.5,     1,               0));
     
-  this.entities.push(new Cone('cone1', width / 12 * 5, height / 3 * 1));
-  this.entities.push(new Cone('cone2', width / 12 * 7, height / 3 * 2));
+  this.entities.push(new Cone('cone1', width / 12 * 5.5, height / 5 * 2));
+  this.entities.push(new Cone('cone2', width / 12 * 6.5, height / 5 * 3));
   
   this.entities.push(new Goal('goalp1', 0,  0,            height / 2, 0.5, 10));
   this.entities.push(new Goal('goalp2', 1,  world.width,  height / 2, 0.5, 10));

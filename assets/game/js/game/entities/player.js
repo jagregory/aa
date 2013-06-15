@@ -5,7 +5,7 @@ var world       = require('../world');
 var hub         = require('../../engine/hub');
 
 var fixture = PF.fixture({
-  shape:      PF.shape.circle(1.8),
+  shape:      PF.shape.circle(1.5),
   dynamics:   {density: 1, friction: 0.5, restitution: 1},
   category:   PF.categories.PLAYER,
   collision:  PF.categories.ARENA | PF.categories.BALL
