@@ -49,7 +49,7 @@ function KickOff(engine, game) {
   }
   
   function go() {
-    hub.send('engine.sound.play', '/game/sounds/whistle.mp3');
+    hub.send('engine.sound.play', {file: '/game/sounds/whistle.mp3'});
     engine.deleteEntity('countdown');
     ball.body.SetAwake(true);
     ball.body.SetLinearVelocity(new Box2D.Common.Math.b2Vec2(16 * ballDirection, 16 * ballDirection));

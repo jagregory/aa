@@ -35,3 +35,8 @@ This also restarts the server
 
 - if something goes wrong
 - when any server-side code changes
+
+
+## Attribution
+
+Thanks to http://www.freesfx.co.uk for the free sound effects

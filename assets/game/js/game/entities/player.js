@@ -69,7 +69,7 @@ Player.prototype.update = function(engine, game, delta) {
 
 Player.prototype.collision = function(other, points) {    
   if (other.id === 'ball') {
-    hub.send('engine.sound.play', '/game/sounds/collision-2.mp3');
+    hub.send('engine.sound.play', {file: '/game/sounds/bounce.mp3'});
   } else if (other.id.match(/wall/)) {
     this.sprite.gotoAndStop(ANIM_REST);
     this.body.SetLinearVelocity(new Box2D.Common.Math.b2Vec2(0, 5));

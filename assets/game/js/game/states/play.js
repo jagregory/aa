@@ -1,6 +1,6 @@
 var hub = require('../../engine/hub');
 
-var FINAL_COUNTDOWN = 12 * 1000;
+var FINAL_COUNTDOWN = 7 * 1000;
 
 function Play(engine, game) {
   
