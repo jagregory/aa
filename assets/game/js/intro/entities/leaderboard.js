@@ -17,7 +17,9 @@ function Leaderboard(id) {
     }.bind(this)
   })
 
-  this.sprites = []
+  this.sprites = [
+    GF.uiSprite('/game/images/leaderboard.png', userInterface.width, userInterface.height)
+  ];
 
   var y = 0
 
