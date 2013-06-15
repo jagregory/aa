@@ -78,7 +78,7 @@ Player.prototype.collision = function(other, points) {
 
 Player.prototype.move = function(dir) {
   window.clearTimeout(this.endFlame);
-  var y = (dir === 'up') ? -20 : 20;
+  var y = (dir === 'up') ? -23: 23;
   this.body.SetAwake(true);
   this.body.SetLinearVelocity(new Box2D.Common.Math.b2Vec2(0, y));
   if (y < 0) {
