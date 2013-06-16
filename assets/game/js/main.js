@@ -68,5 +68,4 @@ function mainLoop() {
   showIntro();
   bridgeKeyboard.connect(matchStart, playerMove);
   bridgeSocket.connect(matchStart, playerMove);
-
 }
