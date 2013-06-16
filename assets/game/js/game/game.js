@@ -9,7 +9,7 @@ function Game(engine, playerInfo) {
   this.players = playerInfo.map(function(p) {
     return {
       id: p.id,
-      name: p.firstName + ' ' + p.lastName,
+      name: p.firstName + ' ' + p.lastName.substr(0,1),
       score: 0
     }
   });
