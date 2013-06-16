@@ -55,6 +55,8 @@ function Game(engine, playerInfo) {
     var text = new ActionText('multiball', 'Multi-ball!');
     this.engine.addEntity(text)
 
+    hub.send('engine.sound.play', { file: '/game/sounds/multiball.mp3' })
+
     setTimeout(function() {
       this.engine.deleteEntity(text.id)
       var ball = this.createBall(-1, 1)
