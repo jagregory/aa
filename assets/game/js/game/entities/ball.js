@@ -11,7 +11,7 @@ var fixture = PF.fixture({
   shape:      PF.shape.circle(ballSize / 2),
   dynamics:   {density: 1, friction: 1, restitution: 1},
   category:   PF.categories.BALL,
-  collision:  PF.categories.ARENA | PF.categories.PLAYER
+  collision:  PF.categories.ARENA | PF.categories.PLAYER | PF.categories.BALL
 });
 
 function Ball(id, x, y) {
