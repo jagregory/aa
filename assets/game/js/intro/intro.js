@@ -6,7 +6,7 @@ var hub           = require('../engine/hub');
 function Intro(engine) {
   this.current = 0;
   this.switch(engine);
-  this.switchTimer = window.setInterval(_.bind(this.switch, this, engine), 5000);
+  this.switchTimer = window.setInterval(_.bind(this.switch, this, engine), 10000);
   hub.send('engine.sound.play', {file: '/game/sounds/intro.mp3'});
 }
 
