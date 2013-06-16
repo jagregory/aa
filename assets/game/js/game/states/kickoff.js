@@ -68,7 +68,7 @@ function KickOff(engine, game) {
 
     balls.forEach(function(ball) {
       ball.body.SetAwake(true);
-      ball.body.SetLinearVelocity(new Box2D.Common.Math.b2Vec2(25 * ballDirection, 2));
+      ball.body.SetLinearVelocity(new Box2D.Common.Math.b2Vec2(25 * ballDirection, MathUtils.randomBetween(2, 10)));
       ball.body.SetAngularVelocity(MathUtils.randomBetween(4, 10));  
     })
     game.transition('go');
