@@ -42,7 +42,7 @@ Ball.prototype.update = function(engine, game, delta) {
 
 Ball.prototype.kick = function(direction) {
   this.body.SetAwake(true);
-  this.body.SetLinearVelocity(new Box2D.Common.Math.b2Vec2(25 * direction, MathUtils.randomBetween(2, 10)));
+  this.body.SetLinearVelocity(new Box2D.Common.Math.b2Vec2(25 * direction, MathUtils.randomBetween(1, 6)));
   this.body.SetAngularVelocity(MathUtils.randomBetween(4, 10));
 }
 
