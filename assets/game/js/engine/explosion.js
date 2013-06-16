@@ -7,32 +7,35 @@ var _ = require('../../../3rdparty/underscore-min'),
 var M_PI = Math.PI
 var M_PI_2 = M_PI / 2
 
+var particleTexture = PIXI.Texture.fromImage('/game/images/particle-ball.png')
+
 var Particle = function() {
-  PIXI.Sprite.call(this, PIXI.Texture.fromImage('/game/images/particle-orange.png'))
+  PIXI.Sprite.call(this, particleTexture)
   this.anchor.x = 0.5
   this.anchor.y = 0.5
   this.speed = new PIXI.Point
   this.acceleration = new PIXI.Point
-  this.width = 8
-  this.height = 8
+  this.width = 15
+  this.height = 15
 }
 Particle.constructor = Particle
 Particle.prototype = Object.create(PIXI.Sprite.prototype)
 
 var resetParticle = function(particle) {
-  particle.blendMode = PIXI.blendModes.SCREEN
   particle.alpha = 1
   particle.scale.x = 1
   particle.scale.y = 1
-  particle.speed.x = 0.3 + (1 + Math.random()) * mathUtils.randomSign()
-  particle.speed.y = 0.3 + (1 + Math.random()) * mathUtils.randomSign()
-  particle.acceleration.x = (0.5 + Math.random()) * mathUtils.randomSign()
-  particle.acceleration.y = (0.5 + Math.random()) * mathUtils.randomSign()
+  particle.direction = {
+    x: (mathUtils.randomBetween(0, 200) - 100) / 100,
+    y: (mathUtils.randomBetween(0, 200) - 100) / 100
+  }
+  particle.speed.x = 0.3 + (1 + Math.random())
+  particle.speed.y = 0.3 + (1 + Math.random())
+  particle.acceleration.x = 0.25 // (0.5 + Math.random()) * mathUtils.randomSign()
+  particle.acceleration.y = 0.25 // (0.5 + Math.random()) * mathUtils.randomSign()
   particle.position.x = 0
   particle.position.y = 0
   particle.visible = true
-  particle.width = 8
-  particle.height = 8
   particle.rotation = 0
 }
 
@@ -105,7 +108,7 @@ var Explosion = function(origin, particleCount) {
   }.bind(this))
 }
 Explosion.large = function(origin) {
-  return new Explosion(origin, mathUtils.randomBetween(750, 1250))
+  return new Explosion(origin, 50)
 }
 Explosion.small = function(origin) {
   return new Explosion(origin, mathUtils.randomBetween(9, 51))
@@ -119,8 +122,8 @@ Explosion.prototype.update = function(delta) {
   var currentParticles = this.aliveParticles
   currentParticles.forEach(function(particle) {
     if (particle.parent) {
-      particle.position.x += particle.speed.x
-      particle.position.y += particle.speed.y
+      particle.position.x += particle.speed.x * particle.direction.x
+      particle.position.y += particle.speed.y * particle.direction.y
       particle.speed.x += particle.acceleration.x
       particle.speed.y += particle.acceleration.y
 
@@ -140,10 +143,10 @@ Explosion.prototype.update = function(delta) {
       }
 
       particle.rotation = angle
-      particle.height = 8 * particle.speed.y
+      // particle.height = 8 * particle.speed.y
 
-      if (mathUtils.distance({ x: 0, y: 0 }, particle.position) >= mathUtils.randomBetween(50, 100)) {
-        particle.alpha *= 0.8
+      if (mathUtils.distance({ x: 0, y: 0 }, particle.position) >= 300) {
+        particle.alpha = 0
       }
     }
 
@@ -155,11 +158,11 @@ Explosion.prototype.update = function(delta) {
 
     if (deadParticle || particle.alpha <= (Math.random() * 5) / 50) {
       this.aliveParticles = _.without(this.aliveParticles, particle)
+      particlePool.release([particle])
     }
   }.bind(this))
 
   if (this.aliveParticles.length === 0) {
-    particlePool.release(this.particles)
     hub.send('entity:destroy', {
       entity: this
     })
