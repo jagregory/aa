@@ -29,10 +29,10 @@ var resetParticle = function(particle) {
     x: (mathUtils.randomBetween(0, 200) - 100) / 100,
     y: (mathUtils.randomBetween(0, 200) - 100) / 100
   }
-  particle.speed.x = 0.3 + (1 + Math.random())
-  particle.speed.y = 0.3 + (1 + Math.random())
-  particle.acceleration.x = 0.25 // (0.5 + Math.random()) * mathUtils.randomSign()
-  particle.acceleration.y = 0.25 // (0.5 + Math.random()) * mathUtils.randomSign()
+  particle.speed.x = 1.3 + Math.random()
+  particle.speed.y = 1.3 + Math.random()
+  particle.acceleration.x = 0.75 + Math.random()
+  particle.acceleration.y = 0.75 + Math.random()
   particle.position.x = 0
   particle.position.y = 0
   particle.visible = true
