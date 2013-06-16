@@ -4,7 +4,7 @@ var hub     = require('../../engine/hub');
 function EndOfMatch(engine, game) {
   
   this.enter = function() {
-    engine.deleteEntity('ball');
+    engine.deleteEntityMatching(/^ball:/);
     engine.addEntity(new Winner('winner', game.players[0], game.players[1]));
     setTimeout(finish, 4000);
   };
