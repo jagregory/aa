@@ -90,9 +90,6 @@ Game.prototype.multiball = function() {
   setTimeout(function() {
     hub.send('engine.sound.play', { file: '/game/sounds/sax.mp3' });
   }, 2000);
-  setTimeout(function() {
-    hub.send('engine.sound.stop', { file: '/game/sounds/sax.mp3' })
-  }, 15000)
 
   setTimeout(function() {
     this.engine.deleteEntity(text.id)
