@@ -14,6 +14,12 @@ var EntityTracker = function() {
     return entities[id];
   };
 
+  this.findMatching = function(regex) {
+    return Object.keys(entities)
+      .filter(function(id) { return id.match(regex) })
+      .map(function(id) { return entities[id] })
+  }
+
   this.track = function(entity) {
     //console.log('Tracking entity: ' + entity.id);
     var id = entity.id || (lastId += 1);

@@ -8,7 +8,7 @@ function Scored(engine, game) {
     game.score(playerIndex);
     engine.getEntity('stadium').shake(playerIndex);
     engine.addEntity(new Boom('boom', playerIndex));
-    engine.deleteEntity('ball');
+    engine.deleteEntityMatching(/^ball:/);
     setTimeout(function() {
       backToKickoff(playerIndex)
     }, 400);

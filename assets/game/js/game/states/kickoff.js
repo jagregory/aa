@@ -4,13 +4,13 @@ var hub         = require('../../engine/hub');
 var Ball        = require('../entities/ball');
 var ActionText  = require('../entities/action-text');
 var world       = require('../world');
+var MathUtils   = require('../../engine/math-utils')
 
 function KickOff(engine, game) {
   
-  var ball = null;
+  var balls = [];
   var text = null;
 
-  var ballStartY = world.height / 2;
   var ballStartX = null
   var ballDirection = null
   
@@ -23,9 +23,23 @@ function KickOff(engine, game) {
       ballDirection = 1
     }
 
-    ball = new Ball('ball', ballStartX, ballStartY);
+    var ballStartY = world.height / 2;
+    // var ballCount = game.roundNumber // one extra ball for every goal scored
+    var ballCount = Math.ceil(game.roundNumber / 2) // every nth goal ups the ball count (n = 2)
+
+    for (var i = 0; i < ballCount; i++) {
+      if (i % 2 == 0) {
+        ballStartY += i + 0.5
+      } else {
+        ballStartY -= i + 0.5
+      }
+
+      var ball = new Ball('ball:'+i, ballStartX, ballStartY)
+      balls.push(ball)
+      engine.addEntity(ball)
+    }
+
     text = new ActionText('countdown', '');
-    engine.addEntity(ball);
     engine.addEntity(text);
     countdown(3);
   };
@@ -51,9 +65,12 @@ function KickOff(engine, game) {
   function go() {
     hub.send('engine.sound.play', {file: '/game/sounds/whistle.mp3'});
     engine.deleteEntity('countdown');
-    ball.body.SetAwake(true);
-    ball.body.SetLinearVelocity(new Box2D.Common.Math.b2Vec2(25 * ballDirection, 2));
-    ball.body.SetAngularVelocity(4);
+
+    balls.forEach(function(ball) {
+      ball.body.SetAwake(true);
+      ball.body.SetLinearVelocity(new Box2D.Common.Math.b2Vec2(25 * ballDirection, 2));
+      ball.body.SetAngularVelocity(MathUtils.randomBetween(4, 10));  
+    })
     game.transition('go');
   }
   

@@ -13,6 +13,7 @@ function Game(engine, playerInfo) {
       score: 0
     }
   });
+  this.roundNumber = 1
   
   var states = {
     'warmup':     require('./states/warmup'),
@@ -64,7 +65,8 @@ Game.prototype.message = function(message, args) {
 };
 
 Game.prototype.score = function(playerIndex) {
-    this.players[playerIndex].score += 1;
+  this.roundNumber += 1
+  this.players[playerIndex].score += 1;
 };
 
 Game.prototype.move = function(pindex, dir) {

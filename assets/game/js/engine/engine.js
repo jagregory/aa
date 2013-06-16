@@ -88,6 +88,14 @@ Engine.prototype.deleteEntity = function(id) {
   }
 };
 
+Engine.prototype.deleteEntityMatching = function(regex) {
+  var entities = this.tracker.findMatching(regex)
+  entities.forEach(function(entity) {
+    entity.destroy(this, this.game)
+    this.tracker.forget(entity)
+  }.bind(this))
+}
+
 Engine.prototype.getEntity = function(id) {
   return this.tracker.find(id);
 };
