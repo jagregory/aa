@@ -40,7 +40,11 @@ Sequencer.prototype.start = function() {
 };
 
 Sequencer.prototype.transition = function(trans, args) {
-  this.fsm[trans](args);
+  if (this.fsm.can(trans)) {
+    this.fsm[trans](args);
+  } else {
+    console.log('Invalid transition (this is probably a ball going in after one already has)')
+  }
 };
 
 Sequencer.prototype.active = function() {
