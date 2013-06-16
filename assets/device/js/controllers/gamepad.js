@@ -2,14 +2,16 @@ var rx = require('rxjs');
 var routie = require('../../../3rdparty/routie');
 var player = require('../player');
 var view = require('../../views/gamepad.hbs');
-
 var observable = null;
+var socket = null
 
 module.exports = function() {
 
   if (player.get().id == undefined) {
     routie.navigate('/connect');
   }
+
+  socket = io.connect('/')
   
   $('#page').attr('class', 'gamepad');
   $('#page').html(view());
@@ -53,10 +55,7 @@ function stop(e) {
 }
 
 function sendAction(actionName) {
-  $.ajax({
-    type: 'POST',
-    url: '/game/players/' + player.get().id + '/' + actionName
-  });
+  socket.emit('move', { player: player.get().id, action: actionName })
 }
 
 function observableGame() {
