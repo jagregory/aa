@@ -66,7 +66,7 @@ function Leaderboard(id) {
     scoreSprite.position.y = currentY
     this.sprites.push(scoreSprite)
     
-    currentY += playerNameSprite.height + unit(0.6)
+    currentY += playerNameSprite.height + unit(1.7)
     i += 1
   }.bind(this))
 }
