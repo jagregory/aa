@@ -18,9 +18,6 @@ window.Main = function() {
   
   var engine = new Engine(world, gameView, debugView);
   var game   = null;
-  
-  preloadAssets();
-  engine.start();
 
   function showIntro() {
     cleanup();
@@ -59,22 +56,40 @@ window.Main = function() {
     engine.detach();
     engine.reset();
     game = null;
-  }
+  }  
 
-  showIntro();
-  bridgeKeyboard.connect(matchStart, playerMove);
-  bridgeSocket.connect(matchStart, playerMove);
-  
+  preloadAssets(function() {
+    engine.start();
+    showIntro();
+    bridgeKeyboard.connect(matchStart, playerMove);
+    bridgeSocket.connect(matchStart, playerMove);
+  });
 };
 
-function preloadAssets() {
+function preloadAssets(callback) {
   var assetLoader = new PIXI.AssetLoader([
-    '/game/images/stadium.png',
+    '/game/images/ball.png',
+    '/game/images/boom-circle.png',
+    '/game/images/boom-line.png',
+    '/game/images/boom-splash.png',
+    '/game/images/cat-down.png',
+    '/game/images/cat-up.png',
+    '/game/images/cat.png',
+    '/game/images/cone.png',
+    '/game/images/dog-down.png',
+    '/game/images/dog-up.png',
+    '/game/images/dog.png',
+    '/game/images/leaderboard.png',
+    '/game/images/particle-orange.png',
+    '/game/images/particle.png',
     '/game/images/stadium-shake-left.png',
-    '/game/images/stadium-shake-right.png'
+    '/game/images/stadium-shake-right.png',
+    '/game/images/stadium.png',
+    '/game/images/title.png'
   ]);
   assetLoader.onComplete = function() {
     console.log('Assets loaded')
+    callback()
   };
   console.log('Loading assets');
   assetLoader.load();
