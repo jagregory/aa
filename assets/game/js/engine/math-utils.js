@@ -19,7 +19,14 @@ exports.clampVelocity = function(body, min, max) {
 exports.clampXVelocity = function(body, min, max) {
   var vec = body.GetLinearVelocity();
   if (vec.x != 0) {
-    vec.x = exports.clampWithSign(vec.x, 15, 35);
+    vec.x = exports.clampWithSign(vec.x, min, max);
+  }
+};
+
+exports.clampYVelocity = function(body, min, max) {
+  var vec = body.GetLinearVelocity();
+  if (vec.y != 0) {
+    vec.y = exports.clampWithSign(vec.y, min, max);
   }
 };
 
