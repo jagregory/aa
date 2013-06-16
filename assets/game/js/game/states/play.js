@@ -4,8 +4,8 @@ var mathUtils         = require('../../engine/math-utils');
 function Play(engine, game) {
   
   var finalCountdown  = new TimeBasedMessage(8000, 'game.finishing');
-  var multiBall       = new TimeBasedMessage(55000, 'game.multiball');
-  var endOfMatch      = new TimeBasedMessage(0,    'game.end');
+  var multiBall       = new TimeBasedMessage(30000, 'game.multiball');
+  var endOfMatch      = new TimeBasedMessage(0, 'game.end');
   // TimeBasedMessage  half-time!
   
   this.enter = function() {
