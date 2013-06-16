@@ -22,14 +22,14 @@ module.exports = function() {
 
   if ('ontouchstart' in window) {
     $('.button.up').on('touchstart', goUp);
-    $('.button.up').on('touchend', stop);
+    // $('.button.up').on('touchend', stop);
     $('.button.down').on('touchstart', goDown);
-    $('.button.down').on('touchend', stop);
+    // $('.button.down').on('touchend', stop);
   } else {
     $('.button.up').on('mousedown', goUp);
-    $('.button.up').on('mouseup', stop);
+    // $('.button.up').on('mouseup', stop);
     $('.button.down').on('mousedown', goDown);
-    $('.button.down').on('mouseup', stop);
+    // $('.button.down').on('mouseup', stop);
   }
   
 };
@@ -55,9 +55,7 @@ function stop(e) {
 function sendAction(actionName) {
   $.ajax({
     type: 'POST',
-    url: '/game/players/' + player.get().id,
-    data: JSON.stringify({action: actionName}),
-    contentType: 'application/json'
+    url: '/game/players/' + player.get().id + '/' + actionName
   });
 }
 

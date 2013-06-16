@@ -113,7 +113,7 @@ exports.register = function(app) {
   });
 
   // send an action to the game
-  app.post('/game/players/:playerId', function(req, res) {
+  app.post('/game/players/:playerId/:action', function(req, res) {
     res.header('Cache-Control', 'no-cache')
     var p = Player.withId(req.params.playerId);
     if (!p) {
@@ -123,8 +123,8 @@ exports.register = function(app) {
     } else if (game.hasPlayer(p) === false) {
       res.status(403).send('Player not in the current game');
     } else {
-      game.send(p, req.body.action);
-      res.send({ processed: true })
+      game.send(p, req.params.action);
+      res.send()
     }
   });
 
