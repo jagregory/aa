@@ -9,7 +9,7 @@ function Hud(text) {
   
   this.id = 'hud';
   
-  this.p1Name = GF.text('John Doe', userInterface.unit(3), {fill: '#01518d', stroke: '#000', strokeThickness: 3 });
+  this.p1Name = GF.text('John Doe', userInterface.unit(3), {fill: '#01518d', stroke: '#fff', strokeThickness: 3 });
   this.p1Name.position.x = userInterface.unit(20) - this.p1Name.width / 2;
   this.p1Name.position.y = TEXT_TOP;
 
