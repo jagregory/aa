@@ -63,15 +63,23 @@ exports.register = function(app) {
   app.post('/game/status', function(req, res) {
     var players = req.body.players
 
-    if (_.uniq(_.pluck(players, 'score')).length > 1) {
-      // our scores are different, not a draw
+    if (_.uniq(_.pluck(players, 'score')).length === 1) {
+      // we have a draw! everybody wins
+      req.body.players.forEach(function(player) {
+        var gamePlayer = Player.withId(player.id)
+
+        if (gamePlayer) {
+          gamePlayer.topScore += player.score
+        }
+      })
+    } else {
+      // only bump the winning player's score
       var winner = _.max(req.body.players, function(player) { return player.score })
       var winningPlayer = Player.withId(winner.id)
-
-      // TODO: is scoring cumulative or just their top score?
       winningPlayer.topScore += parseInt(winner.score)
-      Player.saveAll()
     }
+
+    Player.saveAll()
 
     game.clear();
 
