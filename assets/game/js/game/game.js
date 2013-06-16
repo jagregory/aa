@@ -4,6 +4,7 @@ var hub         = require('../engine/hub');
 
 var Ball        = require('./entities/ball');
 var world       = require('./world');
+var ActionText  = require('./entities/action-text');
 
 function Game(engine, playerInfo) {
 
@@ -51,11 +52,20 @@ function Game(engine, playerInfo) {
   }.bind(this));
 
   hub.on('game.multiball', function() {
-    var ball = this.createBall(-1, -1)
-    ball.kick(1)
+    var text = new ActionText('multiball', 'Multi-ball!');
+    this.engine.addEntity(text)
 
-    ball = this.createBall(1, 1)
-    ball.kick(-1)
+    setTimeout(function() {
+      this.engine.deleteEntity(text.id)
+      var ball = this.createBall(-1, 1)
+      ball.kick(1)
+
+      ball = this.createBall(1, 1)
+      ball.kick(-1)
+
+      ball = this.createBall(0, -1)
+      ball.kick(-1)
+    }.bind(this), 1000)
   }.bind(this))
 }
 
