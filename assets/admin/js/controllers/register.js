@@ -21,6 +21,7 @@ function register(e) {
     email:        $('#email').val()
   };
   $.post('/player', data).then(displayPin).fail(error);
+  return false
 }
 
 function displayPin(res) {
