@@ -26,7 +26,7 @@ Goal.prototype = new Entity();
 
 Goal.prototype.collision = function(other, points) {    
   if (other.id.indexOf('ball:') === 0) {
-    hub.send('game.score', 1 - this.playerIndex);
+    hub.send('game.score', { playerIndex: 1 - this.playerIndex, ball: other });
     hub.send('engine.explosion', {
       source: points[0],
       size: 'large'

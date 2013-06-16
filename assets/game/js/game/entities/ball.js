@@ -4,6 +4,7 @@ var Entity      = require('../../engine/entity');
 var world       = require('../../engine/world');
 var mathUtils   = require('../../engine/math-utils');
 var hub         = require('../../engine/hub');
+var MathUtils   = require('../../engine/math-utils')
 
 var ballSize = 2;
 
@@ -38,5 +39,11 @@ Ball.prototype.update = function(engine, game, delta) {
   this.sprite.anchor.x = this.sprite.texture.width  / 2;
   this.sprite.anchor.y = this.sprite.texture.height / 2;
 };
+
+Ball.prototype.kick = function(direction) {
+  this.body.SetAwake(true);
+  this.body.SetLinearVelocity(new Box2D.Common.Math.b2Vec2(25 * direction, MathUtils.randomBetween(2, 10)));
+  this.body.SetAngularVelocity(MathUtils.randomBetween(4, 10));
+}
 
 module.exports = Ball;
