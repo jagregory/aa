@@ -15,11 +15,11 @@ var ANIM_REST = 0;
 var ANIM_UP   = 1;
 var ANIM_DOWN = 2;
 
-function Player(id, name, x, y) {
+function Player(id, index, name, x, y) {
   
   this.id    = id;
+  this.index = index;
   this.name  = name;
-  this.score = 0;
   
   this.bodySpec = {
     body: PF.dynamic({ x: x, y: y, fixedRotation: true }),
@@ -69,6 +69,7 @@ Player.prototype.update = function(engine, game, delta) {
 
 Player.prototype.collision = function(other, points) {    
   if (other.id.match(/ball/)) {
+    other.kickedBy = this.index;
     hub.send('engine.sound.play', {file: '/game/sounds/bounce.mp3'});
   } else if (other.id.match(/wall/)) {
     this.sprite.gotoAndStop(ANIM_REST);

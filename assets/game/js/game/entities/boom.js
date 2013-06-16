@@ -3,16 +3,16 @@ var Entity        = require('../../engine/entity');
 var userInterface = require('../../engine/user-interface');
 var mathUtils     = require('../../engine/math-utils');
 
-var PI            = 3.14;
+var PI              = 3.14;
 var STRETCH_CIRCLE  =  80;  // millis
 var STRETCH_SPLASH  = 180;  // millis
 var STRETCH_LINE    = 300;  // millis
 
-function Boom(id, playerIndex) {
+function Boom(id, againstPlayerIndex) {
   
   this.id = id;
   
-  var x = playerIndex === 0 ? userInterface.width : 0;
+  var x = (againstPlayerIndex === 0) ? 0 : userInterface.width;
   
   this.circle = GF.uiSprite('/game/images/boom-circle.png', 0, userInterface.height / 2, 0);
   this.circle.position.x = x;
@@ -26,7 +26,7 @@ function Boom(id, playerIndex) {
   this.line.position.x = x;
   this.line.position.y = userInterface.height / 2;
 
-  if (playerIndex === 0) {
+  if (againstPlayerIndex === 1) {
     this.circle.rotation = PI;
     this.splash.rotation = PI;
     this.line.rotation  = PI;

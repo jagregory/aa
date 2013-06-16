@@ -14,10 +14,10 @@ function Background(image) {
 
 Background.prototype = new Entity();
 
-Background.prototype.shake = function(playerIndex) {
-  this.sprite.gotoAndStop(playerIndex === 0 ? 1 : 2);
+Background.prototype.shake = function(againstPlayerIndex) {
+  this.sprite.gotoAndStop(againstPlayerIndex === 0 ? 2 : 1);
   setTimeout(function() {
-    this.sprite.gotoAndStop(playerIndex === 0 ? 2 : 1);
+    this.sprite.gotoAndStop(againstPlayerIndex === 0 ? 1 : 2);
   }.bind(this), 50);
   setTimeout(function() {
     this.sprite.gotoAndStop(0);

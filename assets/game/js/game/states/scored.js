@@ -5,12 +5,11 @@ var hub        = require('../../engine/hub');
 function Scored(engine, game) {
   
   this.enter = function(data) {
-    game.score(data.playerIndex);
-    engine.getEntity('stadium').shake(data.playerIndex);
-    engine.addEntity(new Boom('boom', data.playerIndex));
+    engine.getEntity('stadium').shake(data.againstIndex);
+    engine.addEntity(new Boom('boom', data.againstIndex));
     game.removeBall(data.ball);
     setTimeout(function() {
-      backToKickoff(data.playerIndex)
+      backToKickoff(data.againstIndex)
     }, 400);
   };
   
@@ -23,13 +22,12 @@ function Scored(engine, game) {
   this.on = function(message, args) {
   };
   
-  function backToKickoff(playerIndex) {
+  function backToKickoff(servingIndex) {
     engine.deleteEntity('boom');
-
     if (game.ballsInPlay.length >= 1) {
       game.transition('go');
     } else {
-      game.transition('ready', playerIndex);
+      game.transition('ready', servingIndex);
     }
   }
   

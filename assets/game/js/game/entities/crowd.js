@@ -15,8 +15,12 @@ Crowd.prototype.destroy = function() {
   hub.send('engine.sound.stop', sound('crowd'));
 };
 
-Crowd.prototype.cheer = function() {
-  hub.send('engine.sound.play', sound('crowd-scored', false));
+Crowd.prototype.cheer = function(args) {
+  if (args.againstIndex !== args.ball.kickedBy) {
+    hub.send('engine.sound.play', sound('crowd-scored', false));
+  } else {
+    hub.send('engine.sound.play', sound('crowd-oh', false));
+  }
 };
 
 Crowd.prototype.organ = function() {

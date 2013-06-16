@@ -44,6 +44,7 @@ function Game(engine, playerInfo) {
   this.sequencer.start();
 
   hub.on('game.score', function(data) {
+    this.score(1 - data.againstIndex);
     this.sequencer.transition('scored', data);
   }.bind(this));
 

@@ -18,8 +18,8 @@ function WarmUp(engine, game) {
   
   this.enter = function() {
 
-    var p1 = new Player('p1', game.players[0].name, startingPos[0], world.height / 2);
-    var p2 = new Player('p2', game.players[1].name, startingPos[1], world.height / 2);
+    var p1 = new Player('p1', 0, game.players[0].name, startingPos[0], world.height / 2);
+    var p2 = new Player('p2', 1, game.players[1].name, startingPos[1], world.height / 2);
     
     engine.addEntity(new Stadium());
     engine.addEntity(new Crowd());
@@ -29,7 +29,7 @@ function WarmUp(engine, game) {
     engine.addEntity(new ActionText('get-ready', 'GET READY!'));
 
     setTimeout(function() {
-      game.transition('ready');
+      game.transition('ready', 0);
     }, 2000);    
 
   };
