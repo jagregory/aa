@@ -5,6 +5,9 @@ var express = require('express');
 var routes = require('./src/routes');
 var bridge = require('./src/bridge');
 
+var Player  = require('./src/player');
+var game    = require('./src/game');
+
 var app = express();
 
 app.configure(function() {
@@ -25,7 +28,22 @@ server.listen(app.get('port'), function() {
 });
 
 io.sockets.on('connection', function(socket) {
-  bridge.connect(socket);
+  socket.on('identify', function() {
+    // gameview has identified itself
+    console.log('identify')
+    bridge.connect(socket)
+  })
+
+  socket.on('move', function(data) {
+    // player moved
+    console.log('player moved', data.player, data.action)
+
+    var p = Player.withId(data.player);
+    if (p) {
+      game.send(p, data.action);
+    }
+  })
+
   console.log('Established connection with gameview');
 });
 
