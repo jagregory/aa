@@ -2,31 +2,30 @@ var Entity = require('../../engine/entity');
 var GF = require('../../engine/graphics-factory');
 var userInterface = require('../../engine/user-interface');
 
-var TEXT_TOP          = 40;
-var PLAYERS_MARGIN_X  = 200;
-var SCORE_MARGIN_X    = 400;
+var TEXT_TOP          = userInterface.unit(3.25);
+var PLAYERS_MARGIN_X  = userInterface.unit(20);
 
 function Hud(text) {
   
   this.id = 'hud';
   
-  this.p1Name = GF.text('John Doe', 30, {fill: '#01518d', stroke: '#fff', strokeThickness: 3});
-  this.p1Name.position.x = PLAYERS_MARGIN_X - this.p1Name.width / 2;
+  this.p1Name = GF.text('John Doe', userInterface.unit(3), {fill: '#01518d', stroke: '#000', strokeThickness: 3 });
+  this.p1Name.position.x = userInterface.unit(20) - this.p1Name.width / 2;
   this.p1Name.position.y = TEXT_TOP;
 
-  this.p2Name = GF.text('John Doe', 30, {fill: '#bf0000', stroke: '#fff', strokeThickness: 3});
-  this.p2Name.position.x = userInterface.width - PLAYERS_MARGIN_X - this.p2Name.width / 2;
+  this.p2Name = GF.text('John Doe', userInterface.unit(3), {fill: '#bf0000', stroke: '#000', strokeThickness: 3 });
+  this.p2Name.position.x = userInterface.width - userInterface.unit(17) - this.p2Name.width / 2;
   this.p2Name.position.y = TEXT_TOP;
 
-  this.p1Score = GF.text('0', 30, {fill: '#fff', stroke: '#000', strokeThickness: 3});
-  this.p1Score.position.x = SCORE_MARGIN_X - this.p1Score.width / 2;
+  this.p1Score = GF.text('0', userInterface.unit(3), {fill: '#fff', stroke: '#000', strokeThickness: 3 });
+  this.p1Score.position.x = userInterface.unit(33.5) - this.p1Score.width / 2;
   this.p1Score.position.y = TEXT_TOP;
 
-  this.p2Score = GF.text('0', 30, {fill: '#fff', stroke: '#000', strokeThickness: 3});
-  this.p2Score.position.x = userInterface.width - SCORE_MARGIN_X - this.p2Score.width / 2;
+  this.p2Score = GF.text('0', userInterface.unit(3), {fill: '#fff', stroke: '#000', strokeThickness: 3 });
+  this.p2Score.position.x = userInterface.width - userInterface.unit(36) - this.p2Score.width / 2;
   this.p2Score.position.y = TEXT_TOP;
 
-  this.time = GF.text(fourDigits(0), 30, {fill: '#fff', stroke: '#000', strokeThickness: 3});
+  this.time = GF.text(fourDigits(0), userInterface.unit(3), {fill: '#fff', stroke: '#000', strokeThickness: 3 });
   this.time.position.x = userInterface.width / 2 - this.time.width / 2;
   this.time.position.y = TEXT_TOP;
     
