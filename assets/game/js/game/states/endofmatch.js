@@ -6,7 +6,7 @@ function EndOfMatch(engine, game) {
   this.enter = function() {
     engine.deleteEntity('ball');
     engine.addEntity(new ActionText('winner', winner()));
-    setTimeout(finish, 3000);
+    setTimeout(finish, 4000);
   };
   
   this.exit = function() {

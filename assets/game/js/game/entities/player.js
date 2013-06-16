@@ -5,7 +5,7 @@ var world       = require('../world');
 var hub         = require('../../engine/hub');
 
 var fixture = PF.fixture({
-  shape:      PF.shape.circle(1.5),
+  shape:      PF.shape.circle(1.7),
   dynamics:   {density: 1, friction: 0.5, restitution: 1},
   category:   PF.categories.PLAYER,
   collision:  PF.categories.ARENA | PF.categories.BALL
@@ -35,9 +35,9 @@ function Player(id, name, x, y) {
   };
   
   if (this.id === 'p1') {
-    this.sprite = GF.animation(['/game/images/cat.png', '/game/images/cat-up.png', '/game/images/cat-down.png'], 5, 5);
+    this.sprite = GF.animation(['/game/images/cat.png', '/game/images/cat-up.png', '/game/images/cat-down.png'], 6, 6);
   } else {
-    this.sprite = GF.animation(['/game/images/dog.png', '/game/images/dog-up.png', '/game/images/dog-down.png'], 5, 5);
+    this.sprite = GF.animation(['/game/images/dog.png', '/game/images/dog-up.png', '/game/images/dog-down.png'], 6, 6);
   }
   
 }
@@ -78,7 +78,7 @@ Player.prototype.collision = function(other, points) {
 
 Player.prototype.move = function(dir) {
   window.clearTimeout(this.endFlame);
-  var y = (dir === 'up') ? -23: 23;
+  var y = (dir === 'up') ? -30: 30;
   this.body.SetAwake(true);
   this.body.SetLinearVelocity(new Box2D.Common.Math.b2Vec2(0, y));
   if (y < 0) {

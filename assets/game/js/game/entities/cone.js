@@ -10,7 +10,7 @@ function Cone(id, x, y) {
   this.id = id;
   this.x  = x;
   this.y  = y;
-  this.sprite = GF.sprite('/game/images/cone.png', 2, 3.3);
+  this.sprite = GF.sprite('/game/images/cone.png', 2.5, 4);
   this.sprite.position.x = world.toPixels(x);
   this.sprite.position.y = world.toPixels(y);
 }

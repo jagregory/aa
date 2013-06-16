@@ -16,19 +16,12 @@ exports.clampVelocity = function(body, min, max) {
   }
 };
 
-// This isn't proper clamping
-// It also prevents the ball from going in a straight line 
-// Problem: the ball can go faster diagonally than straight
-// But: it prevents the ball from bouncing straight back and forth and being stuck
-exports.clampVelocityAvoidingStraight = function(body, min, max) {
+exports.clampXVelocity = function(body, min, max) {
   var vec = body.GetLinearVelocity();
-  if (vec.x != 0 && vec.y != 0) {
-    vec.x = exports.clampWithSign(vec.x, min, max);
-    vec.y = exports.clampWithSign(vec.y, min, max);  
-    body.SetLinearVelocity(vec);
+  if (vec.x != 0) {
+    vec.x = exports.clampWithSign(vec.x, 15, 35);
   }
 };
-
 
 exports.clampWithSign = function(val, min, max) {
   if (val > 0) {

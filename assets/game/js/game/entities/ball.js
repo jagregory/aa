@@ -5,11 +5,11 @@ var world       = require('../../engine/world');
 var mathUtils   = require('../../engine/math-utils');
 var hub         = require('../../engine/hub');
 
-var ballSize = 1.5;
+var ballSize = 2;
 
 var fixture = PF.fixture({
   shape:      PF.shape.circle(ballSize / 2),
-  dynamics:   {density: 1, friction: 0.1, restitution: 1},
+  dynamics:   {density: 1, friction: 1, restitution: 1},
   category:   PF.categories.BALL,
   collision:  PF.categories.ARENA | PF.categories.PLAYER
 });
@@ -29,7 +29,10 @@ Ball.prototype = new Entity();
 
 Ball.prototype.update = function(engine, game, delta) {  
   Entity.prototype.update.call(this, delta);
-  mathUtils.clampVelocityAvoidingStraight(this.body, 20, 30);
+  mathUtils.clampVelocity(this.body, 30, 40);
+  mathUtils.clampXVelocity(this.body, 15, 35);
+  this.body.SetAngularDamping(1.5);
+  
   // We should be able to specify "0.5", and not have to update it constantly
   // Need to check our changes to PIXI
   this.sprite.anchor.x = this.sprite.texture.width  / 2;
