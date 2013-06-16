@@ -52,22 +52,7 @@ function Game(engine, playerInfo) {
   }.bind(this));
 
   hub.on('game.multiball', function() {
-    var text = new ActionText('multiball', 'Multi-ball!');
-    this.engine.addEntity(text)
-
-    hub.send('engine.sound.play', { file: '/game/sounds/multiball.mp3' })
-
-    setTimeout(function() {
-      this.engine.deleteEntity(text.id)
-      var ball = this.createBall(-1, 1)
-      ball.kick(1)
-
-      ball = this.createBall(1, 1)
-      ball.kick(-1)
-
-      ball = this.createBall(0, -1)
-      ball.kick(-1)
-    }.bind(this), 1000)
+    this.multiball()
   }.bind(this))
 }
 
@@ -96,6 +81,26 @@ Game.prototype.move = function(pindex, dir) {
   var player = this.engine.getEntity(pindex === 0 ? 'p1' : 'p2');
   player.move(dir);
 };
+
+Game.prototype.multiball = function() {
+  var text = new ActionText('multiball', 'Multi-ball!');
+  this.engine.addEntity(text)
+
+  hub.send('engine.sound.play', { file: '/game/sounds/multiball.mp3' })
+
+  setTimeout(function() {
+    this.engine.deleteEntity(text.id)
+    
+    var ball = this.createBall(-1, 1)
+    ball.kick(1)
+
+    ball = this.createBall(1, 1)
+    ball.kick(-1)
+
+    ball = this.createBall(0, -1)
+    ball.kick(-1)
+  }.bind(this), 1000)
+}
 
 Game.prototype.clearBalls = function() {
   this.ballsInPlay.forEach(function(ball) {
