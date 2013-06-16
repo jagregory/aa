@@ -24,14 +24,14 @@ module.exports = function() {
 
   if ('ontouchstart' in window) {
     $('.button.up').on('touchstart', goUp);
-    // $('.button.up').on('touchend', stop);
+    $('.button.up').on('touchend', stop);
     $('.button.down').on('touchstart', goDown);
-    // $('.button.down').on('touchend', stop);
+    $('.button.down').on('touchend', stop);
   } else {
     $('.button.up').on('mousedown', goUp);
-    // $('.button.up').on('mouseup', stop);
+    $('.button.up').on('mouseup', stop);
     $('.button.down').on('mousedown', goDown);
-    // $('.button.down').on('mouseup', stop);
+    $('.button.down').on('mouseup', stop);
   }
   
 };
@@ -51,7 +51,6 @@ function goDown(e) {
 function stop(e) {
   e.preventDefault();
   $(e.currentTarget).removeClass('pressed');
-  sendAction('stop');
 }
 
 function sendAction(actionName) {
