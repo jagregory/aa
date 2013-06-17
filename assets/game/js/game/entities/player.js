@@ -3,6 +3,7 @@ var GF          = require('../../engine/graphics-factory');
 var Entity      = require('../../engine/entity');
 var world       = require('../world');
 var hub         = require('../../engine/hub');
+var assets      = require('../../assets');
 
 var fixture = PF.fixture({
   shape:      PF.shape.circle(1.7),
@@ -35,9 +36,9 @@ function Player(id, index, name, x, y) {
   };
   
   if (this.id === 'p1') {
-    this.sprite = GF.animation(['/game/images/cat.png', '/game/images/cat-up.png', '/game/images/cat-down.png'], 6, 6);
+    this.sprite = GF.animation(assets.images('cat', 'cat-up', 'cat-down'), 6, 6);
   } else {
-    this.sprite = GF.animation(['/game/images/dog.png', '/game/images/dog-up.png', '/game/images/dog-down.png'], 6, 6);
+    this.sprite = GF.animation(assets.images('dog', 'dog-up', 'dog-down'), 6, 6);
   }
   
 }

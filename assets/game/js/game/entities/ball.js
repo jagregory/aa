@@ -5,6 +5,7 @@ var world       = require('../../engine/world');
 var mathUtils   = require('../../engine/math-utils');
 var hub         = require('../../engine/hub');
 var MathUtils   = require('../../engine/math-utils')
+var assets      = require('../../assets');
 
 var ballSize = 2;
 
@@ -23,7 +24,7 @@ function Ball(id, x, y) {
     fixture: fixture
   };
 
-  this.sprite = GF.sprite('/game/images/ball.png', ballSize, ballSize);
+  this.sprite = GF.sprite(assets.image('ball'), ballSize, ballSize);
 };
 
 Ball.prototype = new Entity();

@@ -1,3 +1,5 @@
+var _ = require('../../3rdparty/underscore-min');
+
 var images = [
   'ball',
   'boom-circle', 'boom-line', 'boom-splash',
@@ -9,29 +11,38 @@ var images = [
   'particle-ball',
   'stadium', 'stadium-shake-left', 'stadium-shake-right',
   'title'
-];
+].reduce(imagePath, {});
 
 var sounds = [
   'bounce',
   'crowd', 'crowd-end', 'crown-oh', 'crowd-organ', 'crowd-scored',
   'intro', 'multiball', 'sax', 'whistle'
-];
+].reduce(soundPath, {});
 
-exports.images = images.reduce(function(acc, name) {
-  acc[name] = imagePath(name);
+function imagePath(acc, name) {
+  acc[name] = '/game/images/' + name + '.png';
   return acc;
-}, {});
-
-exports.sounds = sounds.reduce(function(name, acc) {
-  acc[name] = soundPath(name);
-  return acc;
-}, {});
-
-
-function imagePath(name) {
-  return '/game/images/' + name + '.png';
 }
 
-function soundPath(name) {
-  return '/game/sounds/' + name + '.mp3';
+function soundPath(acc, name) {
+  acc[name] = '/game/sounds/' + name + '.mp3';
+  return acc;
 }
+
+exports.image = function(name) {
+  return images[name];
+};
+
+exports.images = function(/*varargs*/) {
+  return Array.prototype.slice.apply(arguments).map(function(name) {
+    return images[name];
+  })
+};
+
+exports.allImages = function() {
+  return _.values(images);
+}
+
+exports.sound = function(name) {
+  return sounds[name];
+};

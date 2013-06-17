@@ -1,5 +1,6 @@
 var Entity      = require('../../engine/entity');
 var hub         = require('../../engine/hub');
+var assets      = require('../../assets');
 
 function Crowd() {
   this.id = 'crowd';
@@ -34,7 +35,7 @@ Crowd.prototype.end = function() {
 
 function sound(name, loop) {
   return {
-    file: '/game/sounds/' + name + '.mp3',
+    file: assets.sound(name),
     loop: loop
   };
 }

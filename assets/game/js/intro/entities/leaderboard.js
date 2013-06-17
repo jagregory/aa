@@ -1,6 +1,7 @@
-var Entity = require('../../engine/entity')
-var GF  = require('../../engine/graphics-factory');
+var Entity        = require('../../engine/entity')
+var GF            = require('../../engine/graphics-factory');
 var userInterface = require('../../engine/user-interface');
+var assets        = require('../../assets');
 
 var formatAsRank = function(num) {
   if (num === 1) {
@@ -35,7 +36,7 @@ function Leaderboard(id) {
   })
 
   this.sprites = [
-    GF.uiSprite('/game/images/leaderboard.png', userInterface.width, userInterface.height)
+    GF.uiSprite(assets.image('leaderboard'), userInterface.width, userInterface.height)
   ];
 
   var currentY = userInterface.unit(21)

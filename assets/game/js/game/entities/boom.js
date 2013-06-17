@@ -2,6 +2,7 @@ var GF            = require('../../engine/graphics-factory');
 var Entity        = require('../../engine/entity');
 var userInterface = require('../../engine/user-interface');
 var mathUtils     = require('../../engine/math-utils');
+var assets        = require('../../assets');
 
 var PI              = 3.14;
 var STRETCH_CIRCLE  =  80;  // millis
@@ -14,15 +15,15 @@ function Boom(id, againstPlayerIndex) {
   
   var x = (againstPlayerIndex === 0) ? 0 : userInterface.width;
   
-  this.circle = GF.uiSprite('/game/images/boom-circle.png', 0, userInterface.height / 2, 0);
+  this.circle = GF.uiSprite(assets.image('boom-circle'), 0, userInterface.height / 2, 0);
   this.circle.position.x = x;
   this.circle.position.y = userInterface.height / 2;
 
-  this.splash = GF.uiSprite('/game/images/boom-splash.png', 0, userInterface.height / 1.2, 0);
+  this.splash = GF.uiSprite(assets.image('boom-splash'), 0, userInterface.height / 1.2, 0);
   this.splash.position.x = x;
   this.splash.position.y = userInterface.height / 2;
 
-  this.line = GF.uiSprite('/game/images/boom-line.png', 0, userInterface.height / 4, 0);
+  this.line = GF.uiSprite(assets.image('boom-line'), 0, userInterface.height / 4, 0);
   this.line.position.x = x;
   this.line.position.y = userInterface.height / 2;
 

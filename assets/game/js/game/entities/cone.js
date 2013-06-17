@@ -3,6 +3,7 @@ var PF          = require('../../engine/physics-factory');
 var GF          = require('../../engine/graphics-factory');
 var Entity      = require('../../engine/entity');
 var world       = require('../../engine/world');
+var assets      = require('../../assets');
 
 var PI = 3.14159;
 
@@ -10,7 +11,7 @@ function Cone(id, x, y) {
   this.id = id;
   this.x  = x;
   this.y  = y;
-  this.sprite = GF.sprite('/game/images/cone.png', 2.5, 4);
+  this.sprite = GF.sprite(assets.image('cone'), 2.5, 4);
   this.sprite.position.x = world.toPixels(x);
   this.sprite.position.y = world.toPixels(y);
 }

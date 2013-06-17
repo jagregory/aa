@@ -1,11 +1,12 @@
-var Entity = require('../../engine/entity')
-var GF  = require('../../engine/graphics-factory');
+var Entity        = require('../../engine/entity')
+var GF            = require('../../engine/graphics-factory');
 var userInterface = require('../../engine/user-interface');
+var assets        = require('../../assets');
 
 function Title(id) {
   
   this.id = id;
-  this.sprite = GF.uiSprite('/game/images/title.png', userInterface.width, userInterface.height);
+  this.sprite = GF.uiSprite(assets.image('title'), userInterface.width, userInterface.height);
 
 };
 

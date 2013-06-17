@@ -1,15 +1,12 @@
 var GF          = require('../../engine/graphics-factory');
 var Entity      = require('../../engine/entity');
 var world       = require('../../engine/world');
+var assets      = require('../../assets');
 var gameWorld   = require('../world');
 
 function Background(image) {
   this.id = 'background';
-  this.sprite = GF.animation([
-    '/game/images/stadium.png',
-    '/game/images/stadium-shake-right.png',
-    '/game/images/stadium-shake-left.png'
-  ], gameWorld.width, gameWorld.height);
+  this.sprite = GF.animation(assets.images('stadium', 'stadium-shake-right', 'stadium-shake-left'), gameWorld.width, gameWorld.height);
 }
 
 Background.prototype = new Entity();

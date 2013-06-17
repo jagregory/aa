@@ -1,8 +1,7 @@
-var _       = require('../../3rdparty/underscore-min');
-var assets  = require('./assets');
+var assets = require('./assets');
 
 function loadImages(callback) {
-  var assetLoader = new PIXI.AssetLoader(_.values(assets.images));
+  var assetLoader = new PIXI.AssetLoader(assets.allImages());
   assetLoader.onComplete = callback;
   assetLoader.load();
 }
