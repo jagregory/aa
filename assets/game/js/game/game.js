@@ -31,7 +31,7 @@ function Game(engine, playerInfo) {
       {   name: 'startup',  from: 'none',                                   to: 'warmup'       },
       {   name: 'ready',    from: ['warmup', 'scored'],                     to: 'kickoff'      },
       {   name: 'go',       from: ['scored', 'kickoff'],                    to: 'play'         },
-      {   name: 'scored',   from: 'play',                                   to: 'scored'       },
+      {   name: 'scored',   from: ['play', 'scored'],                       to: 'scored'       },
       {   name: 'end',      from: ['warmup', 'kickoff', 'play', 'scored'],  to: 'endofmatch'   },
   ];
   
