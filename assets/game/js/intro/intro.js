@@ -7,7 +7,7 @@ function Intro(engine) {
   this.current = 0;
   this.switch(engine);
   this.switchTimer = window.setInterval(_.bind(this.switch, this, engine), 10000);
-  hub.send('engine.sound.play', {file: '/game/sounds/intro.mp3'});
+  hub.send('engine.sound.play', {file: '/game/sounds/intro.mp3', loop: true});
 }
 
 Intro.prototype.update = function(engine, delta) {
