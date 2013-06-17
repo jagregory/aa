@@ -20,22 +20,28 @@ function Game(engine, playerInfo) {
   this.roundNumber = 1
 
   var states = {
-    'warmup':     require('./states/warmup'),
-    'kickoff':    require('./states/kickoff'),
-    'play':       require('./states/play'),
-    'scored':     require('./states/scored'),
-    'endofmatch': require('./states/endofmatch')
+    'warmup':           require('./states/warmup'),
+    'kickoff':          require('./states/kickoff'),
+    'play':             require('./states/play'),
+    'scored':           require('./states/scored'),
+    'multiball-start':  require('./states/multiball-start'),
+    'multiball-play':   require('./states/multiball-play'),
+    'multiball-scored': require('./states/multiball-scored'),
+    'endofmatch':       require('./states/endofmatch')
   };
 
   var transitions = [
-      {   name: 'startup',  from: 'none',                                   to: 'warmup'       },
-      {   name: 'ready',    from: ['warmup', 'scored'],                     to: 'kickoff'      },
-      {   name: 'go',       from: ['scored', 'kickoff'],                    to: 'play'         },
-      {   name: 'scored',   from: 'play',                                   to: 'scored'       },
-      {   name: 'end',      from: ['warmup', 'kickoff', 'play', 'scored'],  to: 'endofmatch'   },
+      {   name: 'startup',   from: 'none',                                   to: 'warmup'            },
+      {   name: 'ready',     from: ['warmup', 'scored'],                     to: 'kickoff'           },
+      {   name: 'go',        from: ['scored', 'kickoff'],                    to: 'play'              },
+      {   name: 'scored',    from: 'play',                                   to: 'scored'            },
+      {   name: 'multiball', from: ['play', 'scored', 'kickoff'],            to: 'multiball-start'   },
+      {   name: 'go',        from: ['multiball-start', 'multiball-scored'],  to: 'multiball-play'    },
+      {   name: 'scored',    from: 'multiball-play',                         to: 'multiball-scored'  },
+      {   name: 'end',       from: ['warmup', 'kickoff', 'play', 'scored'],  to: 'endofmatch'        },
   ];
   
-  this.duration = 60;
+  this.duration = 25;
   this.timeRemaining = this.duration * 1000;
   this.ballsInPlay = []
   
@@ -83,67 +89,9 @@ Game.prototype.move = function(pindex, dir) {
   player.move(dir);
 };
 
-Game.prototype.multiball = function() {
-  var text = new ActionText('multiball', 'Multi-ball!');
-  this.engine.addEntity(text)
-
-  hub.send('engine.sound.play', { file: '/game/sounds/multiball.mp3' })
-  setTimeout(function() {
-    hub.send('engine.sound.play', { file: '/game/sounds/sax.mp3' });
-  }, 2000);
-
-  setTimeout(function() {
-    this.engine.deleteEntity(text.id)
-    
-    var ball = this.createBall(-1, 1)
-    ball.kick(1)
-
-    ball = this.createBall(1, 1)
-    ball.kick(-1)
-
-    ball = this.createBall(0, -1)
-    ball.kick(-1)
-  }.bind(this), 1000)
-}
-
-Game.prototype.clearBalls = function() {
-  this.ballsInPlay.forEach(function(ball) {
-    this.removeBall(ball)
-  }.bind(this))
-  this.ballsInPlay = []
-}
-
 Game.prototype.removeBall = function(ball) {
-  this.engine.deleteEntity(ball.id)
-  this.ballsInPlay = this.ballsInPlay.filter(function(b) { return b !== ball })
-}
-
-Game.prototype.createBall = function(x, y) {
-  var ballStartY = null
-  var ballStartX = null
-
-  if (x === -1) {
-    ballStartX = world.width / 5
-  } else if (x === 0) {
-    ballStartX = world.width / 2
-  } else {
-    ballStartX = (world.width / 5) * 4
-  }
-
-  if (y === -1) {
-    ballStartY = world.height / 5
-  } else if (y === 0) {
-    ballStartY = world.height / 2
-  } else {
-    ballStartY = (world.height / 5) * 4
-  }
-
-  var ball = new Ball('ball:'+this.ballsInPlay.length, ballStartX, ballStartY)
-
-  this.engine.addEntity(ball)
-  this.ballsInPlay.push(ball)
-
-  return ball
+  this.engine.deleteEntity(ball.id);
+  this.ballsInPlay = this.ballsInPlay.filter(function(b) { return b !== ball });
 }
 
 module.exports = Game;

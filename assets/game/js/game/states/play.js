@@ -1,12 +1,6 @@
-var TimeBasedMessage  = require('../time-based-message');
 var mathUtils         = require('../../engine/math-utils');
 
 function Play(engine, game) {
-  
-  var finalCountdown  = new TimeBasedMessage(8000, 'game.finishing');
-  var multiBall       = new TimeBasedMessage(30000, 'game.multiball');
-  var endOfMatch      = new TimeBasedMessage(0, 'game.end');
-  // TimeBasedMessage  half-time!
   
   this.enter = function() {
   };
@@ -16,9 +10,11 @@ function Play(engine, game) {
   
   this.update = function(delta) {
     game.timeRemaining = Math.max(game.timeRemaining - delta, 0);
-    finalCountdown.update(game.timeRemaining);
-    multiBall.update(game.timeRemaining);
-    endOfMatch.update(game.timeRemaining);
+    if (game.timeRemaining < 15000) {
+      game.transition('multiball');
+    } else if (game.timeRemaining === 0) {
+      hub.send('game.end');
+    }
   };
   
   this.on = function(message, args) {

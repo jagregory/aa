@@ -13,8 +13,7 @@ function KickOff(engine, game) {
   this.enter = function(lastScoringPlayerId) {
     var pitchPosition = (lastScoringPlayerId === 0) ? -1 : 1
     ballDirection = pitchPosition * -1
-    game.clearBalls()
-    firstBall = game.createBall(pitchPosition, 0)
+    firstBall = createBall(pitchPosition, 0);
 
     text = new ActionText('countdown', '');
     engine.addEntity(text);
@@ -46,6 +45,33 @@ function KickOff(engine, game) {
     firstBall.kick(ballDirection)
     game.transition('go');
   }
+  
+  function createBall(x, y) {
+    var ballStartY = null
+    var ballStartX = null
+
+    if (x === -1) {
+      ballStartX = world.width / 5
+    } else if (x === 0) {
+      ballStartX = world.width / 2
+    } else {
+      ballStartX = (world.width / 5) * 4
+    }
+
+    if (y === -1) {
+      ballStartY = world.height / 5
+    } else if (y === 0) {
+      ballStartY = world.height / 2
+    } else {
+      ballStartY = (world.height / 5) * 4
+    }
+
+    var ball = new Ball('ball:' + game.ballsInPlay.length, ballStartX, ballStartY);
+    engine.addEntity(ball);
+    game.ballsInPlay.push(ball);
+    return ball;
+  }
+
   
 }
 

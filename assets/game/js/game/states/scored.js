@@ -24,11 +24,7 @@ function Scored(engine, game) {
   
   function backToKickoff(servingIndex) {
     engine.deleteEntity('boom');
-    if (game.ballsInPlay.length >= 1) {
-      game.transition('go');
-    } else {
-      game.transition('ready', servingIndex);
-    }
+    game.transition('ready', servingIndex);
   }
   
 }
