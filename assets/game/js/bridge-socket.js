@@ -2,7 +2,7 @@ var io = require('../../3rdparty/socket.io.min');
 
 exports.connect = function(matchStart, playerMove) {
 
-  var socket = io.connect('http://localhost:8080');
+  var socket = io.connect('/');
 
   socket.emit('identify')
   socket.on('match-start', matchStart);
