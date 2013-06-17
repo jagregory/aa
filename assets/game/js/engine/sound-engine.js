@@ -8,10 +8,9 @@ function Sound() {
   function play(args) {
     var sound = new Audio();
     current[args.file] = sound;
-    sound.setAttribute('src', args.file);
-    if (args.loop) {
-      sound.setAttribute('loop', true);
-    }
+    sound.src = args.file;
+    if (args.volume !== undefined) { sound.volume = args.volume; }
+    if (args.loop)                 { sound.loop = true; }
     sound.play();
     return sound;
   };
