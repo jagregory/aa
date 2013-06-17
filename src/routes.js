@@ -69,7 +69,7 @@ exports.register = function(app) {
         var gamePlayer = Player.withId(player.id)
 
         if (gamePlayer) {
-          gamePlayer.topScore += player.score
+          gamePlayer.topScore += parseInt(player.score)
         }
       })
     } else {
