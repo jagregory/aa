@@ -22,20 +22,20 @@ function Stadium() {
   
   this.entities.push(new Wall('wall-top',               width / 2,      top,                width,   1,               0));
   this.entities.push(new Wall('wall-bottom',            width / 2,      bottom,             width,   1,               0));
-  this.entities.push(new Wall('wall-left1',             left  + 2.8,    height * 1.0/6,     1,       height / 2.5,    0.15));
-  this.entities.push(new Wall('wall-left2',             left  + 1.1,    height * 4.9/6,     1,       height / 2.5,    0.05));
-  this.entities.push(new Wall('wall-right1',            right - 2.5,    height * 1.0/6,     1,       height / 2.5,   -0.10));
-  this.entities.push(new Wall('wall-right2',            right - 1.2,    height * 4.9/6,     1,       height / 2.5,   -0.05));
-  this.entities.push(new Wall('wall-goal-left-top',     0,              height / 2 - 5.4,   4,       1,               0));
-  this.entities.push(new Wall('wall-goal-left-bottom',  0,              height / 2 + 4.2,   2.7,     1,               0));
-  this.entities.push(new Wall('wall-goal-right-top',    width,          height / 2 - 5.4,   4,       1,               0));
-  this.entities.push(new Wall('wall-goal-right-bottom', width,          height / 2 + 4.1,   2.5,     1,               0));
+  this.entities.push(new Wall('wall-left1',             left  + 2.8,    height * 0.85/6,    1,       height / 2.5,    0.08));
+  this.entities.push(new Wall('wall-left2',             left  + 1.1,    height * 5.10/6,    1,       height / 2.5,    0.05));
+  this.entities.push(new Wall('wall-right1',            right - 2.7,    height * 0.85/6,    1,       height / 2.5,   -0.06));
+  this.entities.push(new Wall('wall-right2',            right - 1.2,    height * 5.10/6,    1,       height / 2.5,   -0.05));
+  this.entities.push(new Wall('wall-goal-left-top',     0,              height / 2 - 6.5,   4,       1,               0));
+  this.entities.push(new Wall('wall-goal-left-bottom',  0,              height / 2 + 5.5,   2.7,     1,               0));
+  this.entities.push(new Wall('wall-goal-right-top',    width,          height / 2 - 6.5,   4,       1,               0));
+  this.entities.push(new Wall('wall-goal-right-bottom', width,          height / 2 + 5.5,   2.5,     1,               0));
     
   this.entities.push(new Cone('cone1', width / 12 * 5,   height / 5 * 1.5));
   this.entities.push(new Cone('cone2', width / 12 * 7,   height / 5 * 3.5));
   
-  this.entities.push(new Goal('goalp1', 0,  0,            height / 2, 0.5, 10));
-  this.entities.push(new Goal('goalp2', 1,  world.width,  height / 2, 0.5, 10));
+  this.entities.push(new Goal('goalp1', 0,  0,            height / 2, 0.5, 14));
+  this.entities.push(new Goal('goalp2', 1,  world.width,  height / 2, 0.5, 14));
   
 }
 
