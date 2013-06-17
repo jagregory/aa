@@ -31,8 +31,8 @@ Ball.prototype = new Entity();
 
 Ball.prototype.update = function(engine, game, delta) {  
   Entity.prototype.update.call(this, delta);
-  mathUtils.clampXVelocity(this.body, 25, 35);
-  mathUtils.clampYVelocity(this.body, 15, 25);
+  mathUtils.clampXVelocity(this.body, 28, 38);
+  mathUtils.clampYVelocity(this.body, 15, 23);
   this.body.SetAngularDamping(1.5);
   
   // We should be able to specify "0.5", and not have to update it constantly
