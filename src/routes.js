@@ -63,21 +63,13 @@ exports.register = function(app) {
   app.post('/game/status', function(req, res) {
     var players = req.body.players
 
-    if (_.uniq(_.pluck(players, 'score')).length === 1) {
-      // we have a draw! everybody wins
-      req.body.players.forEach(function(player) {
-        var gamePlayer = Player.withId(player.id)
+    req.body.players.forEach(function(player) {
+      var gamePlayer = Player.withId(player.id)
 
-        if (gamePlayer) {
-          gamePlayer.topScore += parseInt(player.score)
-        }
-      })
-    } else {
-      // only bump the winning player's score
-      var winner = _.max(req.body.players, function(player) { return player.score })
-      var winningPlayer = Player.withId(winner.id)
-      winningPlayer.topScore += parseInt(winner.score)
-    }
+      if (gamePlayer) {
+        gamePlayer.topScore += parseInt(player.score)
+      }
+    })
 
     Player.saveAll()
 
