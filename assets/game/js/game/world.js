@@ -1,4 +1,4 @@
 
-// Most screens will have a ratio of 16/9 or 16/10
+// The big TV for the game is 16:9
 exports.width  = 60;
-exports.height = 60 / (16/10);
+exports.height = 60 / (16/9);

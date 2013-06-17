@@ -8,10 +8,10 @@ var world           = require('../world');
 var PI     = 3.14159;
 var width  = world.width;
 var height = world.height;
-var top    = 3.8;
+var top    = 3.4;
 var left   = 0.5;
 var right  = world.width  - 0.5;
-var bottom = world.height - 2.7;
+var bottom = world.height - 2.4;
 
 function Stadium() {
   
@@ -26,10 +26,10 @@ function Stadium() {
   this.entities.push(new Wall('wall-left2',             left  + 1.1,    height * 5.10/6,    1,       height / 2.5,    0.05));
   this.entities.push(new Wall('wall-right1',            right - 2.7,    height * 0.85/6,    1,       height / 2.5,   -0.06));
   this.entities.push(new Wall('wall-right2',            right - 1.2,    height * 5.10/6,    1,       height / 2.5,   -0.05));
-  this.entities.push(new Wall('wall-goal-left-top',     0,              height / 2 - 6.5,   4,       1,               0));
-  this.entities.push(new Wall('wall-goal-left-bottom',  0,              height / 2 + 5.5,   2.7,     1,               0));
-  this.entities.push(new Wall('wall-goal-right-top',    width,          height / 2 - 6.5,   4,       1,               0));
-  this.entities.push(new Wall('wall-goal-right-bottom', width,          height / 2 + 5.5,   2.5,     1,               0));
+  this.entities.push(new Wall('wall-goal-left-top',     0,              height / 2 - 6.0,   4,       1,               0));
+  this.entities.push(new Wall('wall-goal-left-bottom',  0,              height / 2 + 5.1,   2.7,     1,               0));
+  this.entities.push(new Wall('wall-goal-right-top',    width,          height / 2 - 5.9,   4,       1,               0));
+  this.entities.push(new Wall('wall-goal-right-bottom', width,          height / 2 + 5.1,   2.5,     1,               0));
     
   this.entities.push(new Cone('cone1', width / 12 * 5,   height / 5 * 1.5));
   this.entities.push(new Cone('cone2', width / 12 * 7,   height / 5 * 3.5));

@@ -39,7 +39,7 @@ function Leaderboard(id) {
     GF.uiSprite(assets.image('leaderboard'), userInterface.width, userInterface.height)
   ];
 
-  var currentY = userInterface.unit(21)
+  var currentY = userInterface.unit(18.6)
   var i = 1
 
   this.players.forEach(function(player) {
@@ -63,7 +63,7 @@ function Leaderboard(id) {
     scoreSprite.position.y = currentY
     this.sprites.push(scoreSprite)
     
-    currentY += playerNameSprite.height + userInterface.unit(1.7)
+    currentY += playerNameSprite.height + userInterface.unit(1.2)
     i += 1
   }.bind(this))
 }

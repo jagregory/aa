@@ -16,7 +16,7 @@ function Winner(id, p1, p2) {
   if (p1.score != p2.score) {
     this.name = GF.text(name, 45, {fill: '#01518d', stroke: '#fff', strokeThickness: 3});
     this.name.position.x = userInterface.width / 2 - this.name.width / 2 - 20;
-    this.name.position.y = userInterface.unit(16.6);
+    this.name.position.y = userInterface.unit(15);
   }
   
 };

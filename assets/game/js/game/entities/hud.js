@@ -2,7 +2,7 @@ var Entity = require('../../engine/entity');
 var GF = require('../../engine/graphics-factory');
 var userInterface = require('../../engine/user-interface');
 
-var TEXT_TOP          = userInterface.unit(3.25);
+var TEXT_TOP          = userInterface.unit(2.85);
 var PLAYERS_MARGIN_X  = userInterface.unit(20);
 
 function Hud(text) {
