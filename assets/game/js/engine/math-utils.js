@@ -43,7 +43,7 @@ exports.clamp = function(val, min, max) {
 };
 
 exports.randomBetween = function(min, max) {
-  return Math.floor(Math.random() * max) + min;
+  return Math.floor(Math.random() * (max-min)) + min;
 };
 
 exports.randomSign = function() {
