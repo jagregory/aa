@@ -31,8 +31,8 @@ function Stadium() {
   this.entities.push(new Wall('wall-goal-right-top',    width,          height / 2 - 5.9,   4,       1,               0));
   this.entities.push(new Wall('wall-goal-right-bottom', width,          height / 2 + 5.1,   2.5,     1,               0));
     
-  this.entities.push(new Cone('cone1', width / 12 * 5,   height / 5 * 1.5));
-  this.entities.push(new Cone('cone2', width / 12 * 7,   height / 5 * 3.5));
+  this.entities.push(new Cone('cone1', width / 12 * 6,   height / 5 * 1.5));
+  this.entities.push(new Cone('cone2', width / 12 * 6,   height / 5 * 3.5));
   
   this.entities.push(new Goal('goalp1', 0,  0,            height / 2, 0.5, 14));
   this.entities.push(new Goal('goalp2', 1,  world.width,  height / 2, 0.5, 14));
