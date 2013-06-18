@@ -15,7 +15,7 @@ var images = [
 
 var sounds = [
   'bounce',
-  'crowd', 'crowd-end', 'crown-oh', 'crowd-organ', 'crowd-scored',
+  'crowd', 'crowd-end', 'crowd-oh', 'crowd-organ', 'crowd-scored',
   'intro', 'multiball', 'sax', 'whistle'
 ].reduce(soundPath, {});
 
