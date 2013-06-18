@@ -20,14 +20,19 @@ exports.fixture = function(options) {
 };
 
 exports.shape = {
-  circle: function(radius) {
+  circle: function(radius, pos) {
     var cs = new Box2D.Collision.Shapes.b2CircleShape;
     cs.SetRadius(radius);
+    if (pos) {
+      cs.SetLocalPosition(pos);
+    }
     return cs;
   },
-  box: function(width, height) {
+  box: function(width, height, pos, angle) {
     var ps = new Box2D.Collision.Shapes.b2PolygonShape;
-    ps.SetAsBox(width / 2, height / 2);   // half-width, half-height
+    var pos = pos || new Box2D.Common.Math.b2Vec2(0,0);
+    var angle = angle || 0;
+    ps.SetAsOrientedBox(width / 2, height / 2, pos, angle);   // half-width, half-height
     return ps;
   }
 };

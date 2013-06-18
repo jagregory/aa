@@ -7,20 +7,33 @@ var assets      = require('../../assets');
 
 var PI = 3.14159;
 
+var fixtureOpts = {
+  dynamics:   {density: 1.5, friction: 1, restitution: 1},
+  category:   PF.categories.ARENA,
+  collision:  PF.categories.ALL
+};
+
 function Cone(id, x, y) {
   this.id = id;
-  this.x  = x;
-  this.y  = y;
   this.sprite = GF.sprite(assets.image('cone'), 2.5, 4);
-  this.sprite.position.x = world.toPixels(x);
-  this.sprite.position.y = world.toPixels(y);
+  this.bodySpec = {
+    body: PF.dynamic({ x: x, y: y, fixedRotation: true }),
+    fixture: PF.fixture(_.extend(fixtureOpts, {
+      shape: PF.shape.circle(0.7, new Box2D.Common.Math.b2Vec2(0,0.6))
+    }))
+  };
 }
 
 Cone.prototype = new Entity();
 
 Cone.prototype.create = function(engine, game) {
-  engine.graphics.add(this.sprite);
-  this.createCompoundBody(engine, this.x, this.y);
+  Entity.prototype.create.call(this, engine, game);
+  var otherFixture = PF.fixture(_.extend(fixtureOpts, {
+    shape: PF.shape.box(0.7, 1.9, new Box2D.Common.Math.b2Vec2(0,-0.1))
+  }));
+  otherFixture.userData = this;
+  this.body.CreateFixture(otherFixture);
+  this.body.SetLinearDamping(6);
 };
 
 Cone.prototype.destroy = function(engine, game) {
@@ -31,29 +44,11 @@ Cone.prototype.destroy = function(engine, game) {
 
 Cone.prototype.update = function(engine, game, delta) {
   Entity.prototype.update.call(this, delta);
+  this.sprite.position.y += 1;
   // We should be able to specify "0.5", and not have to update it constantly
   // Need to check our changes to PIXI
   this.sprite.anchor.x = this.sprite.texture.width  / 2;
   this.sprite.anchor.y = this.sprite.texture.height / 3;
-};
-
-Cone.prototype.createCompoundBody = function(engine, x, y) {
-  var fixtureOps = {
-    dynamics:   {density: 1, friction: 0, restitution: 1},
-    category:   PF.categories.ARENA,
-    collision:  PF.categories.ALL
-  };
-  
-  var part1body    = PF.static({x: x, y: y + 0.4, angle: PI / 4.5});
-  var part2body    = PF.static({x: x, y: y - 0.1});
-  var part1fixture = PF.fixture(_.extend(fixtureOps, {shape: PF.shape.circle(0.7)}));
-  var part2fixture = PF.fixture(_.extend(fixtureOps, {shape: PF.shape.box(0.7, 1.9)}));
-  
-  part1fixture.userData = this;
-  part2fixture.userData = this;
-  
-  this.body1 = engine.physics.create(part1body, part1fixture);
-  this.body2 = engine.physics.create(part2body, part2fixture);
 };
 
 module.exports = Cone;
