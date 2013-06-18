@@ -89,7 +89,7 @@ ParticlePool.prototype.release = function(particles) {
     var entry = _.findWhere(this.pool, { particle: particle })
     entry.free = true
   }.bind(this))
-  console.log('Released ' + particles.length + ' particles')
+  // console.log('Released ' + particles.length + ' particles')
 }
 
 var particlePool = new ParticlePool(5000)
