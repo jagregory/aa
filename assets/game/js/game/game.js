@@ -97,10 +97,10 @@ Game.prototype.multiball = function() {
     
     var ball = this.createBall(-1, 1)
     ball.kick(1)
-
+    ball = this.createBall(1, 1)
+    ball.kick(1)
     ball = this.createBall(1, 1)
     ball.kick(-1)
-
     ball = this.createBall(0, -1)
     ball.kick(-1)
   }.bind(this), 1000)
