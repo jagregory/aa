@@ -6,10 +6,21 @@ function Scored(engine, game) {
   
   this.enter = function(data) {
     engine.getEntity('stadium').shake(data.againstIndex);
-    engine.addEntity(new Boom('boom', data.againstIndex));
+    engine.addEntity(new Boom('boom' + data.ball.id, data.againstIndex));
     game.removeBall(data.ball);
+    
+    if (game.ballsInPlay.length >= 1) {
+      setTimeout(function() {
+        game.transition('go');
+      }, 2);
+    } else {
+      setTimeout(function() {
+        game.transition('ready', data.againstIndex);
+      }, 400);
+    }
+    
     setTimeout(function() {
-      backToKickoff(data.againstIndex)
+      engine.deleteEntity('boom' + data.ball.id);
     }, 400);
   };
   
@@ -21,15 +32,6 @@ function Scored(engine, game) {
   
   this.on = function(message, args) {
   };
-  
-  function backToKickoff(servingIndex) {
-    engine.deleteEntity('boom');
-    if (game.ballsInPlay.length >= 1) {
-      game.transition('go');
-    } else {
-      game.transition('ready', servingIndex);
-    }
-  }
   
 }
 
