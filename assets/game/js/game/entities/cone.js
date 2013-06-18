@@ -3,6 +3,7 @@ var PF          = require('../../engine/physics-factory');
 var GF          = require('../../engine/graphics-factory');
 var Entity      = require('../../engine/entity');
 var world       = require('../../engine/world');
+var hub         = require('../../engine/hub');
 var assets      = require('../../assets');
 
 var PI = 3.14159;
@@ -42,6 +43,13 @@ Cone.prototype.update = function(engine, game, delta) {
   // Need to check our changes to PIXI
   this.sprite.anchor.x = this.sprite.texture.width  / 2;
   this.sprite.anchor.y = this.sprite.texture.height / 3;
+};
+
+Cone.prototype.collision = function(other, points) {    
+  if (other.id.match(/ball/)) {
+    other.kickedBy = this.index;
+    hub.send('engine.sound.play', {file: '/game/sounds/bounce.mp3'});
+  }
 };
 
 module.exports = Cone;
