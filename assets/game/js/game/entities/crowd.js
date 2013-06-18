@@ -4,7 +4,7 @@ var assets      = require('../../assets');
 
 function Crowd() {
   this.id = 'crowd';
-  hub.send('engine.sound.play', sound('crowd', true));
+  hub.send('engine.sound.play', sound('crowd', true, 0.7));
   hub.on('game.score', this.cheer.bind(this));
   hub.on('game.finishing', this.organ.bind(this));
   hub.on('game.end', this.end.bind(this));
@@ -25,18 +25,19 @@ Crowd.prototype.cheer = function(args) {
 };
 
 Crowd.prototype.organ = function() {
-  hub.send('engine.sound.play', sound('crowd-organ', false));
+  // hub.send('engine.sound.play', sound('crowd-organ', false));
 };
 
 Crowd.prototype.end = function() {
-  hub.send('engine.sound.stop', sound('crowd-organ'));
-  hub.send('engine.sound.play', sound('crowd-end', false));
+  // hub.send('engine.sound.stop', sound('crowd-organ'));
+  // hub.send('engine.sound.play', sound('crowd-end', false));
 };
 
-function sound(name, loop) {
+function sound(name, loop, volume) {
   return {
     file: assets.sound(name),
-    loop: loop
+    loop: loop,
+    volume: volume || 1
   };
 }
 

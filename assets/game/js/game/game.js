@@ -89,7 +89,7 @@ Game.prototype.multiball = function() {
 
   hub.send('engine.sound.play', { file: '/game/sounds/multiball.mp3' })
   setTimeout(function() {
-    hub.send('engine.sound.play', { file: '/game/sounds/sax.mp3' });
+    hub.send('engine.sound.play', { file: '/game/sounds/sax.mp3', volume: 0.9 });
   }, 2000);
 
   setTimeout(function() {
