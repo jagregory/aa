@@ -10,9 +10,14 @@ var game    = require('./src/game');
 
 var app = express();
 
+var logFile = fs.createWriteStream('./app.log', { flags: 'a' })
+
 app.configure(function() {
   app.set('port', process.env.port || 8080)
-  app.use(express.logger('dev'));
+  app.use(express.logger({
+    format: 'default',
+    stream: logFile
+  }));
   app.use(express.bodyParser());
   app.use(express.compress());
   app.use(express.static('builtAssets'));
