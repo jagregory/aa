@@ -7,11 +7,20 @@ function GraphicsEngine(world, gameView, debugView) {
   this.view         = this.renderer.view;
   this.debugView    = debugView;
   
-  var ratio = world.width / world.height;
-  var width = Math.floor(gameView.height * ratio);
+  var worldRatio  = world.width / world.height;
+  var screenRatio = gameView.width / gameView.height;
   
-  gameView.width  = width;
-  debugView.width  = width;
+  var width, height;
+  if (screenRatio > worldRatio) {
+    width  = Math.floor(gameView.height * worldRatio);
+    height = gameView.height;
+  } else {
+    width  = gameView.width;
+    height = Math.floor(gameView.width / worldRatio);
+  }
+  
+  gameView.width  = debugView.width  = width;
+  gameView.height = debugView.height = height
   userInterface.resize(gameView.width, gameView.height);
   this.renderer.resize(gameView.width, gameView.height);
   
