@@ -36,14 +36,8 @@ Cone.prototype.create = function(engine, game) {
   this.body.SetLinearDamping(6);
 };
 
-Cone.prototype.destroy = function(engine, game) {
-  engine.graphics.remove(this.sprite);
-  engine.physics.destroy(this.body);
-};
-
 Cone.prototype.update = function(engine, game, delta) {
   Entity.prototype.update.call(this, delta);
-  this.sprite.position.y += 1;
   // We should be able to specify "0.5", and not have to update it constantly
   // Need to check our changes to PIXI
   this.sprite.anchor.x = this.sprite.texture.width  / 2;
