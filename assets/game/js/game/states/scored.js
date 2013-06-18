@@ -12,11 +12,11 @@ function Scored(engine, game) {
     if (game.ballsInPlay.length >= 1) {
       setTimeout(function() {
         game.transition('go');
-      }, 2);
+      }, 1);
     } else {
       setTimeout(function() {
         game.transition('ready', data.againstIndex);
-      }, 400);
+      }, 1);
     }
     
     setTimeout(function() {
