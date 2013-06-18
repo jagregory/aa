@@ -37,9 +37,8 @@ Cone.prototype.create = function(engine, game) {
 };
 
 Cone.prototype.destroy = function(engine, game) {
-  engine.graphics.add(this.sprite);
-  engine.physics.destroy(this.body1);
-  engine.physics.destroy(this.body2);
+  engine.graphics.remove(this.sprite);
+  engine.physics.destroy(this.body);
 };
 
 Cone.prototype.update = function(engine, game, delta) {
