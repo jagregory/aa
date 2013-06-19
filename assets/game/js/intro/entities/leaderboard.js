@@ -17,10 +17,10 @@ var formatAsRank = function(num) {
 
 function Leaderboard(id) {
   var DefaultTextOptions = {
-    strokeThickness: userInterface.unit(0.7),
+    strokeThickness: userInterface.unit(0.4),
     fill: '#01518d'
   }
-  var DefaultFontSize = userInterface.unit(5)
+  var DefaultFontSize = userInterface.unit(4)
 
   this.id = id;
   this.players = []
@@ -39,7 +39,7 @@ function Leaderboard(id) {
     GF.uiSprite(assets.image('intro-leaderboard'), userInterface.width, userInterface.height)
   ];
 
-  var currentY = userInterface.unit(18.6)
+  var currentY = userInterface.unit(19.4)
   var i = 1
 
   this.players.forEach(function(player) {
@@ -53,9 +53,9 @@ function Leaderboard(id) {
     playerNameSprite.position.y = currentY
     this.sprites.push(playerNameSprite)
 
-    var companySprite = GF.text((player.company || '?').toUpperCase(), userInterface.unit(3), $.extend({}, DefaultTextOptions, { strokeThickness: userInterface.unit(0.5) }))
+    var companySprite = GF.text((player.company || '?').toUpperCase(), userInterface.unit(3), $.extend({}, DefaultTextOptions, { strokeThickness: userInterface.unit(0.4) }))
     companySprite.position.x = playerNameSprite.position.x + playerNameSprite.width + userInterface.unit(2)
-    companySprite.position.y = currentY + userInterface.unit(1.5)
+    companySprite.position.y = currentY + userInterface.unit(0.6)
     this.sprites.push(companySprite)
 
     var scoreSprite = GF.text(player.topScore + ' GOALS', DefaultFontSize, DefaultTextOptions)
@@ -63,7 +63,7 @@ function Leaderboard(id) {
     scoreSprite.position.y = currentY
     this.sprites.push(scoreSprite)
     
-    currentY += playerNameSprite.height + userInterface.unit(1.2)
+    currentY += playerNameSprite.height + userInterface.unit(2.3);
     i += 1
   }.bind(this))
 }
@@ -72,13 +72,13 @@ Leaderboard.prototype = new Entity();
 
 Leaderboard.prototype.create = function(engine, game) {
   this.sprites.forEach(function(sprite) {
-    engine.graphics.add(sprite)
+    engine.graphics.add(sprite);
   })
 };
 
 Leaderboard.prototype.destroy = function(engine, game) {
   this.sprites.forEach(function(sprite) {
-    engine.graphics.remove(sprite)
+    engine.graphics.remove(sprite);
   })
 };
 
