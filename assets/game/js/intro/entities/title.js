@@ -6,7 +6,7 @@ var assets        = require('../../assets');
 function Title(id) {
   
   this.id = id;
-  this.sprite = GF.uiSprite(assets.image('title'), userInterface.width, userInterface.height);
+  this.sprite = GF.uiSprite(assets.image('intro-title'), userInterface.width, userInterface.height);
 
 };
 

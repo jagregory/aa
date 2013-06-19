@@ -36,7 +36,7 @@ function Leaderboard(id) {
   })
 
   this.sprites = [
-    GF.uiSprite(assets.image('leaderboard'), userInterface.width, userInterface.height)
+    GF.uiSprite(assets.image('intro-leaderboard'), userInterface.width, userInterface.height)
   ];
 
   var currentY = userInterface.unit(18.6)
