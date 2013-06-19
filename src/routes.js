@@ -60,6 +60,16 @@ exports.register = function(app) {
     res.send()
   })
 
+   app.put('/player/reset/:playerId', function(req, res) {
+    res.header('Cache-Control', 'no-cache')
+    var p = Player.withId(req.params.playerId)
+    if (p) {
+      p.topScore = 0
+      Player.saveAll()
+    }
+    res.send()
+  })
+
   // get the game state
   app.get('/game/status', function(req, res) {
     res.header('Cache-Control', 'no-cache')
