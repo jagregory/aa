@@ -27,7 +27,10 @@ function deletePlayer(e) {
   $.ajax({
     type: 'DELETE',
     url: '/player/' + id
-  }).then(getPlayers).fail(failedToDelete);
+  }).then(getPlayers).fail(function() {
+    alert('Failed to delete player');
+  });
+  return false
 }
 
 function newPin(e) {
@@ -38,6 +41,7 @@ function newPin(e) {
   }).then(getPlayers).fail(function() {
     alert('Failed to create new pin');
   })
+  return false
 }
 
 function resetScore(e) {
@@ -48,8 +52,5 @@ function resetScore(e) {
   }).then(getPlayers).fail(function() {
     alert('Falied to reset score')
   })
-}
-
-function failedToDelete() {
-  alert('Failed to delete player');
+  return false
 }
