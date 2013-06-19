@@ -50,6 +50,16 @@ exports.register = function(app) {
     }
   });
 
+  app.put('/player/:playerId', function(req, res) {
+    res.header('Cache-Control', 'no-cache')
+    var p = Player.withId(req.params.playerId)
+    if (p) {
+      p.pin = Player.randomPin()
+      Player.saveAll()
+    }
+    res.send()
+  })
+
   // get the game state
   app.get('/game/status', function(req, res) {
     res.header('Cache-Control', 'no-cache')

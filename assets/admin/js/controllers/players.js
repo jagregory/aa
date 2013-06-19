@@ -7,6 +7,7 @@ module.exports = function() {
   $('nav li.players').addClass('current');
 
   $('#page').on('click', '#players .delete', deletePlayer);
+  $('#page').on('click', '#players .new-pin', newPin);
   getPlayers();
   
 };
@@ -28,6 +29,18 @@ function deletePlayer(e) {
   }).then(getPlayers).fail(failedToDelete);
 }
 
+function newPin(e) {
+  var id = $(e.currentTarget).closest('tr').attr('id')
+  $.ajax({
+    type: 'PUT',
+    url: '/player/' + id
+  }).then(getPlayers).fail(failedToCreateNewPin)
+}
+
 function failedToDelete() {
   alert('Failed to delete player');
+}
+
+function failedToCreateNewPin() {
+  alert('Failed to create new pin');
 }

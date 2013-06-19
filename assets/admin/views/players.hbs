@@ -13,7 +13,7 @@
         <th>Role</th>
         <th>PIN</th>
         <th>Top score</th>
-        <th>Actions</th>
+        <th colspan="2">Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -27,6 +27,7 @@
           <td>{{role}}</td>
           <td>{{pin}}</td>
           <td>{{topScore}}</td>
+          <td><a class="new-pin" href="#">new pin</a></td>
           <td><a class="delete" href="#">delete</a></td>
         </tr>
       {{/each}}

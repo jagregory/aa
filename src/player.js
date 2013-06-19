@@ -44,3 +44,5 @@ exports.delete = function(player) {
 function randomPin() {
   return ('0000' + Math.floor(Math.random() * 1000)).substr(-4);
 }
+
+exports.randomPin = randomPin
