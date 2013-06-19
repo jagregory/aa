@@ -1,6 +1,7 @@
 var _             = require('../../../3rdparty/underscore-min');
 var Leaderboard   = require('./entities/Leaderboard');
 var Title         = require('./entities/Title');
+var About         = require('./entities/About');
 var hub           = require('../engine/hub');
 
 function Intro(engine) {
@@ -14,20 +15,23 @@ Intro.prototype.update = function(engine, delta) {
 };
 
 Intro.prototype.destroy = function(engine) {
+  this.removeAll(engine);
   window.clearTimeout(this.switchTimer);
-  engine.deleteEntity('leaderboard');
-  engine.deleteEntity('title');
   hub.send('engine.sound.stop', {file: '/game/sounds/intro.mp3'});
 };
 
 Intro.prototype.switch = function(engine) {
-  if (++this.current % 2) {
-    engine.deleteEntity('title');
-    engine.addEntity(new Leaderboard('leaderboard'));
-  } else {
-    engine.deleteEntity('leaderboard');
-    engine.addEntity(new Title('title'));    
-  }
+  this.removeAll(engine);
+  ++this.current;
+  if (this.current % 3 === 1) engine.addEntity(new Leaderboard('leaderboard'));
+  if (this.current % 3 === 2) engine.addEntity(new Title('title'));
+  if (this.current % 3 === 0) engine.addEntity(new About('about'));
+};
+
+Intro.prototype.removeAll = function(engine) {
+  engine.deleteEntity('title');
+  engine.deleteEntity('leaderboard');
+  engine.deleteEntity('about');
 };
 
 module.exports = Intro;
