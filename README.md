@@ -1,10 +1,8 @@
 # Agile Australia game
 
----
-
 ## Getting set up
 
-Install Node.js version `0.8.x`, then run
+Install Node.js version `0.10.x` ([homebrew](http://mxcl.github.io/homebrew/) is recommended for OSX), then run
 
 ```
 npm install -g grunt-cli
