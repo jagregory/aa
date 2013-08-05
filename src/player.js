@@ -13,7 +13,7 @@ db.loadPlayers(function(err, list) {
 exports.create = function(fields) {
   var p = _.extend(fields, {
     id: uuid.v4(),
-    pin: randomPin(),  
+    pin: randomPin(),
     topScore: 0
   });
   players.push(p);

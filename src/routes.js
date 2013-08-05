@@ -10,21 +10,6 @@ exports.register = function(app) {
     res.redirect('/device')
   })
 
-  // connect a device to a player (PIN)
-  app.post('/connect/:pin', function(req, res) {
-    res.header('Cache-Control', 'no-cache');
-    var pin = parseInt(req.params.pin, 10);
-    var p = Player.withPin(pin);
-    if (!p) {
-      res.status(403).send('Invalid PIN');
-    } else {
-      res.send({
-        id: p.id,
-        name: p.name
-      });
-    }
-  });
-
   // get all players (for leaderboard)
   app.get('/player', function(req, res) {
     res.header('Cache-Control', 'no-cache')
@@ -46,26 +31,18 @@ exports.register = function(app) {
       res.status(404).send('Player unknown');
     } else {
       Player.delete(p);
+      Player.saveAll();
       res.send({deleted: p.id});
     }
   });
 
-  app.put('/player/:playerId', function(req, res) {
+  // reset a player's score
+  app.delete('/player/:playerId/score', function(req, res) {
     res.header('Cache-Control', 'no-cache')
     var p = Player.withId(req.params.playerId)
     if (p) {
-      p.pin = Player.randomPin()
-      Player.saveAll()
-    }
-    res.send()
-  })
-
-   app.put('/player/reset/:playerId', function(req, res) {
-    res.header('Cache-Control', 'no-cache')
-    var p = Player.withId(req.params.playerId)
-    if (p) {
-      p.topScore = 0
-      Player.saveAll()
+      p.topScore = 0;
+      Player.saveAll();
     }
     res.send()
   })

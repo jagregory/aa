@@ -7,7 +7,6 @@ module.exports = function() {
   $('nav li.players').addClass('current');
 
   $('#page').on('click', '#players .delete', deletePlayer);
-  $('#page').on('click', '#players .new-pin', newPin);
   $('#page').on('click', '#players .reset-score', resetScore);
   getPlayers();
   
@@ -33,22 +32,11 @@ function deletePlayer(e) {
   return false
 }
 
-function newPin(e) {
-  var id = $(e.currentTarget).closest('tr').attr('id')
-  $.ajax({
-    type: 'PUT',
-    url: '/player/' + id
-  }).then(getPlayers).fail(function() {
-    alert('Failed to create new pin');
-  })
-  return false
-}
-
 function resetScore(e) {
   var id = $(e.currentTarget).closest('tr').attr('id')
   $.ajax({
-    type: 'PUT',
-    url: '/player/reset/' + id
+    type: 'DELETE',
+    url: '/player/' + id + '/score'
   }).then(getPlayers).fail(function() {
     alert('Falied to reset score')
   })

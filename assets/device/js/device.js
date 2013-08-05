@@ -5,8 +5,8 @@ var player = require('./player');
 window.Device = function() {
   
   routie({
-      '':            require('./controllers/connect'),
-      '/connect':    require('./controllers/connect'),
+      '':            require('./controllers/register'),
+      '/register':   require('./controllers/register'),
       '/wait':       require('./controllers/wait'),
       '/join':       require('./controllers/join'),
       '/lobby':      require('./controllers/lobby'),
